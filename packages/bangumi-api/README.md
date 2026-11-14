@@ -18,4 +18,4 @@ Use with `openapi-fetch` (peer dependency). No runtime code; types only after bu
 
 ## Peer dependency
 
-- `openapi-fetch` ^0.14.0
+- `openapi-fetch` ^0.17.0

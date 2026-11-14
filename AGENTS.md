@@ -1,4 +1,4 @@
-# Agent context: app/web
+# Agent context: web app
 
 ## Purpose
 
@@ -9,7 +9,7 @@ Angular SPA for video discovery and playback using Kazumi rules. Requires the Da
 - Angular 21+ with standalone components
 - PrimeNG + Tailwind CSS for UI
 - TanStack Angular Query for data fetching
-- Signals + NgRx Signals for state management
+- Angular signals for state management
 - Artplayer for video playback
 - Dexie for client-side storage
 - openapi-fetch for Bangumi API

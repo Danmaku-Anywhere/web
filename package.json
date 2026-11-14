@@ -4,13 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --hmr",
-    "build": "ng build",
+    "build": "pnpm build:packages && ng build",
     "watch": "ng build --watch --configuration development",
     "test:ng": "ng test",
     "lint": "biome check --fix",
     "lint:ci": "biome ci",
-    "type-check": "tsgo --noEmit",
-    "wrangler": "wrangler"
+    "type-check": "tsgo --noEmit -p tsconfig.app.json && tsgo --noEmit -p tsconfig.spec.json",
+    "wrangler": "wrangler",
+    "build:packages": "pnpm -F './packages/**' build",
+    "prepare": "lefthook install"
   },
   "private": true,
   "dependencies": {
@@ -25,8 +27,8 @@
     "@angular/router": "^21.2.25",
     "@angular/service-worker": "^21.2.25",
     "@danmaku-anywhere/bangumi-api": "workspace:*",
-    "@danmaku-anywhere/danmaku-model": "workspace:*",
-    "@danmaku-anywhere/extension-protocol": "workspace:*",
+    "@danmaku-anywhere/danmaku-model": "^0.2.0",
+    "@danmaku-anywhere/extension-protocol": "^0.1.0",
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
@@ -57,8 +59,14 @@
     "@angular/cli": "^21.2.26",
     "@angular/compiler-cli": "^21.2.25",
     "@angular/ssr": "^21.2.26",
+    "@biomejs/biome": "^2.4.15",
+    "@typescript/native-preview": "7.0.0-dev.20260521.1",
     "jsdom": "^30.1.2",
+    "lefthook": "^2.2.1",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.11",
     "wrangler": "^4.149.0"
-  }
+  },
+  "repository": "https://github.com/Danmaku-Anywhere/web",
+  "packageManager": "pnpm@11.2.2"
 }

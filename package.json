@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --hmr",
-    "build": "pnpm build:packages && ng build",
+    "build": "pnpm build:packages && ng build && cp dist/web/browser/index.csr.html dist/web/browser/index.html",
     "watch": "ng build --watch --configuration development",
     "test:ng": "ng test",
     "lint": "biome check --fix",

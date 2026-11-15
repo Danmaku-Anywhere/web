@@ -1,9 +1,10 @@
 {
   "name": "danmaku-anywhere-web",
   "compatibility_date": "2025-04-01",
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist/web/browser",
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS"
   },
   "preview_urls": true,
   "routes": [

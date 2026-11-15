@@ -4,12 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --hmr",
-    "build": "pnpm build:packages && ng build && cp dist/web/browser/index.csr.html dist/web/browser/index.html",
+    "build": "pnpm build:packages && ng build",
     "watch": "ng build --watch --configuration development",
     "test:ng": "ng test",
     "lint": "biome check --fix",
     "lint:ci": "biome ci",
-    "type-check": "tsgo --noEmit -p tsconfig.app.json && tsgo --noEmit -p tsconfig.spec.json",
+    "type-check": "tsgo --noEmit -p tsconfig.app.json && tsgo --noEmit -p tsconfig.spec.json && tsgo --noEmit -p tsconfig.worker.json",
     "wrangler": "wrangler",
     "build:packages": "pnpm -F './packages/**' build",
     "prepare": "lefthook install"

@@ -3,6 +3,7 @@ import {
   effect,
   Injectable,
   inject,
+  linkedSignal,
   signal,
   untracked,
 } from '@angular/core'
@@ -31,10 +32,12 @@ import {
 import { environment } from '../../../../environments/environment'
 import { ExtensionMessagingService } from '../../../core/extension/extension-messaging.service'
 import { queryKeys } from '../../../shared/query/queryKeys'
+import { createLimiter } from '../../../shared/utils/createLimiter'
 import { sortArrayByOrder } from '../../../shared/utils/utils'
 import { withTimeout } from '../../../shared/utils/withTimeout'
 import { normalizeStoredPolicy } from '../utils/normalize-stored-policy'
 import { getManifest, getPolicy } from './kazumi-api'
+import { KazumiSearchPreferences } from './kazumi-search-preferences'
 
 interface Setting<T> {
   key: string
@@ -43,6 +46,11 @@ interface Setting<T> {
 
 type PolicyOrder = string[]
 const POLICY_ORDER_KEY = 'policyOrder'
+
+// Each rule search opens its own browser window in the extension, so searches
+// share one slot pool no matter who starts them or which keyword they belong
+// to.
+const SEARCH_CONCURRENCY = 3
 
 class KazumiDb extends Dexie {
   policies!: Table<KazumiPolicy, string>
@@ -85,6 +93,8 @@ export class KazumiService {
   private readonly db = new KazumiDb()
   private readonly extensionMessagingService = inject(ExtensionMessagingService)
   private readonly queryClient = inject(QueryClient)
+  private readonly searchPreferences = inject(KazumiSearchPreferences)
+  private readonly searchSlots = createLimiter(SEARCH_CONCURRENCY)
 
   // active policy for tab
   private readonly $_activePolicy = signal<KazumiPolicy | null>(null)
@@ -102,9 +112,12 @@ export class KazumiService {
   private readonly $_importErrors = signal(new Map<string, string>())
   readonly $importErrors = this.$_importErrors.asReadonly()
 
-  // determine if a tab should load its query
-  private readonly $_visitedTabs = signal(new Map<string, boolean>())
-  readonly $visitedTabs = this.$_visitedTabs.asReadonly()
+  // Rule tabs the user opened for the current keyword, searched even when the
+  // search-all switch is off. A new keyword starts over with the active tab.
+  private readonly $_visitedTabs = linkedSignal<string, Set<string>>({
+    source: this.$_searchQuery,
+    computation: () => new Set<string>(),
+  })
 
   // the search result to load episodes for
   private readonly $_mediaSearchDetails = signal<MediaSearchDetails | null>(
@@ -310,25 +323,43 @@ export class KazumiService {
       const activePolicy = this.$_activePolicy()
       // skip if there is no query
       if (!activePolicy || !this.$_searchQuery()) return
-      this.$_visitedTabs.update((m) => {
-        m.set(activePolicy.name, true)
-        return m
-      })
+      this.$_visitedTabs.update((tabs) => new Set(tabs).add(activePolicy.name))
     })
   }
 
+  isRuleSearched(name: string): boolean {
+    return (
+      this.searchPreferences.$searchAllRules() || this.$_visitedTabs().has(name)
+    )
+  }
+
   getSearchQueryOptions(keyword: string, policy: KazumiPolicy) {
+    const trimmedKeyword = keyword.trim()
     return queryOptions({
-      queryFn: async () => {
-        return lastValueFrom(
-          this.extensionMessagingService.single('kazumiSearch', {
-            keyword,
-            policy,
-          })
+      // The queryFn must not read TanStack's abort signal: that would make
+      // TanStack cancel the search, extension window and all, as soon as the
+      // user leaves the page. Searches the user has moved on from are skipped
+      // by the limiter instead, when their turn comes.
+      queryFn: () => {
+        return this.searchSlots(
+          () =>
+            lastValueFrom(
+              this.extensionMessagingService.single('kazumiSearch', {
+                keyword: trimmedKeyword,
+                policy,
+              })
+            ),
+          {
+            isStale: () => this.$_searchQuery().trim() !== trimmedKeyword,
+            isUrgent: () => this.$_activePolicy()?.name === policy.name,
+          }
         )
       },
-      queryKey: queryKeys.kazumi.search(policy.name, keyword),
-      enabled: !!keyword.trim(),
+      queryKey: queryKeys.kazumi.search(policy.name, trimmedKeyword),
+      enabled:
+        !!trimmedKeyword &&
+        isXPathPolicy(policy) &&
+        this.isRuleSearched(policy.name),
       staleTime: Number.POSITIVE_INFINITY,
     })
   }

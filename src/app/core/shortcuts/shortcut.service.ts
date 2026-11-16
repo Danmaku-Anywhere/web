@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core'
 import { SearchService } from '../../features/search/search.service'
 import { SettingsService } from '../../features/settings/settings.service'
+import { readStoredFlag, writeStoredFlag } from '../../shared/utils/storedFlag'
 import { VideoService } from '../video-player/video.service'
 import type { ShortcutAction } from './shortcut.definitions'
 
@@ -42,38 +43,20 @@ function keepsOwnKeys(target: EventTarget | null): boolean {
   return target.closest(KEY_OWNING_ROLES) !== null
 }
 
-function readEnabled(): boolean {
-  if (typeof localStorage === 'undefined') {
-    return true
-  }
-  try {
-    return localStorage.getItem(ENABLED_STORAGE_KEY) !== 'false'
-  } catch {
-    return true
-  }
-}
-
 @Injectable({ providedIn: 'root' })
 export class ShortcutService {
   private readonly videoService = inject(VideoService)
   private readonly searchService = inject(SearchService)
   private readonly settingsService = inject(SettingsService)
 
-  private readonly $_enabled = signal(readEnabled())
+  private readonly $_enabled = signal(readStoredFlag(ENABLED_STORAGE_KEY, true))
   readonly $enabled = this.$_enabled.asReadonly()
 
   private episodeHandlers: EpisodeHandlers | null = null
 
   setEnabled(enabled: boolean) {
     this.$_enabled.set(enabled)
-    if (typeof localStorage === 'undefined') {
-      return
-    }
-    try {
-      localStorage.setItem(ENABLED_STORAGE_KEY, String(enabled))
-    } catch {
-      // localStorage throws in private browsing, the signal still holds the value
-    }
+    writeStoredFlag(ENABLED_STORAGE_KEY, enabled)
   }
 
   registerEpisodeNavigation(handlers: EpisodeHandlers | null) {

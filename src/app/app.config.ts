@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common'
+import { IMAGE_LOADER, isPlatformBrowser } from '@angular/common'
 import {
   type ApplicationConfig,
   inject,
@@ -26,6 +26,7 @@ import { ExtensionService } from './core/extension/extension.service'
 import { TitleService } from './core/services/title.service'
 import { TrackingService } from './core/tracking.service'
 import { UpdateService } from './core/update/update.service'
+import { bangumiImageLoader } from './shared/images/bangumi-image-loader'
 import { queryClient } from './shared/query/queryClient'
 
 const preset = definePreset(Aura, {
@@ -51,6 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(),
     provideQueryClient(queryClient),
+    { provide: IMAGE_LOADER, useValue: bangumiImageLoader },
     provideZonelessChangeDetection(),
     provideRouter(
       routes,

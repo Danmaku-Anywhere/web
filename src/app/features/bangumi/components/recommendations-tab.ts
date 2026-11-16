@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,13 +8,23 @@ import {
 import { RouterLink } from '@angular/router'
 import { injectQuery } from '@tanstack/angular-query-experimental'
 import { Card } from 'primeng/card'
+import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 import { BangumiService } from '../services/bangumi.service'
+import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
 import { HorizontalCardSkeletonGrid } from './horizontal-card-skeleton-grid'
 
 @Component({
   selector: 'da-recommendations-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, Card, HorizontalCardSkeletonGrid],
+  imports: [
+    CommonModule,
+    RouterLink,
+    Card,
+    HorizontalCardSkeletonGrid,
+    NgOptimizedImage,
+    ImageFallback,
+    BangumiImageSourcePipe,
+  ],
   template: `
     @if (recommendationsQuery.isPending()) {
       <da-horizontal-card-skeleton-grid [count]="5" />
@@ -24,11 +34,17 @@ import { HorizontalCardSkeletonGrid } from './horizontal-card-skeleton-grid'
         <div class="grid gap-4">
           @for (recommendation of response.data; track recommendation.subject.id) {
             <div class="flex gap-4">
-              <img
-                [src]="recommendation.subject.images?.medium || 'assets/cover_fallback.webp'"
-                [alt]="recommendation.subject.name"
-                class="w-20 h-28 object-cover rounded"
-              />
+              <div class="relative w-20 h-28 shrink-0 overflow-hidden rounded">
+                <img
+                  [ngSrc]="recommendation.subject.images | bangumiImageSource: 'cover'"
+                  fill
+                  ngSrcset="100w, 200w"
+                  sizes="80px"
+                  [alt]="recommendation.subject.name"
+                  class="object-cover"
+                  daFallback="cover"
+                />
+              </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
                     <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">

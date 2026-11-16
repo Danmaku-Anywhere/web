@@ -12,7 +12,7 @@ import { Card } from 'primeng/card'
 import { Tag } from 'primeng/tag'
 import { TrackingService } from '../../../core/tracking.service'
 import { MaterialIcon } from '../../../shared/components/material-icon'
-import { IMAGE_PLACEHOLDER_DATA } from '../../../shared/placeholder-data'
+import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 
 export interface ShowCardData {
   id: number
@@ -26,7 +26,7 @@ export interface ShowCardData {
     total?: number
   }
   rank?: number
-  cover?: string
+  cover: string
 }
 
 @Component({
@@ -40,6 +40,7 @@ export interface ShowCardData {
     Tag,
     MaterialIcon,
     NgOptimizedImage,
+    ImageFallback,
   ],
   template: `
     <p-card styleClass="overflow-hidden">
@@ -47,11 +48,13 @@ export interface ShowCardData {
       <ng-template #header>
         <div class="relative aspect-[17/24] contain-strict overflow-hidden">
           <img
-            [ngSrc]="showData.cover ?? ''"
+            [ngSrc]="showData.cover"
+            fill
+            ngSrcset="200w, 400w, 800w"
+            sizes="(max-width: 767px) 50vw, 240px"
             [alt]="showData.altTitle"
+            daFallback="cover"
             class="object-cover cursor-pointer hover:opacity-80 transition-opacity"
-            width="340"
-            height="480"
             (click)="navigateToDetails(showData.id, 'image')" />
           @if (showData.rating?.score !== undefined) {
             <div class="absolute top-2 right-2">
@@ -139,6 +142,4 @@ export class ShowCard {
   onWatchClick(showData: ShowCardData): void {
     this.trackingService.track('clickShowCardWatch', { showData })
   }
-
-  protected readonly IMAGE_PLACEHOLDER_DATA = IMAGE_PLACEHOLDER_DATA
 }

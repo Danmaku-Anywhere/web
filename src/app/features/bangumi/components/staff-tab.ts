@@ -9,12 +9,22 @@ import { injectQuery } from '@tanstack/angular-query-experimental'
 import { Card } from 'primeng/card'
 import { ProgressSpinner } from 'primeng/progressspinner'
 import { Tag } from 'primeng/tag'
+import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 import { BangumiService } from '../services/bangumi.service'
+import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
 
 @Component({
   selector: 'da-staff-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ProgressSpinner, Card, Tag, NgOptimizedImage],
+  imports: [
+    CommonModule,
+    ProgressSpinner,
+    Card,
+    Tag,
+    NgOptimizedImage,
+    ImageFallback,
+    BangumiImageSourcePipe,
+  ],
   template: `
     @if (staffQuery.isPending()) {
       <div class="flex justify-center py-8">
@@ -26,14 +36,19 @@ import { BangumiService } from '../services/bangumi.service'
         <div class="grid grid-cols-2 gap-4">
           @for (staffMember of response.data; track staffMember.staff.id) {
             <div class="flex gap-4">
-              @if (staffMember.staff.images?.medium) {
-                <img
-                  [ngSrc]="staffMember.staff.images!.medium!"
-                  [width]="64"
-                  [height]="64"
-                  [alt]="staffMember.staff.name"
-                  class="w-24 h-24 object-cover rounded"
-                />
+              @let photo = staffMember.staff.images | bangumiImageSource;
+              @if (photo) {
+                <div class="relative w-24 h-24 shrink-0 overflow-hidden rounded">
+                  <img
+                    [ngSrc]="photo"
+                    fill
+                    ngSrcset="100w, 200w"
+                    sizes="96px"
+                    [alt]="staffMember.staff.name"
+                    class="object-cover object-top"
+                    daFallback
+                  />
+                </div>
               } @else {
                 <div class="w-24 h-24 bg-surface-800 rounded"></div>
               }

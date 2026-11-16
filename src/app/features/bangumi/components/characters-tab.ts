@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,12 +9,21 @@ import {
 import { injectQuery } from '@tanstack/angular-query-experimental'
 import { Card } from 'primeng/card'
 import { ProgressSpinner } from 'primeng/progressspinner'
+import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 import { BangumiService } from '../services/bangumi.service'
+import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
 
 @Component({
   selector: 'da-characters-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ProgressSpinner, Card],
+  imports: [
+    CommonModule,
+    ProgressSpinner,
+    Card,
+    NgOptimizedImage,
+    ImageFallback,
+    BangumiImageSourcePipe,
+  ],
   template: `
     @if (charactersQuery.isPending()) {
       <div class="flex justify-center py-8">
@@ -26,11 +35,22 @@ import { BangumiService } from '../services/bangumi.service'
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           @for (character of response.data; track character.character.id) {
             <div class="flex gap-4">
-              <img
-                [src]="character.character.images?.medium"
-                [alt]="character.character.name"
-                class="w-16 h-16 object-cover rounded"
-              />
+              @let photo = character.character.images | bangumiImageSource;
+              @if (photo) {
+                <div class="relative w-16 h-16 shrink-0 overflow-hidden rounded">
+                  <img
+                    [ngSrc]="photo"
+                    fill
+                    ngSrcset="100w, 200w"
+                    sizes="64px"
+                    [alt]="character.character.name"
+                    class="object-cover object-top"
+                    daFallback
+                  />
+                </div>
+              } @else {
+                <div class="w-16 h-16 shrink-0 bg-surface-800 rounded"></div>
+              }
               <div class="flex-1">
                 <h4 class="font-semibold">{{ character.character.nameCN || character.character.name }}</h4>
                 @if (character.character.nameCN && character.character.name !== character.character.nameCN) {

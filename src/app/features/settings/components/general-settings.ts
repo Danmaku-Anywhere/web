@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import { SHORTCUT_GROUPS } from '../../../core/shortcuts/shortcut.definitions'
 import { ShortcutService } from '../../../core/shortcuts/shortcut.service'
+import { KazumiSearchPreferences } from '../../kazumi/services/kazumi-search-preferences'
 
 @Component({
   selector: 'da-general-settings',
@@ -23,6 +24,21 @@ import { ShortcutService } from '../../../core/shortcuts/shortcut.service'
         />
         <span>启用键盘快捷键</span>
       </label>
+
+      <div class="flex flex-col gap-1">
+        <label class="flex items-center gap-3 cursor-pointer w-fit">
+          <input
+            type="checkbox"
+            class="w-4 h-4 accent-pink-500"
+            [checked]="searchPreferences.$searchAllRules()"
+            (change)="searchPreferences.setSearchAllRules(!searchPreferences.$searchAllRules())"
+          />
+          <span>同时搜索所有规则</span>
+        </label>
+        <p class="text-surface-600 text-sm">
+          开启后，提交搜索时会同时搜索所有已导入的规则。每条规则都会在后台打开一个浏览器窗口并访问对应站点，同时最多搜索 3 条。关闭时只搜索你点开的规则标签。
+        </p>
+      </div>
 
       @for (group of groups; track group.label) {
         <section>
@@ -51,5 +67,6 @@ import { ShortcutService } from '../../../core/shortcuts/shortcut.service'
 })
 export class GeneralSettings {
   protected readonly shortcutService = inject(ShortcutService)
+  protected readonly searchPreferences = inject(KazumiSearchPreferences)
   protected readonly groups = SHORTCUT_GROUPS
 }

@@ -12,7 +12,8 @@
     "type-check": "tsgo --noEmit -p tsconfig.app.json && tsgo --noEmit -p tsconfig.spec.json && tsgo --noEmit -p tsconfig.worker.json",
     "wrangler": "wrangler",
     "build:packages": "pnpm -F './packages/**' build",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "fallow": "fallow"
   },
   "private": true,
   "dependencies": {
@@ -61,6 +62,7 @@
     "@angular/ssr": "^21.2.26",
     "@biomejs/biome": "^2.4.15",
     "@typescript/native-preview": "7.0.0-dev.20260521.1",
+    "fallow": "3.43.2",
     "jsdom": "^30.1.2",
     "lefthook": "^2.2.1",
     "typescript": "^6.0.3",

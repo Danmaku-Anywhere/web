@@ -37,3 +37,36 @@ jobs:
 
       - name: Test
         run: pnpm test:ng --watch=false
+
+  fallow:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Advisory only: findings show up as annotations and in the job summary.
+      # Exit 1 means findings and is let through; anything higher is a fallow error.
+      - name: Fallow audit
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          pnpm fallow audit --base "$BASE" --skip health --format github-annotations || [ $? -eq 1 ]
+          pnpm fallow audit --base "$BASE" --skip health --format github-summary >> "$GITHUB_STEP_SUMMARY" || [ $? -eq 1 ]

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "minimumVersion": "3.43.2",
+  // Only runs at build time to prerender pages (outputMode is static).
+  "supportEntry": ["src/main.server.ts"],
+  // angular.json copies ffmpeg-core.js out of this package as an asset.
+  "ignoreDependencies": ["@ffmpeg/core"],
+  // The Angular plugin makes every *.service.ts, *.guard.ts and *.component.ts an
+  // entry point, so an unused one never shows up as an unused file. Checking the
+  // exports of entry files still catches them.
+  "includeEntryExports": true,
+  "ignoreExports": [
+    { "file": "scripts/*.cjs", "exports": ["*"] },
+    { "file": "src/environments/*.ts", "exports": ["*"] },
+    { "file": "src/main.server.ts", "exports": ["default"] },
+    { "file": "worker/index.ts", "exports": ["default"] },
+    { "file": "packages/bangumi-api/src/*.d.ts", "exports": ["*"] }
+  ]
+}

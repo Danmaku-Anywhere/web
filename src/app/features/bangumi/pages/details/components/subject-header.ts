@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +10,9 @@ import { Button } from 'primeng/button'
 import { Tag } from 'primeng/tag'
 import { MaterialIcon } from '../../../../../shared/components/material-icon'
 import { RatingDistributionComponent } from '../../../../../shared/components/rating-distribution.component'
+import { ImageFallback } from '../../../../../shared/images/image-fallback.directive'
 import type { BgmSubject } from '../../../types/bangumi.types'
+import { BangumiImageSourcePipe } from '../../../utils/bangumi-image-source.pipe'
 
 @Component({
   selector: 'da-subject-header',
@@ -22,16 +24,24 @@ import type { BgmSubject } from '../../../types/bangumi.types'
     Tag,
     MaterialIcon,
     RatingDistributionComponent,
+    NgOptimizedImage,
+    ImageFallback,
+    BangumiImageSourcePipe,
   ],
   template: `
     @let subjectData = subject();
     <div class="mb-6">
       <div class="flex flex-col lg:flex-row gap-6">
-        <div class="flex-shrink-0">
+        <div class="relative flex-shrink-0 w-48 lg:w-56 aspect-[2/3] overflow-hidden rounded-lg shadow-lg">
           <img
-            [src]="subjectData.images?.large || subjectData.images?.common"
+            [ngSrc]="subjectData.images | bangumiImageSource: 'cover'"
+            fill
+            ngSrcset="200w, 400w, 800w"
+            sizes="(min-width: 1024px) 224px, 192px"
+            priority
             [alt]="subjectData.name"
-            class="w-48 lg:w-56 aspect-[2/3] object-cover rounded-lg shadow-lg"
+            class="object-cover"
+            daFallback="cover"
           />
         </div>
 

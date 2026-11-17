@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -8,24 +8,35 @@ import {
   output,
 } from '@angular/core'
 import { Tag } from 'primeng/tag'
+import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 import type { LegacyBgmSubject } from '../../bangumi/types/bangumi.types'
+import { BangumiImageSourcePipe } from '../../bangumi/utils/bangumi-image-source.pipe'
 import { SearchListItem } from '../search-list-item.component'
 
 @Component({
   selector: 'da-bangumi-search-result-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, Tag, SearchListItem],
+  imports: [
+    CommonModule,
+    Tag,
+    SearchListItem,
+    NgOptimizedImage,
+    ImageFallback,
+    BangumiImageSourcePipe,
+  ],
   template: `
     @let item = subject();
     <da-search-list-item (select)="onSelect.emit()">
       <div class="flex gap-3">
-        <div class="w-16 h-24 shrink-0 overflow-hidden rounded-md bg-surface-700">
+        <div class="relative w-16 h-24 shrink-0 overflow-hidden rounded-md bg-surface-700">
           <img
-            [src]="$imageSrc()"
+            [ngSrc]="item.images | bangumiImageSource: 'cover'"
+            fill
+            ngSrcset="100w, 200w"
+            sizes="64px"
             [alt]="$primaryName()"
-            class="object-cover w-full h-full"
-            width="160"
-            height="240"
+            class="object-cover"
+            daFallback="cover"
           />
         </div>
         <div class="min-w-0 flex-1">
@@ -75,11 +86,6 @@ export class BangumiSearchResultListItem {
   subject = input.required<LegacyBgmSubject>()
   hideAltTitle = input(false, { transform: booleanAttribute })
   onSelect = output<void>()
-
-  $imageSrc = computed(() => {
-    const item = this.subject()
-    return item.images?.grid ?? item.images?.medium ?? item.images?.large ?? ''
-  })
 
   $primaryName = computed(() => {
     const item = this.subject()

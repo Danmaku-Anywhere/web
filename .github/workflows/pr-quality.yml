@@ -70,9 +70,9 @@ jobs:
         env:
           BASE: origin/${{ github.base_ref }}
         run: |
-          pnpm fallow audit --base "$BASE" --skip health --format github-annotations || [ $? -eq 1 ]
-          pnpm fallow audit --base "$BASE" --skip health --format github-summary >> "$GITHUB_STEP_SUMMARY" || [ $? -eq 1 ]
-          pnpm fallow audit --base "$BASE" --skip health --format pr-comment-github > "$RUNNER_TEMP/fallow-comment.md" || [ $? -eq 1 ]
+          pnpm -s fallow audit --base "$BASE" --skip health --format github-annotations || [ $? -eq 1 ]
+          pnpm -s fallow audit --base "$BASE" --skip health --format github-summary >> "$GITHUB_STEP_SUMMARY" || [ $? -eq 1 ]
+          pnpm -s fallow audit --base "$BASE" --skip health --format pr-comment-github > "$RUNNER_TEMP/fallow-comment.md" || [ $? -eq 1 ]
 
       # Pull requests from forks get a read-only token, so this step may fail there.
       - name: Comment on the pull request

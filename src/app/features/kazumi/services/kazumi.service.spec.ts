@@ -15,7 +15,10 @@ import {
 } from '@tanstack/angular-query-experimental'
 import { defer, finalize, from, type Observable, throwError } from 'rxjs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { ExtensionMessagingService } from '../../../core/extension/extension-messaging.service'
+import { ExtensionMessenger } from '../../../core/backend/extension-messenger'
+import { FakeKazumiCatalog } from '../../../core/backend/implementations/fake-kazumi-catalog'
+import { RealKazumiCatalog } from '../../../core/backend/implementations/real-kazumi-catalog'
+import { KazumiCatalog } from '../../../core/backend/kazumi-catalog'
 import { queryKeys } from '../../../shared/query/queryKeys'
 import { KazumiService } from './kazumi.service'
 import { KazumiSearchPreferences } from './kazumi-search-preferences'
@@ -78,6 +81,8 @@ describe('KazumiService.addPolicyMutation', () => {
         provideQueryClient(
           new QueryClient({ defaultOptions: { queries: { retry: false } } })
         ),
+        { provide: ExtensionMessenger, useValue: { single: vi.fn() } },
+        { provide: KazumiCatalog, useClass: RealKazumiCatalog },
       ],
     })
     service = TestBed.inject(KazumiService)
@@ -248,9 +253,10 @@ describe('KazumiService rule search', () => {
       providers: [
         provideQueryClient(queryClient),
         {
-          provide: ExtensionMessagingService,
+          provide: ExtensionMessenger,
           useValue: { single: vi.fn(single) },
         },
+        { provide: KazumiCatalog, useClass: FakeKazumiCatalog },
       ],
     })
     service = TestBed.inject(KazumiService)

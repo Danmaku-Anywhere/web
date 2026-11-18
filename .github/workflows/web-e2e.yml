@@ -1,0 +1,68 @@
+name: Web E2E Quality
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  web-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build workspace packages
+        run: pnpm build:packages
+
+      - name: Guard, debug overlay not in prod bootstrap
+        run: |
+          if grep -rn "DebugOverlay" src/main.ts src/main.server.ts 2>/dev/null; then
+            echo "DebugOverlay must not be imported from a prod bootstrap path"
+            exit 1
+          fi
+
+      - name: Web unit tests
+        run: pnpm test:ng --watch=false
+
+      - name: Build web (fake backend)
+        run: pnpm exec ng build --configuration fake
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-web-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-web-
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Web E2E (fake backend)
+        id: e2e
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report on failure
+        if: failure() && steps.e2e.conclusion == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

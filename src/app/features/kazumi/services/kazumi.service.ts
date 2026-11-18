@@ -29,14 +29,13 @@ import {
   startWith,
   tap,
 } from 'rxjs'
-import { environment } from '../../../../environments/environment'
-import { ExtensionMessagingService } from '../../../core/extension/extension-messaging.service'
+import { ExtensionMessenger } from '../../../core/backend/extension-messenger'
+import { KazumiCatalog } from '../../../core/backend/kazumi-catalog'
 import { queryKeys } from '../../../shared/query/queryKeys'
 import { createLimiter } from '../../../shared/utils/createLimiter'
 import { sortArrayByOrder } from '../../../shared/utils/utils'
 import { withTimeout } from '../../../shared/utils/withTimeout'
 import { normalizeStoredPolicy } from '../utils/normalize-stored-policy'
-import { getManifest, getPolicy } from './kazumi-api'
 import { KazumiSearchPreferences } from './kazumi-search-preferences'
 
 interface Setting<T> {
@@ -91,7 +90,8 @@ export interface MediaSearchDetails {
 })
 export class KazumiService {
   private readonly db = new KazumiDb()
-  private readonly extensionMessagingService = inject(ExtensionMessagingService)
+  private readonly extensionMessagingService = inject(ExtensionMessenger)
+  private readonly kazumiCatalog = inject(KazumiCatalog)
   private readonly queryClient = inject(QueryClient)
   private readonly searchPreferences = inject(KazumiSearchPreferences)
   private readonly searchSlots = createLimiter(SEARCH_CONCURRENCY)
@@ -164,7 +164,7 @@ export class KazumiService {
 
   private readonly manifestsOptions = queryOptions({
     queryFn: async () => {
-      const result = await withTimeout(getManifest(environment.apiRoot), 5000)
+      const result = await withTimeout(this.kazumiCatalog.getManifest(), 5000)
       if (!result.success) throw result.error
       return result.data
     },
@@ -197,7 +197,7 @@ export class KazumiService {
     mutationKey: queryKeys.kazumi.local.all(),
     mutationFn: async (name: string) => {
       const policy = await withTimeout(
-        getPolicy(environment.apiRoot, `${name}.json`),
+        this.kazumiCatalog.getPolicy(`${name}.json`),
         5000
       )
       if (!policy.success) throw policy.error

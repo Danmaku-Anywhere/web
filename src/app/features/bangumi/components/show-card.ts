@@ -5,13 +5,12 @@ import {
   Component,
   inject,
   input,
+  output,
 } from '@angular/core'
-import { Router, RouterLink } from '@angular/router'
 import { Button } from 'primeng/button'
 import { Card } from 'primeng/card'
 import { Tag } from 'primeng/tag'
 import { TrackingService } from '../../../core/tracking.service'
-import { MaterialIcon } from '../../../shared/components/material-icon'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 
 export interface ShowCardData {
@@ -32,16 +31,11 @@ export interface ShowCardData {
 @Component({
   selector: 'da-show-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    RouterLink,
-    Card,
-    Button,
-    Tag,
-    MaterialIcon,
-    NgOptimizedImage,
-    ImageFallback,
-  ],
+  imports: [CommonModule, Card, Button, Tag, NgOptimizedImage, ImageFallback],
+  host: {
+    'data-testid': 'show-card',
+    '[attr.data-subject-id]': 'show().id',
+  },
   template: `
     <p-card styleClass="overflow-hidden">
       @let showData = show();
@@ -54,8 +48,9 @@ export interface ShowCardData {
             sizes="(max-width: 767px) 50vw, 240px"
             [alt]="showData.altTitle"
             daFallback="cover"
+            [priority]="priority()"
             class="object-cover cursor-pointer hover:opacity-80 transition-opacity"
-            (click)="navigateToDetails(showData.id, 'image')" />
+            (click)="emitDetails(showData.id, 'image')" />
           @if (showData.rating?.score !== undefined) {
             <div class="absolute top-2 right-2">
               <p-tag
@@ -80,8 +75,8 @@ export interface ShowCardData {
       <ng-template #content>
         <div class="space-y-1">
           <h3
-            class="text-lg font-semibold overflow-hidden text-nowrap text-ellipsis cursor-pointer hover:underline"
-            (click)="navigateToDetails(showData.id, 'title')"
+            class="card-title font-semibold overflow-hidden text-nowrap text-ellipsis cursor-pointer hover:underline"
+            (click)="emitDetails(showData.id, 'title')"
             [title]="showData.title">
             {{ showData.title }}
           </h3>
@@ -95,23 +90,21 @@ export interface ShowCardData {
 
       @if (!hideFooter()) {
         <ng-template #footer>
-          <div class="flex justify-between">
+          <div class="flex flex-wrap gap-2 justify-between">
             <p-button
-              (click)="navigateToDetails(showData.id, 'detailsButton')"
+              (click)="emitDetails(showData.id, 'detailsButton')"
               label="详情"
               severity="secondary"
               size="small"
             />
             <p-button
-              [routerLink]="['/kazumi/search']"
-              [queryParams]="{ q: showData.title || showData.altTitle, id: showData.id, type: 'bangumi' }"
               label="观看"
               severity="primary"
               size="small"
-              (click)="onWatchClick(showData)"
+              (click)="emitWatch(showData)"
             >
               <ng-template #icon>
-                <da-mat-icon size="sm" icon="play_arrow" />
+                <i class="pi pi-play text-sm"></i>
               </ng-template>
             </p-button>
           </div>
@@ -123,6 +116,18 @@ export interface ShowCardData {
       :host {
           display: block;
           height: 100%;
+          container-type: inline-size;
+      }
+
+      .card-title {
+          font-size: 0.95rem;
+          line-height: 1.4;
+      }
+
+      @container (min-width: 200px) {
+          .card-title {
+              font-size: 1.125rem;
+          }
       }
   `,
 })
@@ -130,16 +135,20 @@ export class ShowCard {
   readonly show = input.required<ShowCardData>()
   readonly hideAltTitle = input(false, { transform: booleanAttribute })
   readonly hideFooter = input(false, { transform: booleanAttribute })
+  readonly priority = input(false, { transform: booleanAttribute })
 
-  private router = inject(Router)
+  readonly detailsClick = output<number>()
+  readonly watchClick = output<ShowCardData>()
+
   private trackingService = inject(TrackingService)
 
-  navigateToDetails(id: number, source: string): void {
+  emitDetails(id: number, source: string): void {
     this.trackingService.track('clickShowCard', { id, source })
-    void this.router.navigate(['/details', id])
+    this.detailsClick.emit(id)
   }
 
-  onWatchClick(showData: ShowCardData): void {
+  emitWatch(showData: ShowCardData): void {
     this.trackingService.track('clickShowCardWatch', { showData })
+    this.watchClick.emit(showData)
   }
 }

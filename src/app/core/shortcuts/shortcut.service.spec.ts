@@ -1,13 +1,9 @@
 import { TestBed } from '@angular/core/testing'
 import { provideRouter } from '@angular/router'
-import {
-  provideQueryClient,
-  QueryClient,
-} from '@tanstack/angular-query-experimental'
-import { MessageService } from 'primeng/api'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SearchService } from '../../features/search/search.service'
 import { SettingsService } from '../../features/settings/settings.service'
+import { provideTestApp } from '../../shared/testing/provide-test-app'
 import { VideoService } from '../video-player/video.service'
 import { ShortcutService } from './shortcut.service'
 
@@ -57,11 +53,7 @@ function keydownFrom(
 
 function configureTestBed() {
   TestBed.configureTestingModule({
-    providers: [
-      provideRouter([]),
-      provideQueryClient(new QueryClient()),
-      MessageService,
-    ],
+    providers: [provideRouter([]), ...provideTestApp()],
   })
 }
 

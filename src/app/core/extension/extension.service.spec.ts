@@ -8,6 +8,11 @@ function announceExtension(id: string, version: string) {
   document.documentElement.setAttribute('da-ext-version', version)
 }
 
+/**
+ * ExtensionService is bound as the concrete ExtensionDetector rather than
+ * providedIn root, so it has to be provided explicitly here the same way the
+ * backend seam binds it in the app.
+ */
 describe('ExtensionService', () => {
   let service: ExtensionService
 
@@ -15,7 +20,9 @@ describe('ExtensionService', () => {
     vi.useFakeTimers()
     document.documentElement.removeAttribute('da-ext-id')
     document.documentElement.removeAttribute('da-ext-version')
-    TestBed.configureTestingModule({})
+    TestBed.configureTestingModule({
+      providers: [ExtensionService],
+    })
     service = TestBed.inject(ExtensionService)
   })
 

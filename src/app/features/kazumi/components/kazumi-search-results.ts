@@ -15,7 +15,6 @@ import { injectQuery } from '@tanstack/angular-query-experimental'
 import { Button, ButtonDirective } from 'primeng/button'
 import { Divider } from 'primeng/divider'
 import { Skeleton } from 'primeng/skeleton'
-import { MaterialIcon } from '../../../shared/components/material-icon'
 import { UnescapePipePipe } from '../../../shared/pipes/UrlDecodePipe'
 import { KazumiService } from '../services/kazumi.service'
 
@@ -27,7 +26,6 @@ import { KazumiService } from '../services/kazumi.service'
     JsonPipe,
     Button,
     Skeleton,
-    MaterialIcon,
     UnescapePipePipe,
     ButtonDirective,
   ],
@@ -63,6 +61,8 @@ import { KazumiService } from '../services/kazumi.service'
             @for (item of results; track item.url) {
               <div class="relative">
                 <div
+                  data-testid="kazumi-result-item"
+                  [attr.data-url]="item.url"
                   role="button"
                   class="rounded p-4 cursor-pointer dark:bg-surface-900 dark:hover:bg-surface-800 transition-[background]"
                   (click)="itemClick.emit(item)"
@@ -73,7 +73,7 @@ import { KazumiService } from '../services/kazumi.service'
                 <a class="absolute right-0 top-0"
                    [href]="item.url" pButton text rounded severity="secondary" target="_blank" rel="noreferrer"
                 >
-                  <da-mat-icon icon="open_in_new" size="xl" />
+                  <i class="pi pi-external-link text-xl"></i>
                 </a>
               </div>
               @if (!$last) {

@@ -43,6 +43,7 @@ jobs:
 
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -62,11 +63,30 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Advisory only: findings show up as annotations and in the job summary.
+      # Advisory only: findings show up as annotations, in the job summary and
+      # as one PR comment that is updated on each push.
       # Exit 1 means findings and is let through; anything higher is a fallow error.
       - name: Fallow audit
         env:
           BASE: origin/${{ github.base_ref }}
         run: |
-          pnpm fallow audit --base "$BASE" --skip health --format github-annotations || [ $? -eq 1 ]
-          pnpm fallow audit --base "$BASE" --skip health --format github-summary >> "$GITHUB_STEP_SUMMARY" || [ $? -eq 1 ]
+          pnpm -s fallow audit --base "$BASE" --skip health --format github-annotations || [ $? -eq 1 ]
+          pnpm -s fallow audit --base "$BASE" --skip health --format github-summary >> "$GITHUB_STEP_SUMMARY" || [ $? -eq 1 ]
+          pnpm -s fallow audit --base "$BASE" --skip health --format pr-comment-github > "$RUNNER_TEMP/fallow-comment.md" || [ $? -eq 1 ]
+
+      # Pull requests from forks get a read-only token, so this step may fail there.
+      - name: Comment on the pull request
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          body="$RUNNER_TEMP/fallow-comment.md"
+          marker=$(head -n1 "$body")
+          existing=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments" \
+            --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"$marker\"))) | .id" | head -n1)
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$existing" -F "body=@$body" > /dev/null
+          elif ! grep -q 'No findings for this pull request' "$body"; then
+            gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$body"
+          fi

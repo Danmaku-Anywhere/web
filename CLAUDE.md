@@ -17,7 +17,7 @@ Angular web app for Danmaku Anywhere ("Danmaku Somewhere"). It finds and plays v
 | Build | `pnpm build` |
 | Type check | `pnpm type-check` |
 | Lint and fix | `pnpm lint` |
-| Unit tests | `pnpm test:ng` |
+| Unit tests | `pnpm test` |
 
 ## Deploys
 

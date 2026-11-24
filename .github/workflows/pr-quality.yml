@@ -36,7 +36,7 @@ jobs:
         run: pnpm lint:ci
 
       - name: Test
-        run: pnpm test:ng --watch=false
+        run: pnpm test
 
   fallow:
     runs-on: ubuntu-latest

@@ -10,14 +10,14 @@ Angular web app for Danmaku Anywhere ("Danmaku Somewhere"). It finds and plays v
 
 ## Commands
 
-| Task | Command |
-|---|---|
-| Install | `pnpm install && pnpm build:packages` |
-| Dev server | `pnpm start` |
-| Build | `pnpm build` |
-| Type check | `pnpm type-check` |
-| Lint and fix | `pnpm lint` |
-| Unit tests | `pnpm test` |
+| Task         | Command                               |
+| ------------ | ------------------------------------- |
+| Install      | `pnpm install && pnpm build:packages` |
+| Dev server   | `pnpm start`                          |
+| Build        | `pnpm build`                          |
+| Type check   | `pnpm type-check`                     |
+| Lint and fix | `pnpm lint`                           |
+| Unit tests   | `pnpm test`                           |
 
 ## Deploys
 

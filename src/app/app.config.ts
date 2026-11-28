@@ -18,7 +18,10 @@ import {
 import { provideServiceWorker } from '@angular/service-worker'
 import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
-import { provideTanStackQuery } from '@tanstack/angular-query'
+import {
+  provideTanStackQuery,
+  withNoQueryHydration,
+} from '@tanstack/angular-query'
 import { ConfirmationService, MessageService } from 'primeng/api'
 import { providePrimeNG } from 'primeng/config'
 import { routes } from './app.routes'
@@ -51,7 +54,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(),
-    provideTanStackQuery(() => queryClient),
+    provideTanStackQuery(() => queryClient, withNoQueryHydration()),
     { provide: IMAGE_LOADER, useValue: bangumiImageLoader },
     provideZonelessChangeDetection(),
     provideRouter(

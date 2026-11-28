@@ -11,9 +11,9 @@ Use with `openapi-fetch` (peer dependency). No runtime code; types only after bu
 
 ## Scripts
 
-| Command | Description |
-| ------- | ----------- |
-| `pnpm build` | tsgo + copy schemas |
+| Command                 | Description                                      |
+| ----------------------- | ------------------------------------------------ |
+| `pnpm build`            | tsgo + copy schemas                              |
 | `pnpm generate:schemas` | Regenerate from OpenAPI (current + next BGM API) |
 
 ## Peer dependency

@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core'
-import { injectInfiniteQuery } from '@tanstack/angular-query-experimental'
+import { injectInfiniteQuery } from '@tanstack/angular-query'
 import { VirtualizedGrid } from '../../../shared/components/virtualized-grid'
 import { BangumiService } from '../services/bangumi.service'
 import { ReviewItem } from './review-item'

@@ -22,12 +22,12 @@ pnpm build:packages
 
 ## Scripts
 
-| Command     | Description              |
-| ----------- | ------------------------ |
-| `pnpm start` | Dev server with HMR      |
-| `pnpm build` | Production build         |
-| `pnpm test`  | Run unit tests (Vitest)  |
-| `pnpm lint` | Biome check and fix      |
+| Command      | Description             |
+| ------------ | ----------------------- |
+| `pnpm start` | Dev server with HMR     |
+| `pnpm build` | Production build        |
+| `pnpm test`  | Run unit tests (Vitest) |
+| `pnpm lint`  | Biome check and fix     |
 
 ## Dependencies
 

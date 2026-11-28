@@ -10,9 +10,9 @@ import {
 } from '@danmaku-anywhere/extension-protocol'
 import {
   injectQuery,
-  provideQueryClient,
+  provideTanStackQuery,
   QueryClient,
-} from '@tanstack/angular-query-experimental'
+} from '@tanstack/angular-query'
 import { defer, finalize, from, type Observable, throwError } from 'rxjs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ExtensionMessagingService } from '../../../core/extension/extension-messaging.service'
@@ -75,8 +75,9 @@ describe('KazumiService.addPolicyMutation', () => {
     vi.stubGlobal('fetch', fetchMock)
     TestBed.configureTestingModule({
       providers: [
-        provideQueryClient(
-          new QueryClient({ defaultOptions: { queries: { retry: false } } })
+        provideTanStackQuery(
+          () =>
+            new QueryClient({ defaultOptions: { queries: { retry: false } } })
         ),
       ],
     })
@@ -246,7 +247,7 @@ describe('KazumiService rule search', () => {
     queryClient.setQueryData(queryKeys.kazumi.local.all(), allRules)
     TestBed.configureTestingModule({
       providers: [
-        provideQueryClient(queryClient),
+        provideTanStackQuery(() => queryClient),
         {
           provide: ExtensionMessagingService,
           useValue: { single: vi.fn(single) },

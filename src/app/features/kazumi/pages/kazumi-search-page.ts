@@ -12,7 +12,7 @@ import {
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import type { KazumiPolicy } from '@danmaku-anywhere/extension-protocol'
-import { injectInfiniteQuery } from '@tanstack/angular-query-experimental'
+import { injectInfiniteQuery } from '@tanstack/angular-query'
 import { AutoCompleteModule } from 'primeng/autocomplete'
 import { AutoFocus } from 'primeng/autofocus'
 import { Button } from 'primeng/button'

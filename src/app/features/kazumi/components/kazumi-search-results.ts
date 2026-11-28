@@ -11,7 +11,7 @@ import {
   isXPathPolicy,
   type KazumiPolicy,
 } from '@danmaku-anywhere/extension-protocol'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { Button, ButtonDirective } from 'primeng/button'
 import { Divider } from 'primeng/divider'
 import { Skeleton } from 'primeng/skeleton'

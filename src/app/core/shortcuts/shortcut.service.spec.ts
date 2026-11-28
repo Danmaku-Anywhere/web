@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing'
 import { provideRouter } from '@angular/router'
-import {
-  provideQueryClient,
-  QueryClient,
-} from '@tanstack/angular-query-experimental'
+import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query'
 import { MessageService } from 'primeng/api'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SearchService } from '../../features/search/search.service'
@@ -59,7 +56,7 @@ function configureTestBed() {
   TestBed.configureTestingModule({
     providers: [
       provideRouter([]),
-      provideQueryClient(new QueryClient()),
+      provideTanStackQuery(() => new QueryClient()),
       MessageService,
     ],
   })

@@ -13,7 +13,7 @@ import {
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import type { MediaInfo } from '@danmaku-anywhere/extension-protocol'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { Button } from 'primeng/button'
 import { Card } from 'primeng/card'
 import { Panel } from 'primeng/panel'

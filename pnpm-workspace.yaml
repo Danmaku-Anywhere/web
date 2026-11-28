@@ -1,9 +1,9 @@
 packages:
-  - 'packages/*'
+  - "packages/*"
 nodeLinker: isolated
 allowBuilds:
-  '@parcel/watcher': false
-  '@swc/core': false
+  "@parcel/watcher": false
+  "@swc/core": false
   esbuild: false
   lefthook: false
   lmdb: false
@@ -13,4 +13,4 @@ allowBuilds:
   spawn-sync: false
   workerd: false
 minimumReleaseAgeExclude:
-  - '@danmaku-anywhere/*'
+  - "@danmaku-anywhere/*"

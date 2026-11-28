@@ -7,10 +7,10 @@ import {
   untracked,
 } from '@angular/core'
 import Artplayer from 'artplayer'
-// @ts-expect-error no type definitions
-import SubtitlesOctopus from 'libass-wasm'
+import type JASSUB from 'jassub'
 import { MessageService } from 'primeng/api'
 import { serializeError } from '../../shared/utils/serializeError'
+import { createJassub } from './jassub/create-jassub'
 
 interface ComponentOption {
   /**
@@ -109,6 +109,8 @@ export interface VideoPlayerState {
   isFullscreenWeb: boolean
 }
 
+const CJK_FALLBACK_FONT = 'noto sans sc'
+
 const defaultPlayerState = {
   isReady: false,
   isPlaying: false,
@@ -133,7 +135,7 @@ export class VideoService {
   private layerNames = new Set<string>()
   private controls: ComponentOption[] = []
   private controlNames = new Set<string>()
-  private subtitleRenderer: InstanceType<typeof SubtitlesOctopus> | null = null
+  private subtitleRenderer: JASSUB | null = null
   private corsRetryPending = false
 
   private $player = signal<Artplayer | null>(null)
@@ -344,29 +346,41 @@ export class VideoService {
   }
 
   private clearAssRenderer(): void {
-    if (this.subtitleRenderer) {
-      this.subtitleRenderer.freeTrack()
+    const renderer = this.subtitleRenderer
+    if (renderer) {
+      void renderer.ready
+        .then(() => renderer.renderer.freeTrack())
+        .then(() => renderer.resize(true))
     }
   }
 
   private createAssRenderer(track: SubtitleTrack): void {
-    if (!this.subtitleRenderer) {
-      this.subtitleRenderer = new SubtitlesOctopus({
-        video: this.$player()?.video,
-        subUrl: track.url,
-        workerUrl: '/libassjs/subtitles-octopus-worker.js',
-        legacyWorkerUrl: '/libassjs/subtitles-octopus-worker-legacy.js',
-        fallbackFont: '/fonts/NotoSansSC-Regular.ttf',
-      })
-      this.subtitleRenderer.canvas.style.zIndex = '10'
-    } else {
-      this.subtitleRenderer.setTrackByUrl(track.url)
+    const renderer = this.subtitleRenderer
+    if (renderer) {
+      void renderer.ready.then(() => renderer.renderer.setTrackByUrl(track.url))
+      return
     }
+    const video = this.$player()?.video
+    if (!video) {
+      return
+    }
+    const canvas = document.createElement('canvas')
+    canvas.style.position = 'absolute'
+    canvas.style.pointerEvents = 'none'
+    canvas.style.zIndex = '10'
+    video.insertAdjacentElement('afterend', canvas)
+    this.subtitleRenderer = createJassub({
+      video,
+      canvas,
+      subUrl: track.url,
+      availableFonts: { [CJK_FALLBACK_FONT]: '/fonts/NotoSansSC-Regular.ttf' },
+      defaultFont: CJK_FALLBACK_FONT,
+    })
   }
 
   private destroyAssRenderer(): void {
     if (this.subtitleRenderer) {
-      this.subtitleRenderer.dispose()
+      void this.subtitleRenderer.destroy()
       this.subtitleRenderer = null
     }
   }

@@ -6,6 +6,7 @@ allowBuilds:
   "@swc/core": false
   esbuild: false
   lefthook: false
+  lfa-ponyfill: false
   lmdb: false
   msgpackr-extract: false
   protobufjs: false

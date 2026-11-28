@@ -30,7 +30,7 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/ffmpeg/**/*", "/libassjs/**/*"]
+        "files": ["/ffmpeg/**/*", "/jassub/**/*"]
       }
     }
   ]

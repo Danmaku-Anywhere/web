@@ -88,7 +88,6 @@ import { KazumiService } from '../services/kazumi.service'
 export class SearchResultsComponent {
   policy = input.required<KazumiPolicy>()
   keyword = input('')
-  isActive = input(false)
   itemClick = output<{ name: string; url: string }>()
 
   private kazumiService = inject(KazumiService)

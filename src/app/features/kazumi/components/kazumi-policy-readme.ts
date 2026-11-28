@@ -1,17 +1,15 @@
 import { Component, input, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Dialog } from 'primeng/dialog'
 import { Button } from '../../../shared/ui/button'
+import { Dialog } from '../../../shared/ui/dialog'
 
 @Component({
   selector: 'da-kazumi-policy-readme',
   imports: [Button, Dialog, FormsModule],
   template: `
-    <p-dialog [modal]="true"
-              (visibleChange)="visibleChange.emit($event)"
-              [visible]="visible()" header="使用须知"
-              draggable="false"
-              maskStyleClass="backdrop-blur-sm" dismissableMask="true">
+    <da-dialog (visibleChange)="visibleChange.emit($event)"
+               [visible]="visible()" header="使用须知"
+               maskClass="backdrop-blur-sm" dismissableMask>
       <div class="max-w-3xl space-y-2">
         <p>
           <strong>Kazumi</strong>
@@ -50,7 +48,7 @@ import { Button } from '../../../shared/ui/button'
           }
         </div>
       </div>
-    </p-dialog>
+    </da-dialog>
   `,
 })
 export class KazumiPolicyImportDialog {

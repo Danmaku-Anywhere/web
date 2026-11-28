@@ -5,13 +5,13 @@ import {
   inject,
 } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
-import { ConfirmDialog } from 'primeng/confirmdialog'
-import { Toast } from 'primeng/toast'
 import { PlatformService } from '../../core/services/platform.service'
 import { ShortcutService } from '../../core/shortcuts/shortcut.service'
 import { NoExtensionPage } from '../../features/no-extension/no-extension-page'
 import { SearchDialogComponent } from '../../features/search/search-dialog.component'
 import { Settings } from '../../features/settings/settings.component'
+import { ConfirmDialog } from '../../shared/ui/confirm'
+import { Toast } from '../../shared/ui/toast'
 import { LayoutService } from '../layout.service'
 import { AppBar } from './app-bar.component'
 import { AppFooter } from './app-footer.component'
@@ -36,9 +36,9 @@ import { UpdateBanner } from './update-banner.component'
     SearchDialogComponent,
   ],
   template: `
-    <p-toast [position]="platformService.isMobile ? 'top-center' : 'bottom-center'" />
+    <da-toast [position]="platformService.isMobile ? 'top-center' : 'bottom-center'" />
     <da-update-banner></da-update-banner>
-    <p-confirmDialog />
+    <da-confirm-dialog />
 
     <div class="flex flex-col min-h-screen">
       <da-app-bar></da-app-bar>

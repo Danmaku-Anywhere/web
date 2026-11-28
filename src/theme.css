@@ -145,6 +145,25 @@
   --color-danger-outline-active: #fee2e2;
   --color-danger-tag: #fee2e2;
   --color-danger-tag-foreground: #b91c1c;
+  --color-mask: rgba(0, 0, 0, 0.4);
+  --color-toast-success: color-mix(in srgb, #f0fdf4, transparent 5%);
+  --color-toast-success-foreground: #16a34a;
+  --color-toast-success-border: #bbf7d0;
+  --color-toast-success-detail: #334155;
+  --color-toast-success-shadow: color-mix(in srgb, #22c55e, transparent 96%);
+  --color-toast-success-close-hover: #dcfce7;
+  --color-toast-info: color-mix(in srgb, #eff6ff, transparent 5%);
+  --color-toast-info-foreground: #2563eb;
+  --color-toast-info-border: #bfdbfe;
+  --color-toast-info-detail: #334155;
+  --color-toast-info-shadow: color-mix(in srgb, #3b82f6, transparent 96%);
+  --color-toast-info-close-hover: #dbeafe;
+  --color-toast-error: color-mix(in srgb, #fef2f2, transparent 5%);
+  --color-toast-error-foreground: #dc2626;
+  --color-toast-error-border: #fecaca;
+  --color-toast-error-detail: #334155;
+  --color-toast-error-shadow: color-mix(in srgb, #ef4444, transparent 96%);
+  --color-toast-error-close-hover: #fee2e2;
 }
 
 @layer theme {
@@ -291,5 +310,24 @@
     --color-danger-outline-active: color-mix(in srgb, #f87171, transparent 84%);
     --color-danger-tag: color-mix(in srgb, #ef4444, transparent 84%);
     --color-danger-tag-foreground: #fca5a5;
+    --color-mask: rgba(0, 0, 0, 0.6);
+    --color-toast-success: color-mix(in srgb, #22c55e, transparent 84%);
+    --color-toast-success-foreground: #22c55e;
+    --color-toast-success-border: color-mix(in srgb, #15803d, transparent 64%);
+    --color-toast-success-detail: #ffffff;
+    --color-toast-success-shadow: color-mix(in srgb, #22c55e, transparent 96%);
+    --color-toast-success-close-hover: rgba(255, 255, 255, 0.05);
+    --color-toast-info: color-mix(in srgb, #3b82f6, transparent 84%);
+    --color-toast-info-foreground: #3b82f6;
+    --color-toast-info-border: color-mix(in srgb, #1d4ed8, transparent 64%);
+    --color-toast-info-detail: #ffffff;
+    --color-toast-info-shadow: color-mix(in srgb, #3b82f6, transparent 96%);
+    --color-toast-info-close-hover: rgba(255, 255, 255, 0.05);
+    --color-toast-error: color-mix(in srgb, #ef4444, transparent 84%);
+    --color-toast-error-foreground: #ef4444;
+    --color-toast-error-border: color-mix(in srgb, #b91c1c, transparent 64%);
+    --color-toast-error-detail: #ffffff;
+    --color-toast-error-shadow: color-mix(in srgb, #ef4444, transparent 96%);
+    --color-toast-error-close-hover: rgba(255, 255, 255, 0.05);
   }
 }

@@ -6,7 +6,7 @@ import {
   Router,
   type RouterStateSnapshot,
 } from '@angular/router'
-import { MessageService } from 'primeng/api'
+import { ToastService } from '../../../shared/ui/toast'
 import { tryCatch } from '../../../shared/utils/tryCatch'
 import { KazumiService } from '../services/kazumi.service'
 
@@ -16,7 +16,7 @@ export const validateKazumiPolicy: CanActivateFn = async (
 ) => {
   const router = inject(Router)
   const kazumiService = inject(KazumiService)
-  const messageService = inject(MessageService)
+  const toastService = inject(ToastService)
 
   const redirect = new RedirectCommand(router.parseUrl('/kazumi/search'))
 
@@ -26,7 +26,7 @@ export const validateKazumiPolicy: CanActivateFn = async (
   const policyName = route.queryParamMap.get('policyName')
 
   if (!q || !url || !policyName) {
-    messageService.add({
+    toastService.add({
       severity: 'error',
       summary: '参数错误',
       detail: '缺少必要的参数',
@@ -40,7 +40,7 @@ export const validateKazumiPolicy: CanActivateFn = async (
   )
   // This really should not happen, but just in case
   if (err) {
-    messageService.add({
+    toastService.add({
       severity: 'error',
       summary: '加载规则失败',
       detail: '无法加载本地规则，请稍后再试',
@@ -57,7 +57,7 @@ export const validateKazumiPolicy: CanActivateFn = async (
     // Try to add the policy first
     try {
       await kazumiService.addPolicyMutation.mutateAsync(policyName)
-      messageService.add({
+      toastService.add({
         severity: 'success',
         summary: '规则已添加',
         detail: `成功添加规则 "${policyName}"`,
@@ -66,7 +66,7 @@ export const validateKazumiPolicy: CanActivateFn = async (
       return true
     } catch (e) {
       const reason = e instanceof Error ? e.message : '规则可能不存在'
-      messageService.add({
+      toastService.add({
         severity: 'error',
         summary: '规则添加失败',
         detail: `无法添加规则 "${policyName}"：${reason}`,

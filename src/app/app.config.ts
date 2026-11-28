@@ -22,7 +22,6 @@ import {
   provideTanStackQuery,
   withNoQueryHydration,
 } from '@tanstack/angular-query'
-import { ConfirmationService, MessageService } from 'primeng/api'
 import { providePrimeNG } from 'primeng/config'
 import { routes } from './app.routes'
 import { ExtensionService } from './core/extension/extension.service'
@@ -80,8 +79,6 @@ export const appConfig: ApplicationConfig = {
     }),
     UpdateService,
     TitleService,
-    MessageService,
-    ConfirmationService,
     provideAppInitializer(async () => {
       const platformId = inject(PLATFORM_ID)
       if (isPlatformBrowser(platformId)) {

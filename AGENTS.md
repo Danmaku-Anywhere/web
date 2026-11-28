@@ -1,34 +1,28 @@
-# Agent context: web app
-
-## Purpose
-
-Angular SPA for video discovery and playback using Kazumi rules. Requires the Danmaku Anywhere browser extension for scraping and danmaku features.
-
-## Tech stack
-
-- Angular 21+ with standalone components
-- PrimeNG + Tailwind CSS for UI
-- TanStack Angular Query for data fetching
-- Angular signals for state management
-- Artplayer for video playback
-- Dexie for client-side storage
-- openapi-fetch for Bangumi API
+# AGENTS.md
 
 ## Conventions
 
-- Standalone components only (no NgModules, `standalone: true` is implied)
-- Use `input()`/`output()` functions, not decorators
-- Use signals and `computed()` for state
+- Standalone components only, no NgModules
+- `input()`/`output()` functions, not decorators
+- Signals and `computed()` for state
 - `ChangeDetectionStrategy.OnPush` always
 - Native control flow (`@if`, `@for`, `@switch`), not structural directives
 - `injectQuery`/`injectMutation` from TanStack Query
-- `inject()` function, not constructor injection
+- `inject()`, not constructor injection
 - Reactive forms, not template-driven
-- Do NOT use `ngClass`/`ngStyle` — use `class`/`style` bindings
-- Use `providedIn: 'root'` for singleton services
+- `class`/`style` bindings, not `ngClass`/`ngStyle`
+- `providedIn: 'root'` for singleton services
 
-## Gotchas
+## Traps
 
-- Requires the browser extension to be installed for scraping features
-- Uses Vitest + jsdom via the `@angular/build:unit-test` builder (`pnpm test`). Specs import from `vitest`, not Jasmine
-- See `package.json` for available scripts and dependencies
+- Tests run on Vitest + jsdom (`pnpm test`). Specs import from `vitest`, not Jasmine.
+- Build with `pnpm build`, not `pnpm -r build`. The recursive form skips the root app and builds only the packages.
+- `@danmaku-anywhere/danmaku-model` and `@danmaku-anywhere/extension-protocol` come from npm and are built in the `Danmaku-Anywhere/danmaku-anywhere` monorepo. Change them there first.
+- Installed extensions can be older or newer than this app, so the extension protocol must tolerate version skew.
+
+## Rules
+
+- pnpm only, never npm or yarn.
+- PR titles: `(app) <description> [DA-123]`.
+- Comments only for what the code cannot say: a hidden constraint, a trap, a workaround. No narration, history or defensive argument.
+- No em dashes (U+2014) in code, comments or docs.

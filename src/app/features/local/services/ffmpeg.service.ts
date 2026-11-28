@@ -29,11 +29,16 @@ export class FfmpegService {
 
   private async initFFmpeg(): Promise<FFmpeg> {
     const ffmpeg = new FFmpeg()
-    await ffmpeg.load({
-      coreURL: '/ffmpeg/ffmpeg-core.js',
-      wasmURL: 'https://assets.danmaku.weeblify.app/ffmpeg/ffmpeg-core.wasm',
-      classWorkerURL: '/ffmpeg/worker.js',
-    })
+    try {
+      await ffmpeg.load({
+        coreURL: '/ffmpeg/ffmpeg-core.js',
+        wasmURL: 'https://assets.danmaku.weeblify.app/ffmpeg/ffmpeg-core.wasm',
+        classWorkerURL: '/ffmpeg/worker.js',
+      })
+    } catch (error) {
+      ffmpeg.terminate()
+      throw error
+    }
     return ffmpeg
   }
 }

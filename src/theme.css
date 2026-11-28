@@ -146,6 +146,9 @@
   --color-danger-tag: #fee2e2;
   --color-danger-tag-foreground: #b91c1c;
   --color-mask: rgba(0, 0, 0, 0.4);
+  --color-highlight: #fdf2f8;
+  --color-highlight-foreground: #be185d;
+  --color-highlight-focus: #fce7f3;
   --color-toast-success: color-mix(in srgb, #f0fdf4, transparent 5%);
   --color-toast-success-foreground: #16a34a;
   --color-toast-success-border: #bbf7d0;
@@ -311,6 +314,9 @@
     --color-danger-tag: color-mix(in srgb, #ef4444, transparent 84%);
     --color-danger-tag-foreground: #fca5a5;
     --color-mask: rgba(0, 0, 0, 0.6);
+    --color-highlight: color-mix(in srgb, #f472b6, transparent 84%);
+    --color-highlight-foreground: rgba(255, 255, 255, 0.87);
+    --color-highlight-focus: color-mix(in srgb, #f472b6, transparent 76%);
     --color-toast-success: color-mix(in srgb, #22c55e, transparent 84%);
     --color-toast-success-foreground: #22c55e;
     --color-toast-success-border: color-mix(in srgb, #15803d, transparent 64%);

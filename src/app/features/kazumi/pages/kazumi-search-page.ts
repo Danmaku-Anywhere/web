@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import type { KazumiPolicy } from '@danmaku-anywhere/extension-protocol'
 import { injectInfiniteQuery } from '@tanstack/angular-query'
-import { AutoCompleteModule } from 'primeng/autocomplete'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs'
 import { TrackingService } from '../../../core/tracking.service'
 import { MaterialIcon } from '../../../shared/components/material-icon'
@@ -36,7 +35,6 @@ import { KazumiService } from '../services/kazumi.service'
   imports: [
     CommonModule,
     FormsModule,
-    AutoCompleteModule,
     InputField,
     Spinner,
     Card,

@@ -8,8 +8,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core'
-import { type Menu, MenuModule } from 'primeng/menu'
 import { Button } from '../../../shared/ui/button'
+import { Menu } from '../../../shared/ui/menu'
 import type { BgmSubjectSearchFilterModel } from '../../bangumi/types/bangumi.types'
 import {
   SearchFilterItem,
@@ -22,9 +22,9 @@ import { parseBangumiFilterList } from './parseBangumiFilter'
   selector: 'da-bangumi-subject-filter-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, MenuModule, SearchFilterItem, Button],
+  imports: [CommonModule, Menu, SearchFilterItem, Button],
   template: `
-    <p-menu #addMenu [popup]="true" [model]="$addMenuItems" appendTo="body"></p-menu>
+    <da-menu #addMenu [items]="$addMenuItems" />
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2 items-center">
         @for (item of $ratings(); track $index) {

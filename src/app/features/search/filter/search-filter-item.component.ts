@@ -12,8 +12,8 @@ import {
 import { FormsModule } from '@angular/forms'
 import { InputMask } from 'primeng/inputmask'
 import { InputNumber } from 'primeng/inputnumber'
-import { type Menu, MenuModule } from 'primeng/menu'
 import { Button } from '../../../shared/ui/button'
+import { Menu } from '../../../shared/ui/menu'
 import {
   type ComparisonOperator,
   ComparisonSelector,
@@ -32,7 +32,7 @@ type SearchFilterType = 'rating' | 'rank' | 'date'
   imports: [
     ComparisonSelector,
     Button,
-    MenuModule,
+    Menu,
     InputNumber,
     InputMask,
     FormsModule,
@@ -58,8 +58,8 @@ type SearchFilterType = 'rating' | 'rank' | 'date'
         <button daButton variant="text" severity="secondary" size="small" (click)="menu.toggle($event)">{{ $value() }}</button>
       </div>
     </div>
-    <p-menu #menu [popup]="true" (onHide)="commitValue()" appendTo="body">
-      <ng-template #start>
+    <da-menu #menu (hidden)="commitValue()">
+      <ng-template>
         @if (type() === 'rating') {
           <ng-container *ngTemplateOutlet="ratingInput"></ng-container>
         } @else if (type() === 'rank') {
@@ -68,7 +68,7 @@ type SearchFilterType = 'rating' | 'rank' | 'date'
           <ng-container *ngTemplateOutlet="dateInput"></ng-container>
         }
       </ng-template>
-    </p-menu>
+    </da-menu>
 
     <ng-template #ratingInput>
       <p-input-number name="rating" autofocus [(ngModel)]="$tempValue" mode="decimal"

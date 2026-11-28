@@ -63,6 +63,25 @@ class Host {
 })
 class HeadlessHost {}
 
+@Component({
+  imports: [Dialog],
+  template: `
+    <da-dialog
+      drawer
+      headless
+      dismissableMask
+      ariaLabel="Navigation"
+      [visible]="visible()"
+      (visibleChange)="visible.set($event)"
+    >
+      <a id="first-link" href="#">Home</a>
+    </da-dialog>
+  `,
+})
+class DrawerHost {
+  visible = signal(true)
+}
+
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -247,5 +266,27 @@ describe('Dialog', () => {
     expect(document.querySelector('.da-dialog-header')).toBeNull()
     expect(container()?.getAttribute('aria-label')).toBe('Search')
     expect(document.activeElement?.id).toBe('search')
+  })
+
+  it('slides in a drawer on the left that closes from its mask', async () => {
+    TestBed.configureTestingModule({ imports: [DrawerHost] })
+    const fixture = TestBed.createComponent(DrawerHost)
+    document.body.appendChild(fixture.nativeElement)
+    await fixture.whenStable()
+
+    const drawer = document.querySelector<HTMLElement>('.da-drawer')
+    expect(drawer).not.toBeNull()
+    expect(container()?.getAttribute('aria-label')).toBe('Navigation')
+    expect(container()?.getAttribute('aria-modal')).toBe('true')
+    expect(document.activeElement?.id).toBe('first-link')
+
+    document.querySelector<HTMLElement>('.cdk-overlay-backdrop')?.click()
+    await fixture.whenStable()
+    expect(fixture.componentInstance.visible()).toBe(false)
+    expect(drawer?.classList).toContain('da-drawer-leave')
+
+    await wait(550)
+    await fixture.whenStable()
+    expect(document.querySelector('.da-drawer')).toBeNull()
   })
 })

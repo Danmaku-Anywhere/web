@@ -5,8 +5,7 @@ import {
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Select } from 'primeng/select'
-
+import { Select } from '../../../../shared/ui/select'
 import { DebugPanelComponent } from './debug-panel.component'
 
 interface VideoOption {
@@ -21,7 +20,7 @@ interface VideoOption {
   template: `
     <da-debug-panel title="Native Video" (remove)="remove.emit()" class="block h-full">
       <div toolbar class="flex items-center gap-2 px-3 py-2 border-b border-surface">
-        <p-select
+        <da-select
           [options]="videoOptions"
           optionLabel="label"
           optionValue="url"

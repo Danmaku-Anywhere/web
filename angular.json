@@ -84,6 +84,11 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "prebundle": {
+              "exclude": ["zod"]
+            }
+          },
           "configurations": {
             "production": {
               "buildTarget": "web:build:production"

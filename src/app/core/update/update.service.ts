@@ -7,7 +7,7 @@ import {
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { SwUpdate } from '@angular/service-worker'
-import { MessageService } from 'primeng/api'
+import { ToastService } from '../../shared/ui/toast'
 import { TrackingService } from '../tracking.service'
 
 @Injectable({
@@ -16,7 +16,7 @@ import { TrackingService } from '../tracking.service'
 export class UpdateService {
   private readonly appRef = inject(ApplicationRef)
   private readonly swUpdate = inject(SwUpdate)
-  private readonly messageService = inject(MessageService)
+  private readonly toastService = inject(ToastService)
   private readonly trackingService = inject(TrackingService)
 
   private timeoutId: ReturnType<typeof setTimeout> | null = null
@@ -77,7 +77,7 @@ export class UpdateService {
 
   private setupUnrecoverableStateHandling(): void {
     this.swUpdate.unrecoverable.subscribe(() => {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'error',
         summary: '错误',
         detail: '发生了错误，请刷新页面',
@@ -114,13 +114,13 @@ export class UpdateService {
   async manualCheckForUpdate(): Promise<void> {
     const updateFound = await this.checkForUpdate()
     if (updateFound) {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'info',
         summary: '发现新版本',
         life: 3000,
       })
     } else {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'success',
         summary: '已是最新版本',
         life: 3000,

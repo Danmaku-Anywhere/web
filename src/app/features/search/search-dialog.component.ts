@@ -9,9 +9,9 @@ import {
   viewChild,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Dialog } from 'primeng/dialog'
 import { MaterialIcon } from '../../shared/components/material-icon'
 import { Button } from '../../shared/ui/button'
+import { Dialog } from '../../shared/ui/dialog'
 import { InputField } from '../../shared/ui/input-field'
 import { BangumiSearchFilterComponent } from './bangumi/bangumi-search-filter.component'
 import { SearchResultListBangumiComponent } from './bangumi/search-result-list-bangumi.component'
@@ -33,23 +33,17 @@ import type { SearchProvider } from './search-model.type'
     BangumiSearchFilterComponent,
   ],
   template: `
-    <p-dialog
-      #dialog
+    <da-dialog
       [visible]="$visible()"
       (visibleChange)="onVisibleChange($event)"
-      (onHide)="close()"
-      (onShow)="focusInput()"
-      styleClass="size-9/10 md:self-start md:mt-[180px] md:w-[800px] md:h-[600px]"
-      draggable="false"
-      dismissableMask="true"
-      modal="true"
-      closable="true"
-      closeOnEscape="false"
-      focusOnShow="true"
-      blockScroll="false"
-      contentStyleClass="w-sm md:w-md lg:w-lg"
+      (hidden)="close()"
+      (shown)="focusInput()"
+      panelClass="size-9/10 md:self-start md:mt-[180px] md:w-[800px] md:h-[600px]"
+      dismissableMask
+      headless
+      [closeOnEscape]="false"
+      ariaLabel="搜索"
     >
-      <ng-template #headless>
         <div class="flex flex-col p-6 pb-0 overflow-hidden">
           <form (submit)="onSubmit($event)" class="flex flex-col">
             <div class="flex items-center gap-2">
@@ -106,14 +100,12 @@ import type { SearchProvider } from './search-model.type'
             }
           </div>
         </div>
-      </ng-template>
-    </p-dialog>
+    </da-dialog>
   `,
 })
 export class SearchDialogComponent {
   private readonly searchService = inject(SearchService)
 
-  $dialog = viewChild.required<Dialog>('dialog')
   $input = viewChild<ElementRef<HTMLInputElement>>('input')
 
   $visible = this.searchService.$visible
@@ -172,13 +164,13 @@ export class SearchDialogComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeydown(event: KeyboardEvent) {
-    if (!this.$dialog().visible) {
+    if (!this.$visible()) {
       return
     }
     if (event.key === 'Escape') {
       if (this.$term().length > 0 || this.$hasModel()) {
         this.clearTerm()
-      } else if (this.$dialog().visible) {
+      } else {
         this.close()
       }
     }

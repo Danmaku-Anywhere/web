@@ -7,8 +7,8 @@ import {
   signal,
 } from '@angular/core'
 import { Router } from '@angular/router'
-import { MessageService } from 'primeng/api'
 import { TrackingService } from '../../../core/tracking.service'
+import { ToastService } from '../../../shared/ui/toast'
 import { KazumiService } from '../../kazumi/services/kazumi.service'
 
 const ACCEPTED_POLICY_KEY = 'accepted-policy'
@@ -20,7 +20,7 @@ export class OnboardingService {
   private trackingService = inject(TrackingService)
   private readonly kazumiService = inject(KazumiService)
   private readonly router = inject(Router)
-  protected messageService = inject(MessageService)
+  protected toastService = inject(ToastService)
 
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID))
 
@@ -42,7 +42,7 @@ export class OnboardingService {
           success: false,
           error: error.message,
         })
-        this.messageService.add({
+        this.toastService.add({
           severity: 'error',
           detail: `添加初始规则失败: ${error.message}`,
           life: 3000,
@@ -50,7 +50,7 @@ export class OnboardingService {
       },
       onSuccess: () => {
         this.trackingService.track('finishOnboarding', { success: true })
-        this.messageService.add({
+        this.toastService.add({
           severity: 'success',
           detail: '初始设置成功！',
           life: 3000,

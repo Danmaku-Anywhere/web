@@ -6,8 +6,8 @@ import {
   type OnInit,
   signal,
 } from '@angular/core'
-import { Dialog } from 'primeng/dialog'
 import { MaterialIcon } from '../../shared/components/material-icon'
+import { Dialog, DialogHeader } from '../../shared/ui/dialog'
 import { KazumiPolicyImport } from '../kazumi/components/kazumi-policy-import'
 import { KazumiPolicyManage } from '../kazumi/components/kazumi-policy-manage'
 import { GeneralSettings } from './components/general-settings'
@@ -19,25 +19,22 @@ import { type SettingsRoute, SettingsService } from './settings.service'
   imports: [
     CommonModule,
     Dialog,
+    DialogHeader,
     MaterialIcon,
     KazumiPolicyManage,
     KazumiPolicyImport,
     GeneralSettings,
   ],
   template: `
-    <p-dialog
+    <da-dialog
       [visible]="settingsService.$visible()"
       (visibleChange)="onVisibleChange($event)"
-      dismissableMask="true"
-      modal="true"
-      contentStyleClass="w-6xl h-[700px] overflow-hidden"
+      dismissableMask
+      contentClass="w-6xl h-[700px] overflow-hidden"
       class="overflow-hidden"
-      [maskStyle]="{background:'none'}"
-      [blockScroll]="false"
-      [closable]="true"
+      maskClass="bg-transparent"
     >
-      <ng-template #header>
-        <div class="flex items-center gap-3">
+        <div daDialogHeader class="flex items-center gap-3">
           <da-mat-icon icon="settings" />
           <span class="text-lg font-semibold">{{ getPageTitle() }}</span>
           @if (settingsService.$canGoBack()) {
@@ -49,7 +46,6 @@ import { type SettingsRoute, SettingsService } from './settings.service'
             </button>
           }
         </div>
-      </ng-template>
 
       <div class="flex h-full">
         <div class="w-64 border-r dark:border-surface-700">
@@ -126,7 +122,7 @@ import { type SettingsRoute, SettingsService } from './settings.service'
           }
         </div>
       </div>
-    </p-dialog>
+    </da-dialog>
   `,
 })
 export class Settings implements OnInit {

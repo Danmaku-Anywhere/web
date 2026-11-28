@@ -9,7 +9,7 @@ import {
 import Artplayer from 'artplayer'
 // @ts-expect-error no type definitions
 import SubtitlesOctopus from 'libass-wasm'
-import { MessageService } from 'primeng/api'
+import { ToastService } from '../../shared/ui/toast'
 import { serializeError } from '../../shared/utils/serializeError'
 
 interface ComponentOption {
@@ -127,7 +127,7 @@ const defaultPlayerState = {
   providedIn: 'root',
 })
 export class VideoService {
-  private readonly messageService = inject(MessageService)
+  private readonly toastService = inject(ToastService)
 
   private layers: ComponentOption[] = []
   private layerNames = new Set<string>()
@@ -425,7 +425,7 @@ export class VideoService {
         this.corsRetryPending = false
         return
       }
-      this.messageService.add({
+      this.toastService.add({
         severity: 'error',
         summary: '视频加载错误',
         detail: serializeError(e),

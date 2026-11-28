@@ -7,7 +7,7 @@ import {
   output,
   viewChild,
 } from '@angular/core'
-import { MessageService, PrimeTemplate } from 'primeng/api'
+import { PrimeTemplate } from 'primeng/api'
 import { SplitButton } from 'primeng/splitbutton'
 import { Tooltip } from 'primeng/tooltip'
 import { Tree } from 'primeng/tree'
@@ -15,6 +15,7 @@ import { PlatformService } from '../../../core/services/platform.service'
 import { TrackingService } from '../../../core/tracking.service'
 import { Button } from '../../../shared/ui/button'
 import { Card } from '../../../shared/ui/card'
+import { ToastService } from '../../../shared/ui/toast'
 import { serializeError } from '../../../shared/utils/serializeError'
 import { DuplicateHandleException } from '../duplicate-handle.exception'
 import { LocalPlayerService } from '../services/local-player.service'
@@ -102,7 +103,7 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
 })
 export class LocalFolderSelectorComponent {
   private readonly localPlayerService = inject(LocalPlayerService)
-  private readonly messageService = inject(MessageService)
+  private readonly toastService = inject(ToastService)
   private readonly trackingService = inject(TrackingService)
   private readonly platformService = inject(PlatformService)
 
@@ -150,7 +151,7 @@ export class LocalFolderSelectorComponent {
       await this.localPlayerService.addDirectory(dir)
     } catch (e) {
       if (e instanceof DuplicateHandleException) {
-        this.messageService.add({
+        this.toastService.add({
           severity: 'error',
           summary: '已经添加过这个文件夹了',
           closable: true,
@@ -160,7 +161,7 @@ export class LocalFolderSelectorComponent {
         return
       } else {
         this.trackingService.track('pickDirError', e as object)
-        this.messageService.add({
+        this.toastService.add({
           severity: 'error',
           summary: '添加文件夹失败',
           detail: serializeError(e),
@@ -200,7 +201,7 @@ export class LocalFolderSelectorComponent {
 
   onRemoveNode(node: FileTreeNode) {
     if (node.data?.key === undefined) {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'error',
         summary: '移除失败',
         detail: '请刷新页面',

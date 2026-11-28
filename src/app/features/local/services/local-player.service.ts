@@ -1,8 +1,9 @@
 import { computed, Injectable, inject, signal } from '@angular/core'
-import { ConfirmationService, MessageService } from 'primeng/api'
 import { PlatformService } from '../../../core/services/platform.service'
 import { TrackingService } from '../../../core/tracking.service'
 import type { SubtitleTrack } from '../../../core/video-player/video.service'
+import { ConfirmService } from '../../../shared/ui/confirm'
+import { ToastService } from '../../../shared/ui/toast'
 import { serializeError } from '../../../shared/utils/serializeError'
 import {
   FileTree,
@@ -17,8 +18,8 @@ import { MediaExtractorService } from './media-extractor.service'
 @Injectable({ providedIn: 'root' })
 export class LocalPlayerService {
   private readonly localHandleDbService = inject(LocalHandleDbService)
-  private readonly messageService = inject(MessageService)
-  private readonly confirmationService = inject(ConfirmationService)
+  private readonly toastService = inject(ToastService)
+  private readonly confirmService = inject(ConfirmService)
   private readonly trackingService = inject(TrackingService)
   private readonly platformService = inject(PlatformService)
   private readonly mediaExtractor = inject(MediaExtractorService)
@@ -107,7 +108,7 @@ export class LocalPlayerService {
       // Extract embedded subtitles in the background (non-blocking)
       void this.extractEmbeddedSubtitles(file, externalTracks)
     } catch (e) {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'error',
         summary: '读取文件失败',
         detail: serializeError(e),
@@ -150,7 +151,7 @@ export class LocalPlayerService {
       await this.requestDirectoryPermission()
       this.bumpTree()
     } catch (e) {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'error',
         summary: '读取文件列表失败',
         detail: serializeError(e),
@@ -204,7 +205,7 @@ export class LocalPlayerService {
   private async promptRestoration(): Promise<void> {
     const handleSettingsList = await this.localHandleDbService.getAllHandles()
 
-    this.confirmationService.confirm({
+    this.confirmService.confirm({
       header: '是否恢复上次打开的文件夹？',
       message: handleSettingsList.map((s) => s.handle.name).join(', '),
       closable: false,
@@ -294,7 +295,7 @@ export class LocalPlayerService {
       file.type.indexOf('matroska') !== -1 &&
       this.platformService.platform.FIREFOX
     ) {
-      this.messageService.add({
+      this.toastService.add({
         severity: 'error',
         summary: '播放MKV文件请使用Chrome',
         closable: true,

@@ -4,25 +4,21 @@ import {
   input,
   output,
 } from '@angular/core'
-import { Dialog } from 'primeng/dialog'
 import { Button } from '../ui/button'
+import { Dialog, DialogFooter, DialogHeader } from '../ui/dialog'
 import { Divider } from '../ui/divider'
 
 @Component({
   selector: 'da-privacy-policy-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Dialog, Button, Divider],
+  imports: [Dialog, DialogHeader, DialogFooter, Button, Divider],
   template: `
-    <p-dialog [visible]="visible()"
-              (visibleChange)="visibleChange.emit($event)"
-              draggable="false"
-              dismissableMask="true"
-              modal="true"
-              contentStyleClass="w-sm md:w-md lg:w-lg xl:w-xl"
-              maskStyleClass="backdrop-blur-sm">
-      <ng-template #header>
-        <h2 class="text-xl font-bold">隐私政策</h2>
-      </ng-template>
+    <da-dialog [visible]="visible()"
+               (visibleChange)="visibleChange.emit($event)"
+               dismissableMask
+               contentClass="w-sm md:w-md lg:w-lg xl:w-xl"
+               maskClass="backdrop-blur-sm">
+      <h2 daDialogHeader class="text-xl font-bold">隐私政策</h2>
 
       <div class="space-y-4">
         <section>
@@ -67,7 +63,7 @@ import { Divider } from '../ui/divider'
         </section>
       </div>
 
-      <ng-template #footer>
+      <ng-container daDialogFooter>
         <div class="flex justify-end">
           <button
             daButton
@@ -77,8 +73,8 @@ import { Divider } from '../ui/divider'
             关闭
           </button>
         </div>
-      </ng-template>
-    </p-dialog>
+      </ng-container>
+    </da-dialog>
   `,
 })
 export class PrivacyPolicyDialog {

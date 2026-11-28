@@ -32,7 +32,6 @@ import { KazumiService } from '../services/kazumi.service'
 export class KazumiPolicyTab {
   policy = input.required<KazumiPolicy>()
   keyword = input.required<string>()
-  isActive = input(false)
 
   private kazumiService = inject(KazumiService)
 

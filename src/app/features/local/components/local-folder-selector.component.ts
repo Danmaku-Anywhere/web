@@ -4,7 +4,6 @@ import {
   Component,
   type ElementRef,
   inject,
-  output,
   viewChild,
 } from '@angular/core'
 import { MessageService, PrimeTemplate } from 'primeng/api'
@@ -117,8 +116,6 @@ export class LocalFolderSelectorComponent {
   protected $nodes = this.localPlayerService.$nodes
   protected $hasNodes = this.localPlayerService.$hasNodes
   protected $selectedNode = this.localPlayerService.$selectedNode
-
-  readonly fileSelected = output<FileTreeNode>()
 
   readonly items = this.supportsFsApi
     ? [

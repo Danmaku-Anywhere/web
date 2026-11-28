@@ -127,7 +127,6 @@ import { KazumiService } from '../services/kazumi.service'
                       <da-kazumi-policy-tab
                         [policy]="policy"
                         [keyword]="kazumiService.$searchQuery()"
-                        [isActive]="activePolicy?.name === policy.name"
                       />
                     </p-tab>
                   }
@@ -139,7 +138,6 @@ import { KazumiService } from '../services/kazumi.service'
                       <da-kazumi-search-results
                         [policy]="policy"
                         [keyword]="kazumiService.$searchQuery()"
-                        [isActive]="activePolicy?.name === policy.name"
                         (itemClick)="onItemClick($event, policy)"
                       />
                     </p-tabpanel>

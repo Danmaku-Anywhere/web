@@ -4,6 +4,7 @@ import {
   type DialogRef,
 } from '@angular/cdk/dialog'
 import { hasModifierKey } from '@angular/cdk/keycodes'
+import { Overlay } from '@angular/cdk/overlay'
 import { CdkPortalOutlet } from '@angular/cdk/portal'
 import { DOCUMENT } from '@angular/common'
 import {
@@ -27,7 +28,8 @@ import {
 import { Button } from './button'
 import { Icon } from './icon'
 
-const LEAVE_MS = 300
+const DIALOG_LEAVE_MS = 300
+const DRAWER_LEAVE_MS = 500
 
 const TABBABLE =
   'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -137,6 +139,7 @@ let nextId = 0
 })
 export class Dialog {
   private readonly cdkDialog = inject(CdkDialog)
+  private readonly overlay = inject(Overlay)
   private readonly scrollLock = inject(ScrollLock)
   private readonly injector = inject(Injector)
   private readonly document = inject(DOCUMENT)
@@ -149,6 +152,7 @@ export class Dialog {
   closeOnEscape = input(true, { transform: booleanAttribute })
   dismissableMask = input(false, { transform: booleanAttribute })
   headless = input(false, { transform: booleanAttribute })
+  drawer = input(false, { transform: booleanAttribute })
   maskClass = input('')
   panelClass = input('')
   contentClass = input('')
@@ -194,6 +198,7 @@ export class Dialog {
       this.cancelLeave()
       return
     }
+    const drawer = this.drawer()
     const ref = this.cdkDialog.open(this.$panel(), {
       container: DialogContainer,
       role: this.role(),
@@ -206,8 +211,15 @@ export class Dialog {
       disableAnimations: true,
       hasBackdrop: true,
       backdropClass: ['da-dialog-mask', ...splitClasses(this.maskClass())],
-      panelClass: ['da-dialog', ...splitClasses(this.panelClass())],
-      maxHeight: '90%',
+      panelClass: [
+        drawer ? 'da-drawer' : 'da-dialog',
+        ...splitClasses(this.panelClass()),
+      ],
+      maxHeight: drawer ? '100%' : '90%',
+      height: drawer ? '100%' : undefined,
+      positionStrategy: drawer
+        ? this.overlay.position().global().left('0').top('0')
+        : undefined,
     })
     this.ref = ref
     this.scrollLock.lock()
@@ -269,12 +281,18 @@ export class Dialog {
       ref.close()
       return
     }
-    ref.overlayRef.overlayElement.classList.add('da-dialog-leave')
+    const drawer = this.drawer()
+    ref.overlayRef.overlayElement.classList.add(
+      drawer ? 'da-drawer-leave' : 'da-dialog-leave'
+    )
     ref.overlayRef.backdropElement?.classList.add('da-dialog-mask-leave')
-    this.leaveTimer = setTimeout(() => {
-      this.leaveTimer = null
-      ref.close()
-    }, LEAVE_MS)
+    this.leaveTimer = setTimeout(
+      () => {
+        this.leaveTimer = null
+        ref.close()
+      },
+      drawer ? DRAWER_LEAVE_MS : DIALOG_LEAVE_MS
+    )
   }
 
   private cancelLeave() {
@@ -282,7 +300,10 @@ export class Dialog {
       return
     }
     this.clearLeave()
-    this.ref.overlayRef.overlayElement.classList.remove('da-dialog-leave')
+    this.ref.overlayRef.overlayElement.classList.remove(
+      'da-dialog-leave',
+      'da-drawer-leave'
+    )
     this.ref.overlayRef.backdropElement?.classList.remove(
       'da-dialog-mask-leave'
     )

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Select } from 'primeng/select'
 import { Button } from '../../../shared/ui/button'
+import { Select } from '../../../shared/ui/select'
 import { CrossOriginIframePanelComponent } from './panels/cross-origin-iframe-panel.component'
 import { NativeVideoPanelComponent } from './panels/native-video-panel.component'
 import { SameOriginIframePanelComponent } from './panels/same-origin-iframe-panel.component'
@@ -34,7 +34,7 @@ interface PanelTypeOption {
       <div class="flex items-center gap-3">
         <h1 class="text-2xl font-semibold">Playground</h1>
         <div class="flex items-center gap-2 ml-auto">
-          <p-select
+          <da-select
             [options]="panelTypeOptions"
             optionLabel="label"
             optionValue="value"

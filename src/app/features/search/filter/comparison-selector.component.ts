@@ -1,7 +1,6 @@
 import { Component, computed, input, output } from '@angular/core'
-import type { MenuItem } from 'primeng/api'
-import { MenuModule } from 'primeng/menu'
 import { Button } from '../../../shared/ui/button'
+import { Menu, type MenuItem } from '../../../shared/ui/menu'
 
 export type ComparisonOperator = '>=' | '>' | '=' | '<' | '<='
 
@@ -24,12 +23,12 @@ const operatorMap: Record<ComparisonOperator, string> = {
 @Component({
   selector: 'da-comparison-selector',
   standalone: true,
-  imports: [MenuModule, Button],
+  imports: [Menu, Button],
   template: `
     <button daButton (click)="menu.toggle($event)" severity="secondary" variant="text" size="small"
             class="flex h-full px-2">{{ $displayOp() }}
     </button>
-    <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body" />
+    <da-menu #menu [items]="menuItems" />
   `,
 })
 export class ComparisonSelector {
@@ -39,7 +38,7 @@ export class ComparisonSelector {
   $displayOp = computed(() => operatorMap[this.op()])
 
   menuItems: MenuItem[] = operatorOptions.map((item) => ({
-    ...item,
+    label: item.label,
     command: () => this.select.emit(item.value),
   }))
 }

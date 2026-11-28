@@ -8,8 +8,8 @@ import {
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
-import { Select } from 'primeng/select'
 import { InputField } from '../../../../shared/ui/input-field'
+import { Select } from '../../../../shared/ui/select'
 import { DebugPanelComponent } from './debug-panel.component'
 
 interface UrlPreset {
@@ -24,7 +24,7 @@ interface UrlPreset {
   template: `
     <da-debug-panel title="Cross-Origin Iframe" (remove)="remove.emit()" class="block h-full">
       <div toolbar class="flex items-center gap-2 px-3 py-2 border-b border-surface">
-        <p-select
+        <da-select
           [options]="presets"
           optionLabel="label"
           optionValue="url"

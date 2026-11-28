@@ -7,12 +7,12 @@ import {
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Select } from 'primeng/select'
 import { VideoService } from '../../core/video-player/video.service'
 import { VideoPlayer } from '../../core/video-player/video-player'
 import { Button } from '../../shared/ui/button'
 import { Card } from '../../shared/ui/card'
 import { Panel } from '../../shared/ui/panel'
+import { Select } from '../../shared/ui/select'
 import { Spinner } from '../../shared/ui/spinner'
 
 interface DebugEpisode {
@@ -197,7 +197,7 @@ interface DebugVideoSource {
           <!-- Video Selection -->
           <da-card>
             <div class="max-h-72 xl:h-max xl:w-[24rem]">
-              <p-select
+              <da-select
                 [options]="$sourceOptions()"
                 [(ngModel)]="$selectedSource"
                 optionLabel="name"

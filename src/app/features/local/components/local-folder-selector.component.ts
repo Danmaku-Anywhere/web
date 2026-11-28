@@ -8,14 +8,15 @@ import {
   viewChild,
 } from '@angular/core'
 import { PrimeTemplate } from 'primeng/api'
-import { SplitButton } from 'primeng/splitbutton'
-import { Tooltip } from 'primeng/tooltip'
 import { Tree } from 'primeng/tree'
 import { PlatformService } from '../../../core/services/platform.service'
 import { TrackingService } from '../../../core/tracking.service'
 import { Button } from '../../../shared/ui/button'
 import { Card } from '../../../shared/ui/card'
+import { Icon } from '../../../shared/ui/icon'
+import { Menu } from '../../../shared/ui/menu'
 import { ToastService } from '../../../shared/ui/toast'
+import { Tooltip } from '../../../shared/ui/tooltip'
 import { serializeError } from '../../../shared/utils/serializeError'
 import { DuplicateHandleException } from '../duplicate-handle.exception'
 import { LocalPlayerService } from '../services/local-player.service'
@@ -32,7 +33,8 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
     Tree,
     PrimeTemplate,
     Tooltip,
-    SplitButton,
+    Menu,
+    Icon,
   ],
   styleUrl: './local-folder-selector.component.css',
   template: `
@@ -55,14 +57,21 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
             }
           </div>
           <div>
-            @if (supportsFsApi && !isMobileEdge) {
-              <p-splitbutton label="添加文件夹" size="small" (onClick)="onPickFilesystemDir()" severity="secondary"
-                             icon="pi pi-folder" [model]="items" />
-            } @else {
-              <p-splitbutton label="添加文件夹" size="small" (onClick)="onPickDir()" severity="secondary"
-                             icon="pi pi-file"
-                             [model]="items" />
-            }
+            <div class="inline-flex">
+              @if (supportsFsApi && !isMobileEdge) {
+                <button daButton label="添加文件夹" size="small" severity="secondary" icon="pi pi-folder"
+                        class="rounded-e-none border-e-0" (click)="onPickFilesystemDir()"></button>
+              } @else {
+                <button daButton label="添加文件夹" size="small" severity="secondary" icon="pi pi-file"
+                        class="rounded-e-none border-e-0" (click)="onPickDir()"></button>
+              }
+              <button daButton size="small" severity="secondary" class="rounded-s-none" aria-label="更多添加方式"
+                      aria-haspopup="true" [attr.aria-expanded]="addMenu.visible" [attr.aria-controls]="addMenu.id"
+                      (click)="addMenu.toggle($event)">
+                <svg daIcon="chevron-down"></svg>
+              </button>
+            </div>
+            <da-menu #addMenu [items]="items" />
           </div>
         </div>
         @let nodes = $nodes();
@@ -80,17 +89,17 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
           >
             <ng-template let-node pTemplate="removableDirectory">
               <div class="flex justify-between items-center">
-              <span [pTooltip]="node.label" tooltipPosition="top" [showDelay]="1000">{{ node.label }}
+              <span [daTooltip]="node.label" tooltipDelay="1000">{{ node.label }}
               </span>
                 <button daButton variant="text" size="small" severity="secondary" icon="pi pi-trash"
                           (click)="onRemoveNode(node)"></button>
               </div>
             </ng-template>
             <ng-template let-node pTemplate="directory">
-              <span [pTooltip]="node.label" tooltipPosition="top" [showDelay]="1000">{{ node.label }}</span>
+              <span [daTooltip]="node.label" tooltipDelay="1000">{{ node.label }}</span>
             </ng-template>
             <ng-template let-node pTemplate="file">
-              <span [pTooltip]="node.label" tooltipPosition="top">{{ node.label }}</span>
+              <span [daTooltip]="node.label">{{ node.label }}</span>
             </ng-template>
           </p-tree>
         }

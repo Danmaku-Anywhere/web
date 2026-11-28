@@ -14,7 +14,6 @@ import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import type { MediaInfo } from '@danmaku-anywhere/extension-protocol'
 import { injectQuery } from '@tanstack/angular-query'
-import { Select } from 'primeng/select'
 import { defer, type Subscription, tap } from 'rxjs'
 import { TrackingService } from '../../../core/tracking.service'
 import { VideoPlayer } from '../../../core/video-player/video-player'
@@ -23,6 +22,7 @@ import { UnescapePipePipe } from '../../../shared/pipes/UrlDecodePipe'
 import { Button } from '../../../shared/ui/button'
 import { Card } from '../../../shared/ui/card'
 import { Panel } from '../../../shared/ui/panel'
+import { Select } from '../../../shared/ui/select'
 import { Skeleton } from '../../../shared/ui/skeleton'
 import { Spinner } from '../../../shared/ui/spinner'
 import { Tag } from '../../../shared/ui/tag'
@@ -180,7 +180,7 @@ interface Episode {
           <da-card>
             <div class="max-h-72 xl:h-max xl:w-[24rem]">
               @if (episodesQuery.isSuccess() && episodesQuery.data().length > 1) {
-                <p-select [options]="$playlistOptions()" [(ngModel)]="$playlistOption" optionLabel="label"
+                <da-select [options]="$playlistOptions()" [(ngModel)]="$playlistOption" optionLabel="label"
                           class="mb-4" />
               }
               <div class="h-full overflow-auto pb-4.5 da-scrollbar">

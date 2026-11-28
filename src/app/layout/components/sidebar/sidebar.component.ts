@@ -5,11 +5,11 @@ import {
   computed,
   inject,
 } from '@angular/core'
-import { Drawer } from 'primeng/drawer'
 import { environment } from '../../../../environments/environment'
 import { SettingsService } from '../../../features/settings/settings.service'
 import { MaterialIcon } from '../../../shared/components/material-icon'
 import { Button } from '../../../shared/ui/button'
+import { Dialog } from '../../../shared/ui/dialog'
 import { LayoutService } from '../../layout.service'
 import { NavigationItemComponent } from './navigation-item.component'
 
@@ -34,16 +34,20 @@ interface NavigationSection {
     MaterialIcon,
     Button,
     NavigationItemComponent,
-    Drawer,
+    Dialog,
   ],
   template: `
     @if (!layoutService.$disableSidebar()) {
       <!--      Mobile -->
-      <p-drawer [visible]="layoutService.$showSidebar()" (onHide)="layoutService.toggleSidebar()"
-                position="left"
-                styleClass="max-w-[280px] bg-surface-900 border-r border-surface-800"
+      <da-dialog
+        drawer
+        headless
+        dismissableMask
+        ariaLabel="导航"
+        panelClass="w-[280px] bg-surface-900 border-r border-surface-800"
+        [visible]="layoutService.$showSidebar()"
+        (visibleChange)="layoutService.toggleSidebar()"
       >
-        <ng-template #headless>
           <div class="flex flex-col h-full">
             <div class="self-end p-2">
               <button
@@ -62,9 +66,7 @@ interface NavigationSection {
             </div>
             <ng-container [ngTemplateOutlet]="settingsButton"></ng-container>
           </div>
-        </ng-template>
-
-      </p-drawer>
+      </da-dialog>
 
       <!--      Desktop-->
       <div

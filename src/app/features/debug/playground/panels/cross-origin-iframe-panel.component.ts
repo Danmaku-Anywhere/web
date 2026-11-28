@@ -8,9 +8,8 @@ import {
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
-import { InputText } from 'primeng/inputtext'
 import { Select } from 'primeng/select'
-
+import { InputField } from '../../../../shared/ui/input-field'
 import { DebugPanelComponent } from './debug-panel.component'
 
 interface UrlPreset {
@@ -21,7 +20,7 @@ interface UrlPreset {
 @Component({
   selector: 'da-cross-origin-iframe-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DebugPanelComponent, Select, InputText, FormsModule],
+  imports: [DebugPanelComponent, Select, InputField, FormsModule],
   template: `
     <da-debug-panel title="Cross-Origin Iframe" (remove)="remove.emit()" class="block h-full">
       <div toolbar class="flex items-center gap-2 px-3 py-2 border-b border-surface">
@@ -36,7 +35,7 @@ interface UrlPreset {
           class="flex-shrink-0"
         />
         <input
-          pInputText
+          daInput
           [ngModel]="$url()"
           (ngModelChange)="$url.set($event)"
           placeholder="Enter URL..."

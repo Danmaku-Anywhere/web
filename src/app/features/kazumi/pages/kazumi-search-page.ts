@@ -14,14 +14,14 @@ import { ActivatedRoute, Router } from '@angular/router'
 import type { KazumiPolicy } from '@danmaku-anywhere/extension-protocol'
 import { injectInfiniteQuery } from '@tanstack/angular-query'
 import { AutoCompleteModule } from 'primeng/autocomplete'
-import { AutoFocus } from 'primeng/autofocus'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
-import { InputTextModule } from 'primeng/inputtext'
-import { ProgressSpinner } from 'primeng/progressspinner'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs'
 import { TrackingService } from '../../../core/tracking.service'
 import { MaterialIcon } from '../../../shared/components/material-icon'
+import { AutofocusDirective } from '../../../shared/directives/autofocus.directive'
+import { Button } from '../../../shared/ui/button'
+import { Card } from '../../../shared/ui/card'
+import { InputField } from '../../../shared/ui/input-field'
+import { Spinner } from '../../../shared/ui/spinner'
 import { randomFrom } from '../../../shared/utils/utils'
 import { BangumiService } from '../../bangumi/services/bangumi.service'
 import { SettingsService } from '../../settings/settings.service'
@@ -37,8 +37,8 @@ import { KazumiService } from '../services/kazumi.service'
     CommonModule,
     FormsModule,
     AutoCompleteModule,
-    InputTextModule,
-    ProgressSpinner,
+    InputField,
+    Spinner,
     Card,
     Button,
     Tabs,
@@ -49,7 +49,7 @@ import { KazumiService } from '../services/kazumi.service'
     MaterialIcon,
     KazumiPolicyTab,
     SearchResultsComponent,
-    AutoFocus,
+    AutofocusDirective,
     KazumiPolicyImportDialog,
   ],
   styles: `
@@ -69,29 +69,30 @@ import { KazumiService } from '../services/kazumi.service'
       [class.!pt-0]="$hasQuery()"
     >
       @if (kazumiService.localPoliciesQuery.isPending()) {
-        <p-progress-spinner />
+        <da-spinner />
       } @else if (kazumiService.$hasPolicies()) {
-        <p-card>
+        <da-card>
           <form (submit)="$event.preventDefault();triggerSearch()">
             <div class="md:w-xl flex gap-4 p-2 items-center">
               <div class="flex-1">
                 <input
-                  [pAutoFocus]="true"
+                  daAutofocus
                   type="text"
                   class="w-full"
                   [(ngModel)]="$localKeyword"
                   [ngModelOptions]="{ standalone: true }"
-                  pInputText
+                  daInput
                   [placeholder]="$searchPlaceholder()"
                 />
               </div>
-              <p-button
+              <button
+                daButton
                 type="submit"
                 [severity]="!$canSearch() ? 'secondary' : 'primary'"
                 [disabled]="!$canSearch()"
               >
                 <da-mat-icon icon="send" size="lg" />
-              </p-button>
+              </button>
             </div>
           </form>
           <p class="text-gray-500 text-sm">
@@ -109,7 +110,7 @@ import { KazumiService } from '../services/kazumi.service'
           </span>
             。
           </p>
-        </p-card>
+        </da-card>
 
         @if ($hasQuery() && kazumiService.localPoliciesQuery.isSuccess() && kazumiService.$activePolicy(); as
           activePolicy) {
@@ -150,18 +151,21 @@ import { KazumiService } from '../services/kazumi.service'
         }
       } @else {
         当前不存在Kazumi规则，请先导入
-        <p-button
-          (onClick)="kazumiService.addRecommendedPolicyMutation.mutate()"
+        <button
+          daButton
+          (click)="kazumiService.addRecommendedPolicyMutation.mutate()"
           [loading]="kazumiService.addRecommendedPolicyMutation.isPending() || kazumiService.manifestsQuery.isPending()"
         >
           一键使用推荐规则
-        </p-button>
-        <p-button
+        </button>
+        <button
+          daButton
           severity="secondary"
-          text
-          (onClick)="openSettings()">
+          variant="text"
+          (click)="openSettings()"
+        >
           手动导入规则
-        </p-button>
+        </button>
       }
     </div>
     <da-kazumi-policy-readme [(visible)]="$showPolicy" [accepted]="true"

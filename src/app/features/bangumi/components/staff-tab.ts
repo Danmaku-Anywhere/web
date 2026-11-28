@@ -6,10 +6,10 @@ import {
   input,
 } from '@angular/core'
 import { injectQuery } from '@tanstack/angular-query'
-import { Card } from 'primeng/card'
-import { ProgressSpinner } from 'primeng/progressspinner'
-import { Tag } from 'primeng/tag'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
+import { Card } from '../../../shared/ui/card'
+import { Spinner } from '../../../shared/ui/spinner'
+import { Tag } from '../../../shared/ui/tag'
 import { BangumiService } from '../services/bangumi.service'
 import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
 
@@ -18,7 +18,7 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    ProgressSpinner,
+    Spinner,
     Card,
     Tag,
     NgOptimizedImage,
@@ -28,7 +28,7 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
   template: `
     @if (staffQuery.isPending()) {
       <div class="flex justify-center py-8">
-        <p-progress-spinner />
+        <da-spinner />
       </div>
     } @else if (staffQuery.isSuccess()) {
       @let response = staffQuery.data();
@@ -60,11 +60,10 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
                 @if (staffMember.positions && staffMember.positions.length > 0) {
                   <div class="mt-2 flex gap-2 flex-wrap">
                     @for (position of staffMember.positions; track position.type.id) {
-                      <p-tag
+                      <da-tag
                         [value]="position.type.cn"
                         severity="info"
-                        styleClass="bg-blue-100 text-blue-800 text-xs font-normal"
-                        size="small"
+                        class="bg-blue-100 text-blue-800 text-xs font-normal"
                       />
                     }
                   </div>
@@ -74,14 +73,14 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
           }
         </div>
       } @else {
-        <p-card>
+        <da-card>
           <p class="text-gray-500">暂无制作人员信息</p>
-        </p-card>
+        </da-card>
       }
     } @else {
-      <p-card>
+      <da-card>
         <p class="text-red-500">加载制作人员信息失败</p>
-      </p-card>
+      </da-card>
     }
   `,
 })

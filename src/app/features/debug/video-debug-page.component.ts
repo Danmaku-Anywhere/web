@@ -7,14 +7,13 @@ import {
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
-import { Panel } from 'primeng/panel'
-import { ProgressSpinner } from 'primeng/progressspinner'
-import { ScrollPanel } from 'primeng/scrollpanel'
 import { Select } from 'primeng/select'
 import { VideoService } from '../../core/video-player/video.service'
 import { VideoPlayer } from '../../core/video-player/video-player'
+import { Button } from '../../shared/ui/button'
+import { Card } from '../../shared/ui/card'
+import { Panel } from '../../shared/ui/panel'
+import { Spinner } from '../../shared/ui/spinner'
 
 interface DebugEpisode {
   name: string
@@ -36,10 +35,9 @@ interface DebugVideoSource {
     FormsModule,
     Select,
     VideoPlayer,
-    ScrollPanel,
     Card,
     Panel,
-    ProgressSpinner,
+    Spinner,
   ],
   template: `
     @let selectedEpisode = $selectedEpisode();
@@ -70,7 +68,7 @@ interface DebugVideoSource {
             <div class="size-full flex flex-col justify-center items-center gap-4">
               @if ($isLoading()) {
                 <div class="text-center">
-                  <p-progress-spinner styleClass="w-16 h-16" />
+                  <da-spinner class="w-16 h-16" />
                   <p class="mt-4">正在加载视频...</p>
                   <p class="text-sm text-gray-500">模拟加载延迟: {{ $loadingTimeout() }}ms</p>
                 </div>
@@ -83,86 +81,99 @@ interface DebugVideoSource {
 
         <div class="flex flex-col gap-4">
           <!-- Debug Controls -->
-          <p-panel header="调试控制" toggleable="true" styleClass="border-0">
-            <div class="grid grid-cols-2 gap-2">
-              <p-button
+          <da-panel header="调试控制" toggleable class="border-0">
+            <div class="grid grid-cols-2 justify-items-start gap-2">
+              <button
+                daButton
                 label="强制覆盖层"
-                (onClick)="$showOverlay.set(true)"
+                (click)="$showOverlay.set(true)"
                 size="small"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="隐藏覆盖层"
-                (onClick)="$showOverlay.set(false)"
+                (click)="$showOverlay.set(false)"
                 size="small"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="播放"
-                (onClick)="playVideo()"
+                (click)="playVideo()"
                 size="small"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="暂停"
-                (onClick)="pauseVideo()"
+                (click)="pauseVideo()"
                 size="small"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="重置视频"
-                (onClick)="resetVideo()"
+                (click)="resetVideo()"
                 size="small"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="清除视频"
-                (onClick)="clearVideo()"
+                (click)="clearVideo()"
                 size="small"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="模拟加载"
-                (onClick)="simulateLoading()"
+                (click)="simulateLoading()"
                 size="small"
                 severity="info"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="停止加载"
-                (onClick)="$isLoading.set(false)"
+                (click)="$isLoading.set(false)"
                 size="small"
                 severity="secondary"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="上一集"
-                (onClick)="onPreviousEpisode()"
+                (click)="onPreviousEpisode()"
                 size="small"
                 severity="help"
                 [disabled]="!$hasPrevious()"
-              />
-              <p-button
+              ></button>
+              <button
+                daButton
                 label="下一集"
-                (onClick)="onNextEpisode()"
+                (click)="onNextEpisode()"
                 size="small"
                 severity="help"
                 [disabled]="!$hasNext()"
-              />
+              ></button>
             </div>
             <div class="mt-4 mb-4">
               <label class="block text-sm font-medium mb-2">加载延迟 (ms)</label>
               <div class="flex gap-2">
-                <p-button
+                <button
+                  daButton
                   label="1s"
-                  (onClick)="$loadingTimeout.set(1000)"
+                  (click)="$loadingTimeout.set(1000)"
                   size="small"
-                  [outlined]="$loadingTimeout() !== 1000"
-                />
-                <p-button
+                  [variant]="$loadingTimeout() !== 1000 ? 'outlined' : 'solid'"
+                ></button>
+                <button
+                  daButton
                   label="2s"
-                  (onClick)="$loadingTimeout.set(2000)"
+                  (click)="$loadingTimeout.set(2000)"
                   size="small"
-                  [outlined]="$loadingTimeout() !== 2000"
-                />
-                <p-button
+                  [variant]="$loadingTimeout() !== 2000 ? 'outlined' : 'solid'"
+                ></button>
+                <button
+                  daButton
                   label="5s"
-                  (onClick)="$loadingTimeout.set(5000)"
+                  (click)="$loadingTimeout.set(5000)"
                   size="small"
-                  [outlined]="$loadingTimeout() !== 5000"
-                />
+                  [variant]="$loadingTimeout() !== 5000 ? 'outlined' : 'solid'"
+                ></button>
               </div>
             </div>
             <div class="mt-4 p-3 rounded">
@@ -181,10 +192,10 @@ interface DebugVideoSource {
                 <div>有下一集: {{ $hasNext() ? '✓' : '✗' }}</div>
               </div>
             </div>
-          </p-panel>
+          </da-panel>
 
           <!-- Video Selection -->
-          <p-card>
+          <da-card>
             <div class="max-h-72 xl:h-max xl:w-[24rem]">
               <p-select
                 [options]="$sourceOptions()"
@@ -194,13 +205,13 @@ interface DebugVideoSource {
                 placeholder="选择视频源"
                 class="mb-4"
               />
-              <p-scroll-panel [style]="{height: '100%'}">
+              <div class="h-full overflow-auto pb-4.5 da-scrollbar">
                 <div class="max-xl:flex max-xl:flex-wrap xl:grid xl:grid-cols-2 gap-2">
                   @for (episode of $episodes(); track episode.url) {
                     @let isSelected = episode === selectedEpisode;
                     @let isLoading = $isLoading() && !selectedEpisode;
                     <div
-                      class="p-4 p-button p-button-secondary transition-all hover:border-primary hover:border cursor-pointer"
+                      class="p-4 da-button da-button-secondary transition-all hover:border-primary hover:border cursor-pointer"
                       [class.border-primary]="isSelected"
                       [class.opacity-50]="isLoading"
                       [class.pointer-events-none]="isLoading"
@@ -214,15 +225,15 @@ interface DebugVideoSource {
                           {{ episode.name }}
                         </p>
                         @if (isLoading) {
-                          <p-progress-spinner styleClass="w-4 h-4" />
+                          <da-spinner class="w-4 h-4" />
                         }
                       </div>
                     </div>
                   }
                 </div>
-              </p-scroll-panel>
+              </div>
             </div>
-          </p-card>
+          </da-card>
         </div>
       </div>
     </div>

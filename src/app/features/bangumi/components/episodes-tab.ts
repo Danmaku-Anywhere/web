@@ -6,19 +6,19 @@ import {
   input,
 } from '@angular/core'
 import { injectQuery } from '@tanstack/angular-query'
-import { Card } from 'primeng/card'
-import { Divider } from 'primeng/divider'
-import { ProgressSpinner } from 'primeng/progressspinner'
+import { Card } from '../../../shared/ui/card'
+import { Divider } from '../../../shared/ui/divider'
+import { Spinner } from '../../../shared/ui/spinner'
 import { BangumiService } from '../services/bangumi.service'
 
 @Component({
   selector: 'da-episodes-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ProgressSpinner, Card, Divider],
+  imports: [CommonModule, Spinner, Card, Divider],
   template: `
     @if (episodesQuery.isPending()) {
       <div class="flex justify-center py-8">
-        <p-progress-spinner />
+        <da-spinner />
       </div>
     } @else if (episodesQuery.isSuccess()) {
       @let response = episodesQuery.data();
@@ -43,18 +43,18 @@ import { BangumiService } from '../services/bangumi.service'
                 }
               </div>
             </div>
-            <p-divider />
+            <da-divider />
           }
         </div>
       } @else {
-        <p-card>
+        <da-card>
           <p class="text-gray-500">暂无剧集信息</p>
-        </p-card>
+        </da-card>
       }
     } @else {
-      <p-card>
+      <da-card>
         <p class="text-red-500">加载剧集信息失败</p>
-      </p-card>
+      </da-card>
     }
   `,
 })

@@ -8,8 +8,8 @@ import {
   inject,
 } from '@angular/core'
 import { Meta, Title } from '@angular/platform-browser'
-import { ProgressSpinner } from 'primeng/progressspinner'
 import { VideoPlayer } from '../../core/video-player/video-player'
+import { Spinner } from '../../shared/ui/spinner'
 import { LocalFolderSelectorComponent } from './components/local-folder-selector.component'
 import { FfmpegService } from './services/ffmpeg.service'
 import { LocalPlayerService } from './services/local-player.service'
@@ -17,12 +17,7 @@ import { LocalPlayerService } from './services/local-player.service'
 @Component({
   selector: 'da-local-player-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ProgressSpinner,
-    VideoPlayer,
-    LocalFolderSelectorComponent,
-  ],
+  imports: [CommonModule, Spinner, VideoPlayer, LocalFolderSelectorComponent],
   template: `
     <div class="container mx-auto px-6 py-4 flex flex-col">
       <div class="mb-10 flex items-center gap-3">
@@ -47,7 +42,7 @@ import { LocalPlayerService } from './services/local-player.service'
             <ng-template #content>
               <div class="size-full flex flex-col justify-center items-center">
                 @if ($isLoading()) {
-                  <p-progress-spinner />
+                  <da-spinner />
                   <p>正在加载视频...</p>
                 } @else if (!$hasSelection()) {
                   <p>
@@ -59,7 +54,7 @@ import { LocalPlayerService } from './services/local-player.service'
           </da-video-player>
         } @placeholder {
           <div class="size-full flex flex-col justify-center items-center">
-            <p-progress-spinner />
+            <da-spinner />
             <p>正在加载播放器...</p>
           </div>
         }

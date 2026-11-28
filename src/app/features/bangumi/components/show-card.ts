@@ -7,12 +7,12 @@ import {
   input,
 } from '@angular/core'
 import { Router, RouterLink } from '@angular/router'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
-import { Tag } from 'primeng/tag'
 import { TrackingService } from '../../../core/tracking.service'
 import { MaterialIcon } from '../../../shared/components/material-icon'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
+import { Button } from '../../../shared/ui/button'
+import { Card } from '../../../shared/ui/card'
+import { Tag } from '../../../shared/ui/tag'
 
 export interface ShowCardData {
   id: number
@@ -43,81 +43,75 @@ export interface ShowCardData {
     ImageFallback,
   ],
   template: `
-    <p-card styleClass="overflow-hidden">
+    <da-card class="overflow-hidden">
       @let showData = show();
-      <ng-template #header>
-        <div class="relative aspect-[17/24] contain-strict overflow-hidden">
-          <img
-            [ngSrc]="showData.cover"
-            fill
-            ngSrcset="200w, 400w, 800w"
-            sizes="(max-width: 767px) 50vw, 240px"
-            [alt]="showData.altTitle"
-            daFallback="cover"
-            class="object-cover cursor-pointer hover:opacity-80 transition-opacity"
-            (click)="navigateToDetails(showData.id, 'image')" />
-          @if (showData.rating?.score !== undefined) {
-            <div class="absolute top-2 right-2">
-              <p-tag
-                [value]="showData.rating!.score!.toFixed(1)"
-                severity="secondary"
-                class="font-bold"
-              />
-            </div>
-          }
-          @if (showData.rank && showData.rank > 0) {
-            <div class="absolute top-2 left-2">
-              <p-tag
-                [value]="'#' + showData.rank"
-                severity="info"
-                class="font-bold bg-cyan-950"
-              />
-            </div>
-          }
-        </div>
-      </ng-template>
+      <div daCardHeader class="relative aspect-[17/24] contain-strict overflow-hidden">
+        <img
+          [ngSrc]="showData.cover"
+          fill
+          ngSrcset="200w, 400w, 800w"
+          sizes="(max-width: 767px) 50vw, 240px"
+          [alt]="showData.altTitle"
+          daFallback="cover"
+          class="object-cover cursor-pointer hover:opacity-80 transition-opacity"
+          (click)="navigateToDetails(showData.id, 'image')" />
+        @if (showData.rating?.score !== undefined) {
+          <div class="absolute top-2 right-2">
+            <da-tag
+              [value]="showData.rating!.score!.toFixed(1)"
+              severity="secondary"
+              class="font-bold"
+            />
+          </div>
+        }
+        @if (showData.rank && showData.rank > 0) {
+          <div class="absolute top-2 left-2">
+            <da-tag
+              [value]="'#' + showData.rank"
+              severity="info"
+              class="font-bold bg-cyan-950"
+            />
+          </div>
+        }
+      </div>
 
-      <ng-template #content>
-        <div class="space-y-1">
-          <h3
-            class="text-lg font-semibold overflow-hidden text-nowrap text-ellipsis cursor-pointer hover:underline"
-            (click)="navigateToDetails(showData.id, 'title')"
-            [title]="showData.title">
-            {{ showData.title }}
-          </h3>
-          @if (!hideAltTitle() && showData.title && showData.altTitle !== showData.title) {
-            <p class="text-sm text-gray-600 overflow-hidden text-nowrap text-ellipsis">
-              {{ showData.altTitle }}
-            </p>
-          }
-        </div>
-      </ng-template>
+      <div class="space-y-1">
+        <h3
+          class="text-lg font-semibold overflow-hidden text-nowrap text-ellipsis cursor-pointer hover:underline"
+          (click)="navigateToDetails(showData.id, 'title')"
+          [title]="showData.title">
+          {{ showData.title }}
+        </h3>
+        @if (!hideAltTitle() && showData.title && showData.altTitle !== showData.title) {
+          <p class="text-sm text-gray-600 overflow-hidden text-nowrap text-ellipsis">
+            {{ showData.altTitle }}
+          </p>
+        }
+      </div>
 
       @if (!hideFooter()) {
-        <ng-template #footer>
-          <div class="flex justify-between">
-            <p-button
-              (click)="navigateToDetails(showData.id, 'detailsButton')"
-              label="详情"
-              severity="secondary"
-              size="small"
-            />
-            <p-button
-              [routerLink]="['/kazumi/search']"
-              [queryParams]="{ q: showData.title || showData.altTitle, id: showData.id, type: 'bangumi' }"
-              label="观看"
-              severity="primary"
-              size="small"
-              (click)="onWatchClick(showData)"
-            >
-              <ng-template #icon>
-                <da-mat-icon size="sm" icon="play_arrow" />
-              </ng-template>
-            </p-button>
-          </div>
-        </ng-template>
+        <div daCardFooter class="flex justify-between">
+          <button
+            daButton
+            (click)="navigateToDetails(showData.id, 'detailsButton')"
+            label="详情"
+            severity="secondary"
+            size="small"
+          ></button>
+          <button
+            daButton
+            [routerLink]="['/kazumi/search']"
+            [queryParams]="{ q: showData.title || showData.altTitle, id: showData.id, type: 'bangumi' }"
+            label="观看"
+            severity="primary"
+            size="small"
+            (click)="onWatchClick(showData)"
+          >
+            <da-mat-icon size="sm" icon="play_arrow" />
+          </button>
+        </div>
       }
-    </p-card>
+    </da-card>
   `,
   styles: `
       :host {

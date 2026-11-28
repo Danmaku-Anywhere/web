@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { Divider } from 'primeng/divider'
-import { Tag } from 'primeng/tag'
+import { Divider } from '../../../shared/ui/divider'
+import { Tag } from '../../../shared/ui/tag'
 import type { BgmTopic } from '../types/bangumi.types'
 import { UserAvatar } from './user-avatar'
 
@@ -28,7 +28,7 @@ import { UserAvatar } from './user-avatar'
         </div>
         <div class="flex items-center gap-2">
           @if (topic().replyCount) {
-            <p-tag [value]="'回复 ' + topic().replyCount" severity="info" />
+            <da-tag [value]="'回复 ' + topic().replyCount" severity="info" />
           }
         </div>
       </div>
@@ -36,7 +36,7 @@ import { UserAvatar } from './user-avatar'
         {{ topic().title }}
       </h3>
     </div>
-    <p-divider />
+    <da-divider />
   `,
 })
 export class TopicItem {

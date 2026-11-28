@@ -9,12 +9,10 @@ import {
   viewChild,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { ButtonDirective } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
-import { IconField } from 'primeng/iconfield'
-import { InputIcon } from 'primeng/inputicon'
-import { InputTextModule } from 'primeng/inputtext'
 import { MaterialIcon } from '../../shared/components/material-icon'
+import { Button } from '../../shared/ui/button'
+import { InputField } from '../../shared/ui/input-field'
 import { BangumiSearchFilterComponent } from './bangumi/bangumi-search-filter.component'
 import { SearchResultListBangumiComponent } from './bangumi/search-result-list-bangumi.component'
 import { SearchHistoryComponent } from './history/search-history.component'
@@ -27,12 +25,10 @@ import type { SearchProvider } from './search-model.type'
   imports: [
     Dialog,
     FormsModule,
-    InputTextModule,
+    InputField,
     MaterialIcon,
-    ButtonDirective,
+    Button,
     SearchResultListBangumiComponent,
-    IconField,
-    InputIcon,
     SearchHistoryComponent,
     BangumiSearchFilterComponent,
   ],
@@ -57,37 +53,38 @@ import type { SearchProvider } from './search-model.type'
         <div class="flex flex-col p-6 pb-0 overflow-hidden">
           <form (submit)="onSubmit($event)" class="flex flex-col">
             <div class="flex items-center gap-2">
-              <p-iconfield class="flex-1">
-                <p-inputicon class="pi pi-search" />
+              <div class="relative block flex-1">
+                <span class="pi pi-search absolute top-1/2 -mt-2 start-3 z-1 leading-none text-field-icon"></span>
                 <input
                   #input
-                  pInputText
+                  daInput
                   type="text"
                   name="term"
                   placeholder="输入搜索关键词"
-                  class="w-full"
+                  class="w-full ps-10"
+                  [class.pe-10]="$term().length > 0 || $hasModel()"
                   [ngModel]="$term()"
                   (ngModelChange)="handleTermChange($event)"
                   [ngModelOptions]="{ standalone: true }"
                 />
                 @if ($term().length > 0 || $hasModel()) {
-                  <button type="button" pButton icon="pi pi-times" text severity="secondary" rounded size="small"
+                  <button daButton icon="pi pi-times" variant="text" severity="secondary" rounded size="small"
                           (click)="clearTerm()" class="absolute right-1 top-1/2 -translate-y-1/2">
                   </button>
                 }
-              </p-iconfield>
-              <button pButton type="submit" [disabled]="!$canSubmit()">
+              </div>
+              <button daButton type="submit" [disabled]="!$canSubmit()">
                 <da-mat-icon icon="send" />
               </button>
             </div>
           </form>
           <div class="border-b border-surface-700 overflow-hidden flex-shrink-0">
-            <button type="button" pButton [text]="true"
+            <button daButton variant="text"
                     [severity]="$provider() === 'bangumi' ? 'primary' : 'secondary'"
                     (click)="setProvider('bangumi')">
               Bangumi
             </button>
-            <button type="button" pButton [text]="true"
+            <button daButton variant="text"
                     [severity]="$provider() === 'kazumi' ? 'primary' : 'secondary'"
                     (click)="setProvider('kazumi')">
               Kazumi

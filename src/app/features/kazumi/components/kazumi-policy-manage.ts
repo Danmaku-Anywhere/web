@@ -9,9 +9,9 @@ import {
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import type { KazumiPolicy } from '@danmaku-anywhere/extension-protocol'
-import { Button } from 'primeng/button'
-import { Tag } from 'primeng/tag'
 import { MaterialIcon } from '../../../shared/components/material-icon'
+import { Button } from '../../../shared/ui/button'
+import { Tag } from '../../../shared/ui/tag'
 import { KazumiService } from '../services/kazumi.service'
 
 @Component({
@@ -85,27 +85,29 @@ import { KazumiService } from '../services/kazumi.service'
                       }
                     </div>
                     @if (hasNew) {
-                      <p-tag severity="warn" value="新版本" />
+                      <da-tag severity="warn" value="新版本" />
                     }
                   </div>
                   <div class="flex gap-2">
-                    <p-button
+                    <button
+                      daButton
                       severity="secondary"
                       (click)="kazumiService.deletePolicyMutation.mutate(policy.name)"
                       [disabled]="importing"
                       size="small"
                     >
                       删除
-                    </p-button>
+                    </button>
                     @if (hasNew) {
-                      <p-button
+                      <button
+                        daButton
                         severity="primary"
                         (click)="kazumiService.addPolicyMutation.mutate(policy.name)"
                         [loading]="importing"
                         size="small"
                       >
                         更新
-                      </p-button>
+                      </button>
                     }
                   </div>
                 </div>

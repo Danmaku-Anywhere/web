@@ -5,39 +5,33 @@ import {
   Component,
   input,
 } from '@angular/core'
-import { Card } from 'primeng/card'
-import { Skeleton } from 'primeng/skeleton'
+import { Card } from '../../../shared/ui/card'
+import { Skeleton } from '../../../shared/ui/skeleton'
 
 @Component({
   selector: 'da-show-card-skeleton',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, Card, Skeleton],
   template: `
-    <p-card styleClass="overflow-hidden">
-      <ng-template #header>
-        <div class="relative aspect-square md:aspect-[2/3]">
-          <p-skeleton width="100%" height="100%" />
-        </div>
-      </ng-template>
+    <da-card class="overflow-hidden">
+      <div daCardHeader class="relative aspect-square md:aspect-[2/3]">
+        <da-skeleton width="100%" height="100%" />
+      </div>
 
-      <ng-template #content>
-        <div class="flex flex-col">
-          <p-skeleton width="80%" height="24px" />
-          @if (!hideAltTitle()) {
-            <p-skeleton width="60%" height="16px" class="mt-2" />
-          }
-        </div>
-      </ng-template>
+      <div class="flex flex-col">
+        <da-skeleton width="80%" height="24px" />
+        @if (!hideAltTitle()) {
+          <da-skeleton width="60%" height="16px" class="mt-2" />
+        }
+      </div>
 
       @if (!hideFooter()) {
-        <ng-template #footer>
-          <div class="flex justify-between">
-            <p-skeleton width="60px" height="32px" />
-            <p-skeleton width="60px" height="32px" />
-          </div>
-        </ng-template>
+        <div daCardFooter class="flex justify-between">
+          <da-skeleton width="60px" height="32px" />
+          <da-skeleton width="60px" height="32px" />
+        </div>
       }
-    </p-card>
+    </da-card>
   `,
   styles: `
     :host {

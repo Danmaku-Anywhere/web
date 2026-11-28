@@ -7,44 +7,37 @@ import {
   signal,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Button } from 'primeng/button'
-import { IconField } from 'primeng/iconfield'
-import { InputTextModule } from 'primeng/inputtext'
 import { MaterialIcon } from '../../../shared/components/material-icon'
+import { Button } from '../../../shared/ui/button'
+import { InputField } from '../../../shared/ui/input-field'
 import { KazumiService } from '../services/kazumi.service'
 
 @Component({
   selector: 'da-kazumi-policy-import',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    Button,
-    FormsModule,
-    InputTextModule,
-    IconField,
-    MaterialIcon,
-  ],
+  imports: [CommonModule, Button, FormsModule, InputField, MaterialIcon],
   template: `
     <div class="space-y-4">
       <div class="flex items-center gap-4">
-        <p-iconfield iconPosition="left" class="flex-1">
+        <div class="relative block flex-1">
           <input
             type="text"
-            pInputText
+            daInput
             placeholder="搜索规则..."
             [(ngModel)]="filter"
             class="w-full"
           />
-        </p-iconfield>
-        <p-button
+        </div>
+        <button
+          daButton
           severity="secondary"
-          text
+          variant="text"
           rounded
           (click)="refreshManifests()"
           [loading]="kazumiService.manifestsQuery.isPending()"
         >
           <da-mat-icon icon="refresh" size="xl" />
-        </p-button>
+        </button>
       </div>
 
       @if (kazumiService.manifestsQuery.isPending()) {
@@ -90,16 +83,18 @@ import { KazumiService } from '../services/kazumi.service'
                   </div>
                   <div class="flex gap-2">
                     @if (isImported) {
-                      <p-button
+                      <button
+                        daButton
                         severity="secondary"
                         disabled
                         size="small"
                       >
                         <da-mat-icon icon="check" />
                         已导入
-                      </p-button>
+                      </button>
                     } @else {
-                      <p-button
+                      <button
+                        daButton
                         severity="primary"
                         (click)="kazumiService.addPolicyMutation.mutate(manifest.name)"
                         [loading]="isImporting"
@@ -107,7 +102,7 @@ import { KazumiService } from '../services/kazumi.service'
                       >
                         <da-mat-icon icon="download" />
                         导入
-                      </p-button>
+                      </button>
                     }
                   </div>
                 </div>
@@ -119,12 +114,13 @@ import { KazumiService } from '../services/kazumi.service'
                 <div>
                   <h3 class="text-lg font-medium mb-2">未找到匹配的规则</h3>
                   <p class="text-surface-600 mb-4">尝试使用不同的搜索关键词。</p>
-                  <p-button
+                  <button
+                    daButton
                     severity="secondary"
                     (click)="filter.set('')"
                   >
                     清除搜索
-                  </p-button>
+                  </button>
                 </div>
               </div>
             }

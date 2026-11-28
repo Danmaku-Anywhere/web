@@ -12,11 +12,11 @@ import {
   type KazumiPolicy,
 } from '@danmaku-anywhere/extension-protocol'
 import { injectQuery } from '@tanstack/angular-query'
-import { Button, ButtonDirective } from 'primeng/button'
-import { Divider } from 'primeng/divider'
-import { Skeleton } from 'primeng/skeleton'
 import { MaterialIcon } from '../../../shared/components/material-icon'
 import { UnescapePipePipe } from '../../../shared/pipes/UrlDecodePipe'
+import { Button } from '../../../shared/ui/button'
+import { Divider } from '../../../shared/ui/divider'
+import { Skeleton } from '../../../shared/ui/skeleton'
 import { KazumiService } from '../services/kazumi.service'
 
 @Component({
@@ -29,7 +29,6 @@ import { KazumiService } from '../services/kazumi.service'
     Skeleton,
     MaterialIcon,
     UnescapePipePipe,
-    ButtonDirective,
   ],
   template: `
     <div>
@@ -39,7 +38,7 @@ import { KazumiService } from '../services/kazumi.service'
 
       @if (searchQuery.isFetching()) {
         @for (i of [1, 2, 3]; track i) {
-          <p-skeleton styleClass="my-2" width="100%" height="76px" />
+          <da-skeleton class="my-2" width="100%" height="76px" />
         }
       }
 
@@ -51,7 +50,7 @@ import { KazumiService } from '../services/kazumi.service'
           <p>
             {{ searchQuery.error() | json }}
           </p>
-          <p-button (onClick)="searchQuery.refetch()" label="重试" />
+          <button daButton (click)="searchQuery.refetch()" label="重试"></button>
         </div>
       }
 
@@ -71,13 +70,13 @@ import { KazumiService } from '../services/kazumi.service'
                   <p class="text-sm text-gray-500 overflow-hidden overflow-ellipsis">{{ item.url }}</p>
                 </div>
                 <a class="absolute right-0 top-0"
-                   [href]="item.url" pButton text rounded severity="secondary" target="_blank" rel="noreferrer"
+                   [href]="item.url" daButton variant="text" rounded severity="secondary" target="_blank" rel="noreferrer"
                 >
                   <da-mat-icon icon="open_in_new" size="xl" />
                 </a>
               </div>
               @if (!$last) {
-                <p-divider styleClass="m-1" />
+                <da-divider class="m-1" />
               }
             }
           }

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
 import { UpdateService } from '../../core/update/update.service'
+import { Button } from '../../shared/ui/button'
+import { Card } from '../../shared/ui/card'
 
 @Component({
   selector: 'da-update-banner',
@@ -10,18 +10,19 @@ import { UpdateService } from '../../core/update/update.service'
   template: `
     @if (updateService.$showUpdateBanner()) {
       <div class="fixed bottom-10 right-4">
-        <p-card>
+        <da-card>
             <p class="text-sm mb-2">
             发现新版本
             </p>
           <div class="flex items-center gap-2">
-            <p-button
+            <button
+              daButton
               label="立即更新"
               (click)="updateService.activateUpdate()"
               size="small"
-            />
+            ></button>
           </div>
-        </p-card>
+        </da-card>
       </div>
     }
   `,

@@ -1,12 +1,11 @@
 import { Component, input, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Button } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
-import { InputTextModule } from 'primeng/inputtext'
+import { Button } from '../../../shared/ui/button'
 
 @Component({
   selector: 'da-kazumi-policy-readme',
-  imports: [Button, Dialog, FormsModule, InputTextModule],
+  imports: [Button, Dialog, FormsModule],
   template: `
     <p-dialog [modal]="true"
               (visibleChange)="visibleChange.emit($event)"
@@ -41,13 +40,13 @@ import { InputTextModule } from 'primeng/inputtext'
           如果遇到搜索或获取资源失败的情况，建议您先尝试手动访问对应的网站，以确认网站本身是否可以正常使用。</p>
         <p>请合理使用本应用，切勿滥用。</p>
         <div class="flex gap-2 mt-4 float-right">
-          <p-button severity="secondary" (onClick)="visibleChange.emit(false)">
+          <button daButton severity="secondary" (click)="visibleChange.emit(false)">
             关闭
-          </p-button>
+          </button>
           @if (!accepted()) {
-            <p-button (onClick)="onAccept.emit()">
+            <button daButton (click)="onAccept.emit()">
               知道了
-            </p-button>
+            </button>
           }
         </div>
       </div>

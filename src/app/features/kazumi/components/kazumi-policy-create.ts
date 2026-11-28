@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Button } from 'primeng/button'
-import { InputTextModule } from 'primeng/inputtext'
-import { TextareaModule } from 'primeng/textarea'
+import { Button } from '../../../shared/ui/button'
+import { InputField } from '../../../shared/ui/input-field'
 
 @Component({
   selector: 'da-kazumi-policy-create',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, Button, FormsModule, InputTextModule, TextareaModule],
+  imports: [CommonModule, Button, FormsModule, InputField],
   template: `
     <div class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -16,7 +15,7 @@ import { TextareaModule } from 'primeng/textarea'
           <label class="text-sm font-medium">规则名称 *</label>
           <input
             type="text"
-            pInputText
+            daInput
             placeholder="输入规则名称"
             [(ngModel)]="policyName"
             class="w-full"
@@ -28,7 +27,7 @@ import { TextareaModule } from 'primeng/textarea'
           <label class="text-sm font-medium">版本 *</label>
           <input
             type="text"
-            pInputText
+            daInput
             placeholder="1.0.0"
             [(ngModel)]="policyVersion"
             class="w-full"
@@ -40,7 +39,7 @@ import { TextareaModule } from 'primeng/textarea'
       <div class="space-y-2">
         <label class="text-sm font-medium">描述</label>
         <textarea
-          pInputTextarea
+          daInput
           placeholder="描述这个规则的用途..."
           [(ngModel)]="policyDescription"
           rows="3"
@@ -52,7 +51,7 @@ import { TextareaModule } from 'primeng/textarea'
       <div class="space-y-2">
         <label class="text-sm font-medium">规则配置 *</label>
         <textarea
-          pInputTextarea
+          daInput
           placeholder="输入 JSON 格式的规则配置..."
           [(ngModel)]="policyConfig"
           rows="8"
@@ -62,21 +61,23 @@ import { TextareaModule } from 'primeng/textarea'
       </div>
 
       <div class="flex gap-3 justify-end">
-        <p-button
+        <button
+          daButton
           severity="secondary"
-          text
+          variant="text"
           (click)="resetForm()"
         >
           重置
-        </p-button>
-        <p-button
+        </button>
+        <button
+          daButton
           severity="primary"
           (click)="createPolicy()"
           [disabled]="!isFormValid()"
           [loading]="isCreating()"
         >
           创建规则
-        </p-button>
+        </button>
       </div>
     </div>
   `,

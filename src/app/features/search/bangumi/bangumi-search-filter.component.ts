@@ -8,8 +8,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core'
-import { Button } from 'primeng/button'
 import { type Menu, MenuModule } from 'primeng/menu'
+import { Button } from '../../../shared/ui/button'
 import type { BgmSubjectSearchFilterModel } from '../../bangumi/types/bangumi.types'
 import {
   SearchFilterItem,
@@ -56,9 +56,9 @@ import { parseBangumiFilterList } from './parseBangumiFilter'
             (remove)="removeAirDate($index)"
           />
         }
-        <p-button styleClass="h-6 p-1" label="筛选" severity="secondary" variant="outlined" size="small" (click)="$addMenu().toggle($event)">
-            <i class="pi pi-filter text-xs"></i>
-          </p-button>
+        <button daButton class="h-6 p-1" label="筛选" severity="secondary" variant="outlined" size="small" (click)="$addMenu().toggle($event)">
+          <i class="pi pi-filter text-xs"></i>
+        </button>
       </div>
     </div>
   `,

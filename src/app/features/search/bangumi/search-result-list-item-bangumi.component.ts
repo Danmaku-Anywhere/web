@@ -7,8 +7,8 @@ import {
   input,
   output,
 } from '@angular/core'
-import { Tag } from 'primeng/tag'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
+import { Tag } from '../../../shared/ui/tag'
 import type { LegacyBgmSubject } from '../../bangumi/types/bangumi.types'
 import { BangumiImageSourcePipe } from '../../bangumi/utils/bangumi-image-source.pipe'
 import { SearchListItem } from '../search-list-item.component'
@@ -51,12 +51,12 @@ import { SearchListItem } from '../search-list-item.component'
           }
           <div class="flex flex-wrap gap-2 mt-1">
             @for (tag of item.meta_tags; track tag) {
-              <p-tag
+              <da-tag
                 severity="info"
                 class="text-xs"
               >
                 <span>{{ tag }}</span>
-              </p-tag>
+              </da-tag>
             }
           </div>
           <p class="text-sm text-gray-500">
@@ -69,10 +69,10 @@ import { SearchListItem } from '../search-list-item.component'
         @let score = item.rating.score;
         <div class="flex gap-2">
           @if (rank && rank > 0) {
-            <p-tag [value]="'#' + rank" severity="info" class="font-bold bg-cyan-950 text-xs" />
+            <da-tag [value]="'#' + rank" severity="info" class="font-bold bg-cyan-950 text-xs" />
           }
           @if (score !== undefined) {
-            <p-tag [value]="score.toFixed(1)" severity="secondary" class="font-bold text-xs" />
+            <da-tag [value]="score.toFixed(1)" severity="secondary" class="font-bold text-xs" />
           }
         </div>
         <p class="text-sm text-gray-500">

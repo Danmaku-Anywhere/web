@@ -14,19 +14,18 @@ import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import type { MediaInfo } from '@danmaku-anywhere/extension-protocol'
 import { injectQuery } from '@tanstack/angular-query'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
-import { Panel } from 'primeng/panel'
-import { ProgressSpinner } from 'primeng/progressspinner'
-import { ScrollPanel } from 'primeng/scrollpanel'
 import { Select } from 'primeng/select'
-import { Skeleton } from 'primeng/skeleton'
-import { Tag } from 'primeng/tag'
 import { defer, type Subscription, tap } from 'rxjs'
 import { TrackingService } from '../../../core/tracking.service'
 import { VideoPlayer } from '../../../core/video-player/video-player'
 import { MaterialIcon } from '../../../shared/components/material-icon'
 import { UnescapePipePipe } from '../../../shared/pipes/UrlDecodePipe'
+import { Button } from '../../../shared/ui/button'
+import { Card } from '../../../shared/ui/card'
+import { Panel } from '../../../shared/ui/panel'
+import { Skeleton } from '../../../shared/ui/skeleton'
+import { Spinner } from '../../../shared/ui/spinner'
+import { Tag } from '../../../shared/ui/tag'
 import { CommentsTab } from '../../bangumi/components/comments-tab'
 import { BangumiService } from '../../bangumi/services/bangumi.service'
 import { KazumiService } from '../services/kazumi.service'
@@ -48,8 +47,7 @@ interface Episode {
     FormsModule,
     Select,
     VideoPlayer,
-    ScrollPanel,
-    ProgressSpinner,
+    Spinner,
     Card,
     Panel,
     UnescapePipePipe,
@@ -60,14 +58,12 @@ interface Episode {
       @if (type() === 'bangumi') {
         @let bgmId = id();
         @if (bgmId) {
-          <p-panel styleClass="border-0">
-            <ng-template #header>
-              <h3 class="text-lg bold">
-                吐槽
-              </h3>
-            </ng-template>
+          <da-panel class="border-0">
+            <h3 daPanelHeader class="text-lg bold">
+              吐槽
+            </h3>
             <da-comments-tab [subjectId]="bgmId" [visited]="true" />
-          </p-panel>
+          </da-panel>
         }
       }
     </ng-template>
@@ -86,7 +82,7 @@ interface Episode {
                 {{ selectedEpisode.name }}
               }</span>
             </h1>
-            <p-tag [value]="mediaDetails.policy.name" severity="secondary" />
+            <da-tag [value]="mediaDetails.policy.name" severity="secondary" />
           </div>
         </div>
       } @else {
@@ -114,7 +110,7 @@ interface Episode {
             <div class="size-full flex flex-col justify-center items-center">
               @let isLoading = episodesQuery.isPending() || $isVideoUrlLoading();
               @if (isLoading) {
-                <p-progress-spinner />
+                <da-spinner />
                 <p>
                   @if (episodesQuery.isPending()) {
                     正在获取剧集列表
@@ -129,14 +125,14 @@ interface Episode {
                   <p>
                     {{ episodesQuery.error() | json }}
                   </p>
-                  <p-button
+                  <button
+                    daButton
                     class="pointer-events-auto"
                     (click)="episodesQuery.refetch()"
-                    label="重试">
-                    <ng-template #icon>
-                      <da-mat-icon icon="refresh" />
-                    </ng-template>
-                  </p-button>
+                    label="重试"
+                  >
+                    <da-mat-icon icon="refresh" />
+                  </button>
                 </div>
               } @else if ($isVideoUrlError()) {
                 <div class="text-center flex flex-col gap-4">
@@ -152,47 +148,46 @@ interface Episode {
           </ng-template>
         </da-video-player>
         <div class="flex flex-col gap-4">
-          <p-panel toggler="header" toggleable="true" collapsed="true" styleClass="border-0">
+          <da-panel toggler="header" toggleable collapsed class="border-0">
             @let mediaList = $mediaList();
-            <ng-template #header>
-              <div class="flex items-center gap-2">
-                <h3 class="font-bold">资源列表
-                  <span>
-                      (
-                    {{ mediaList?.length ?? 0 }}
-                    )
-                    </span>
-                </h3>
-              </div>
-            </ng-template>
+            <div daPanelHeader class="flex items-center gap-2">
+              <h3 class="font-bold">资源列表
+                <span>
+                    (
+                  {{ mediaList?.length ?? 0 }}
+                  )
+                  </span>
+              </h3>
+            </div>
             @if (mediaList?.length) {
               @for (media of mediaList; track $index) {
-                <p-button class="flex"
-                          [styleClass]="media.src === $videoUrl() ? 'border-primary border' : ''"
-                          severity="secondary" (onClick)="$videoUrl.set(media.src)">
-                  <p-tag [value]="media.contentType" severity="success" />
+                <button daButton class="flex"
+                          [class.border-primary]="media.src === $videoUrl()"
+                          [class.border]="media.src === $videoUrl()"
+                          severity="secondary" (click)="$videoUrl.set(media.src)">
+                  <da-tag [value]="media.contentType" severity="success" />
                   <span class="whitespace-nowrap text-ellipsis overflow-hidden">
                 {{ media.src }}
                 </span>
-                </p-button>
+                </button>
               }
             } @else {
               <p>
                 无可用资源
               </p>
             }
-          </p-panel>
-          <p-card>
+          </da-panel>
+          <da-card>
             <div class="max-h-72 xl:h-max xl:w-[24rem]">
               @if (episodesQuery.isSuccess() && episodesQuery.data().length > 1) {
                 <p-select [options]="$playlistOptions()" [(ngModel)]="$playlistOption" optionLabel="label"
                           class="mb-4" />
               }
-              <p-scroll-panel [style]="{height: '100%'}">
+              <div class="h-full overflow-auto pb-4.5 da-scrollbar">
                 <div class="max-xl:flex max-xl:flex-wrap xl:grid xl:grid-cols-3 gap-2">
                   @if (episodesQuery.isLoading()) {
                     @for (i of [1, 2, 3, 4, 5, 6, 7]; track i) {
-                      <p-skeleton class="min-w-24" width="100%" height="57px" />
+                      <da-skeleton class="min-w-24" width="100%" height="57px" />
                     }
                   } @else if (episodesQuery.isSuccess()) {
                     @if (episodesQuery.data().length === 0) {
@@ -204,7 +199,7 @@ interface Episode {
                       @for (episode of $playlist(); track episode.url) {
                         @let isSelected = episode === selectedEpisode;
                         <div
-                          class="p-4 p-button p-button-secondary transition-all hover:border-primary hover:border"
+                          class="p-4 da-button da-button-secondary transition-all hover:border-primary hover:border"
                           [class.border-primary]="isSelected"
                           (click)="changeEpisode(episode)"
                         >
@@ -221,9 +216,9 @@ interface Episode {
                     }
                   }
                 </div>
-              </p-scroll-panel>
+              </div>
             </div>
-          </p-card>
+          </da-card>
         </div>
         <ng-container [ngTemplateOutlet]="commentSection"></ng-container>
       </div>

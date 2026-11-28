@@ -5,17 +5,17 @@ import {
   inject,
   type OnInit,
 } from '@angular/core'
-import { ProgressSpinner } from 'primeng/progressspinner'
+import { Spinner } from '../../../shared/ui/spinner'
 import { OnboardingService } from '../services/onboarding.service'
 
 @Component({
   selector: 'da-kazumi-onboarding-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ProgressSpinner],
+  imports: [CommonModule, Spinner],
   template: `
     <div class="grow h-full flex items-center justify-center">
       <div class="text-center">
-        <p-progress-spinner />
+        <da-spinner />
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
           @switch ($onboardingStatus()) {
             @case ('idle') {

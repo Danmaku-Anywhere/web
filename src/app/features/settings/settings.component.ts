@@ -110,9 +110,6 @@ import { type SettingsRoute, SettingsService } from './settings.service'
               @case ('kazumi-import') {
                 <da-kazumi-policy-import />
               }
-<!--              @case ('kazumi-create') {-->
-<!--                <da-kazumi-policy-create />-->
-<!--              }-->
               @case ('bangumi') {
                 <div class="p-6">
                   <h2 class="text-xl font-semibold mb-4">Bangumi 设置</h2>
@@ -156,11 +153,6 @@ export class Settings implements OnInit {
             label: '导入规则',
             icon: 'download',
           },
-          // {
-          //   id: 'kazumi-create',
-          //   label: '创建规则',
-          //   icon: 'add',
-          // },
         ],
       },
       {

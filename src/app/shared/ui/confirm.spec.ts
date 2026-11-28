@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { ConfirmDialog, type ConfirmOptions, ConfirmService } from './confirm'
+import { ConfirmDialog, ConfirmService } from './confirm'
 
 @Component({
   imports: [ConfirmDialog],
@@ -13,7 +13,7 @@ function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-async function render(options: Partial<ConfirmOptions> = {}) {
+async function render() {
   TestBed.configureTestingModule({ imports: [Host] })
   const fixture = TestBed.createComponent(Host)
   document.body.appendChild(fixture.nativeElement)
@@ -29,7 +29,6 @@ async function render(options: Partial<ConfirmOptions> = {}) {
     rejectButtonProps: { label: 'Clear', severity: 'secondary' },
     accept,
     reject,
-    ...options,
   })
   await fixture.whenStable()
   async function settle() {
@@ -104,33 +103,15 @@ describe('ConfirmDialog', () => {
     expect(accept).not.toHaveBeenCalled()
   })
 
-  it('treats Escape as reject when it is closable', async () => {
+  it('stays open on Escape and on a mask click, with no close button', async () => {
     const { reject, settle } = await render()
-
-    pressEscape()
-    await settle()
-
-    expect(reject).toHaveBeenCalledOnce()
-    expect(dialog()).toBeNull()
-  })
-
-  it('stays open on Escape and hides the close button when not closable', async () => {
-    const { reject, settle } = await render({ closable: false })
 
     expect(document.querySelector('button[aria-label="Close"]')).toBeNull()
     pressEscape()
-    await settle()
-
-    expect(reject).not.toHaveBeenCalled()
-    expect(dialog()).not.toBeNull()
-  })
-
-  it('does not close from the mask', async () => {
-    const { settle } = await render()
-
     document.querySelector<HTMLElement>('.cdk-overlay-backdrop')?.click()
     await settle()
 
+    expect(reject).not.toHaveBeenCalled()
     expect(dialog()).not.toBeNull()
   })
 })

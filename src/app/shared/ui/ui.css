@@ -741,15 +741,6 @@
     --da-toast-close-hover: var(--color-toast-info-close-hover);
   }
 
-  .da-toast-message-warn {
-    --da-toast-bg: var(--color-toast-warn);
-    --da-toast-fg: var(--color-toast-warn-foreground);
-    --da-toast-border: var(--color-toast-warn-border);
-    --da-toast-detail: var(--color-toast-warn-detail);
-    --da-toast-shadow: var(--color-toast-warn-shadow);
-    --da-toast-close-hover: var(--color-toast-warn-close-hover);
-  }
-
   .da-toast-message-error {
     --da-toast-bg: var(--color-toast-error);
     --da-toast-fg: var(--color-toast-error-foreground);
@@ -757,24 +748,6 @@
     --da-toast-detail: var(--color-toast-error-detail);
     --da-toast-shadow: var(--color-toast-error-shadow);
     --da-toast-close-hover: var(--color-toast-error-close-hover);
-  }
-
-  .da-toast-message-secondary {
-    --da-toast-bg: var(--color-toast-secondary);
-    --da-toast-fg: var(--color-toast-secondary-foreground);
-    --da-toast-border: var(--color-toast-secondary-border);
-    --da-toast-detail: var(--color-toast-secondary-detail);
-    --da-toast-shadow: var(--color-toast-secondary-shadow);
-    --da-toast-close-hover: var(--color-toast-secondary-close-hover);
-  }
-
-  .da-toast-message-contrast {
-    --da-toast-bg: var(--color-toast-contrast);
-    --da-toast-fg: var(--color-toast-contrast-foreground);
-    --da-toast-border: var(--color-toast-contrast-border);
-    --da-toast-detail: var(--color-toast-contrast-detail);
-    --da-toast-shadow: var(--color-toast-contrast-shadow);
-    --da-toast-close-hover: var(--color-toast-contrast-close-hover);
   }
 
   .da-toast-message-content {

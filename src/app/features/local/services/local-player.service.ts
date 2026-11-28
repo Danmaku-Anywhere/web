@@ -208,7 +208,6 @@ export class LocalPlayerService {
     this.confirmService.confirm({
       header: '是否恢复上次打开的文件夹？',
       message: handleSettingsList.map((s) => s.handle.name).join(', '),
-      closable: false,
       acceptButtonProps: {
         label: '恢复',
         severity: 'primary',

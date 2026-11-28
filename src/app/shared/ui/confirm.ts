@@ -1,28 +1,26 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   Injectable,
   inject,
+  linkedSignal,
   signal,
 } from '@angular/core'
-import { Button, type ButtonSeverity, type ButtonVariant } from './button'
+import { Button, type ButtonSeverity } from './button'
 import { Dialog, DialogFooter } from './dialog'
 
 export interface ConfirmButtonProps {
-  label?: string
-  severity?: ButtonSeverity
-  variant?: ButtonVariant
+  label: string
+  severity: ButtonSeverity
 }
 
 export interface ConfirmOptions {
-  header?: string
-  message?: string
-  closable?: boolean
-  acceptButtonProps?: ConfirmButtonProps
-  rejectButtonProps?: ConfirmButtonProps
-  accept?: () => void
-  reject?: () => void
+  header: string
+  message: string
+  acceptButtonProps: ConfirmButtonProps
+  rejectButtonProps: ConfirmButtonProps
+  accept: () => void
+  reject: () => void
 }
 
 @Injectable({ providedIn: 'root' })
@@ -44,78 +42,52 @@ export class ConfirmService {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Dialog, DialogFooter, Button],
   template: `
+    @let options = $options();
     <da-dialog
       [role]="'alertdialog'"
       panelClass="da-confirm-dialog"
-      [visible]="$visible()"
-      [header]="$options().header"
-      [closable]="$closable()"
-      [closeOnEscape]="$closable()"
-      (visibleChange)="onDismiss()"
+      [visible]="confirmService.$current() !== null"
+      [header]="options?.header"
+      [closable]="false"
+      [closeOnEscape]="false"
     >
-      <span class="da-confirm-dialog-message">{{ $options().message }}</span>
+      <span class="da-confirm-dialog-message">{{ options?.message }}</span>
       <ng-container daDialogFooter>
         <button
           daButton
-          [severity]="$reject().severity ?? 'secondary'"
-          [variant]="$reject().variant ?? 'solid'"
-          (click)="onReject()"
+          [severity]="options?.rejectButtonProps?.severity ?? 'secondary'"
+          (click)="settle('reject')"
         >
-          {{ $reject().label ?? 'No' }}
+          {{ options?.rejectButtonProps?.label }}
         </button>
         <button
           daButton
-          [severity]="$accept().severity ?? 'primary'"
-          [variant]="$accept().variant ?? 'solid'"
-          (click)="onAccept()"
+          [severity]="options?.acceptButtonProps?.severity ?? 'primary'"
+          (click)="settle('accept')"
         >
-          {{ $accept().label ?? 'Yes' }}
+          {{ options?.acceptButtonProps?.label }}
         </button>
       </ng-container>
     </da-dialog>
   `,
 })
 export class ConfirmDialog {
-  private readonly confirmService = inject(ConfirmService)
+  protected readonly confirmService = inject(ConfirmService)
 
-  private readonly $_last = signal<ConfirmOptions>({})
-
-  protected readonly $visible = computed(() => {
-    return this.confirmService.$current() !== null
-  })
-  protected readonly $options = computed(() => {
-    return this.confirmService.$current() ?? this.$_last()
-  })
-  protected readonly $closable = computed(() => {
-    return this.$options().closable ?? true
-  })
-  protected readonly $accept = computed(() => {
-    return this.$options().acceptButtonProps ?? {}
-  })
-  protected readonly $reject = computed(() => {
-    return this.$options().rejectButtonProps ?? {}
+  // Keeps the text on screen while the dialog plays its leave animation.
+  protected readonly $options = linkedSignal<
+    ConfirmOptions | null,
+    ConfirmOptions | null
+  >({
+    source: this.confirmService.$current,
+    computation: (current, previous) => {
+      return current ?? previous?.value ?? null
+    },
   })
 
-  protected onAccept() {
-    const options = this.settle()
-    options?.accept?.()
-  }
-
-  protected onReject() {
-    const options = this.settle()
-    options?.reject?.()
-  }
-
-  protected onDismiss() {
-    this.onReject()
-  }
-
-  private settle() {
+  protected settle(choice: 'accept' | 'reject') {
     const options = this.confirmService.$current()
-    if (options) {
-      this.$_last.set(options)
-    }
     this.confirmService.close()
-    return options
+    options?.[choice]()
   }
 }

@@ -82,8 +82,6 @@ export class UpdateService {
         summary: '错误',
         detail: '发生了错误，请刷新页面',
         closable: false,
-        life: 0,
-        key: 'update-error',
       })
     })
   }

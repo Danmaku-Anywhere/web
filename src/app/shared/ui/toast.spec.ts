@@ -1,18 +1,17 @@
 import { Component, signal } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Toast, type ToastPosition, ToastService } from './toast'
+import { Toast, ToastService } from './toast'
 
 @Component({
   imports: [Toast],
   template: `
     <button id="outside">Outside</button>
     <da-toast [position]="position()" />
-    <da-toast key="update-error" />
   `,
 })
 class Host {
-  position = signal<ToastPosition>('bottom-center')
+  position = signal<'top-center' | 'bottom-center'>('bottom-center')
 }
 
 function wait(ms: number) {
@@ -61,14 +60,12 @@ describe('Toast', () => {
   it('picks the icon for the severity', async () => {
     const { add } = await render()
     await add({ severity: 'error', summary: 'a' })
-    await add({ severity: 'warn', summary: 'b' })
+    await add({ severity: 'success', summary: 'b' })
 
-    const icons = messages().map(
-      (m) =>
-        m.querySelector('.da-toast-message-icon')?.querySelectorAll('path')
-          .length
+    const fillRules = messages().map((m) =>
+      m.querySelector('.da-toast-message-icon path')?.getAttribute('fill-rule')
     )
-    expect(icons).toEqual([1, 3])
+    expect(fillRules).toEqual(['evenodd', null])
   })
 
   it('does not take focus from the page', async () => {
@@ -92,16 +89,6 @@ describe('Toast', () => {
     await fixture.whenStable()
 
     expect(messages()).toHaveLength(0)
-  })
-
-  it('keeps sticky messages', async () => {
-    const { fixture, add } = await render()
-    await add({ severity: 'info', summary: 'Sticky', life: 50, sticky: true })
-
-    await wait(80)
-    await fixture.whenStable()
-
-    expect(messages()).toHaveLength(1)
   })
 
   it('pauses the timer while the pointer is over the message', async () => {
@@ -135,37 +122,21 @@ describe('Toast', () => {
     expect(messages().map((m) => m.textContent?.trim())).toEqual(['Fixed'])
   })
 
-  it('shows a keyed message only in the toast with that key', async () => {
-    const { add } = await render()
-    await add({ severity: 'error', summary: 'Keyed', key: 'update-error' })
-
-    const hosts = [...document.querySelectorAll('.da-toast')]
-    expect(hosts[0].textContent).not.toContain('Keyed')
-    expect(hosts[1].textContent).toContain('Keyed')
-  })
-
-  it('clears messages', async () => {
-    const { fixture, service, add } = await render()
-    await add({ severity: 'info', summary: 'a', life: 60000 })
-    await add({ severity: 'info', summary: 'b', life: 60000 })
-
-    service.clear()
-    await fixture.whenStable()
-
-    expect(messages()).toHaveLength(0)
-  })
-
-  it('moves between the top and bottom of the screen', async () => {
+  it('sits at the bottom of the screen, or the top on mobile', async () => {
     const { fixture } = await render()
     const wrapper = document.querySelector<HTMLElement>(
       '.cdk-global-overlay-wrapper'
     )
     expect(wrapper?.style.alignItems).toBe('flex-end')
-
-    fixture.componentInstance.position.set('top-center')
-    await fixture.whenStable()
-
-    expect(wrapper?.style.alignItems).toBe('flex-start')
     expect(wrapper?.style.justifyContent).toBe('center')
+    fixture.destroy()
+
+    const top = TestBed.createComponent(Toast)
+    top.componentRef.setInput('position', 'top-center')
+    await top.whenStable()
+    const wrappers = document.querySelectorAll<HTMLElement>(
+      '.cdk-global-overlay-wrapper'
+    )
+    expect(wrappers[wrappers.length - 1].style.alignItems).toBe('flex-start')
   })
 })

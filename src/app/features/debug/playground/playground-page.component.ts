@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Button } from 'primeng/button'
 import { Select } from 'primeng/select'
-
+import { Button } from '../../../shared/ui/button'
 import { CrossOriginIframePanelComponent } from './panels/cross-origin-iframe-panel.component'
 import { NativeVideoPanelComponent } from './panels/native-video-panel.component'
 import { SameOriginIframePanelComponent } from './panels/same-origin-iframe-panel.component'
@@ -42,21 +41,23 @@ interface PanelTypeOption {
             [(ngModel)]="$selectedType"
             size="small"
           />
-          <p-button
+          <button
+            daButton
             label="Add Panel"
             icon="pi pi-plus"
             size="small"
-            (onClick)="addPanel()"
-          />
+            (click)="addPanel()"
+          ></button>
           @if ($panels().length > 0) {
-            <p-button
+            <button
+              daButton
               label="Clear All"
               icon="pi pi-trash"
               size="small"
               severity="danger"
-              [outlined]="true"
-              (onClick)="clearAll()"
-            />
+              variant="outlined"
+              (click)="clearAll()"
+            ></button>
           }
         </div>
       </div>

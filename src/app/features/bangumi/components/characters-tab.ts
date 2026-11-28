@@ -7,9 +7,9 @@ import {
   input,
 } from '@angular/core'
 import { injectQuery } from '@tanstack/angular-query'
-import { Card } from 'primeng/card'
-import { ProgressSpinner } from 'primeng/progressspinner'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
+import { Card } from '../../../shared/ui/card'
+import { Spinner } from '../../../shared/ui/spinner'
 import { BangumiService } from '../services/bangumi.service'
 import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
 
@@ -18,7 +18,7 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    ProgressSpinner,
+    Spinner,
     Card,
     NgOptimizedImage,
     ImageFallback,
@@ -27,7 +27,7 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
   template: `
     @if (charactersQuery.isPending()) {
       <div class="flex justify-center py-8">
-        <p-progress-spinner />
+        <da-spinner />
       </div>
     } @else if (charactersQuery.isSuccess()) {
       @let response = charactersQuery.data();
@@ -66,14 +66,14 @@ import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
           }
         </div>
       } @else {
-        <p-card>
+        <da-card>
           <p class="text-gray-500">暂无角色信息</p>
-        </p-card>
+        </da-card>
       }
     } @else {
-      <p-card>
+      <da-card>
         <p class="text-red-500">加载角色信息失败</p>
-      </p-card>
+      </da-card>
     }
   `,
 })

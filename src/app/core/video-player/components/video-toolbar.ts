@@ -4,53 +4,54 @@ import type {
   EpisodeLite,
   GenericEpisodeLite,
 } from '@danmaku-anywhere/danmaku-model'
-import { Button } from 'primeng/button'
 import { Popover } from 'primeng/popover'
-import { ScrollPanel } from 'primeng/scrollpanel'
-import { Toolbar } from 'primeng/toolbar'
 import { MaterialIcon } from '../../../shared/components/material-icon'
+import { Button } from '../../../shared/ui/button'
 import { DanmakuService } from '../../danmaku/danmaku.service'
 import { episodeSourceLabel } from '../episode-source-label'
 
 @Component({
   selector: 'da-video-toolbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Toolbar, Button, ScrollPanel, MaterialIcon, Popover],
+  imports: [Button, MaterialIcon, Popover],
   template: `
-    <p-toolbar>
-      <ng-template #start>
-        <p-button
-          (onClick)="episodePanel.toggle($event)"
+    <div
+      class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-md border border-content-border bg-content text-foreground"
+      role="toolbar"
+    >
+      <div class="flex items-center">
+        <button
+          daButton
+          (click)="episodePanel.toggle($event)"
           severity="secondary"
-          text
+          variant="text"
+          iconOnly
         >
-          <ng-template #icon>
-            <da-mat-icon icon="format_list_bulleted" />
-          </ng-template>
-        </p-button>
-      </ng-template>
-    </p-toolbar>
+          <da-mat-icon icon="format_list_bulleted" />
+        </button>
+      </div>
+    </div>
 
     <p-popover #episodePanel [style]="{ width: '400px', maxHeight: '500px' }">
       <ng-template #content>
         <div>
           <div class="flex items-center justify-between">
             <h3 class="font-semibold text-lg">以下载弹幕</h3>
-            <p-button
+            <button
+              daButton
               (click)="episodePanel.hide()"
               severity="secondary"
-              text
+              variant="text"
+              iconOnly
             >
-              <ng-template #icon>
-                <da-mat-icon icon="close" />
-              </ng-template>
-            </p-button>
+              <da-mat-icon icon="close" />
+            </button>
           </div>
 
           @if (danmakuService.episodesQuery.isSuccess()) {
             @let data = danmakuService.episodesQuery.data();
 
-            <p-scrollPanel [style]="{ height: '400px' }">
+            <div class="h-[400px] overflow-auto da-scrollbar">
               @if (data.length === 0) {
                 <div class="flex flex-col items-center justify-center p-6">
                   <i class="pi pi-inbox text-2xl text-gray-400 mb-2"></i>
@@ -83,7 +84,7 @@ import { episodeSourceLabel } from '../episode-source-label'
                   }
                 </div>
               }
-            </p-scrollPanel>
+            </div>
           }
         </div>
       </ng-template>

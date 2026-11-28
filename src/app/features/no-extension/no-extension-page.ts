@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import { FaIconComponent } from '@fortawesome/angular-fontawesome'
 import { faChrome, faFirefoxBrowser } from '@fortawesome/free-brands-svg-icons'
-import { Button, ButtonDirective } from 'primeng/button'
 import { UAParser } from 'ua-parser-js'
 import { isChromeFamily } from 'ua-parser-js/helpers'
 import { ExtensionService } from '../../core/extension/extension.service'
@@ -12,23 +11,23 @@ import {
   GITHUB_REPO_URL,
 } from '../../shared/constants'
 import { ExternalLinkDirective } from '../../shared/directives/external-link.directive'
+import { Button } from '../../shared/ui/button'
 
 @Component({
   selector: 'da-no-extension',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FaIconComponent, Button, ButtonDirective, ExternalLinkDirective],
+  imports: [FaIconComponent, Button, ExternalLinkDirective],
   template: `
     <div class="flex flex-col justify-center items-center h-full">
       @if (!extensionService.$isExtensionInstalled()) {
         <h1 class="text-2xl font-bold mb-4">此功能需要Danmaku Anywhere扩展v1.2.0或以上版本</h1>
-        <p-button class="hidden"></p-button>
         @if (isChromium) {
-          <a pButton target="_blank" [href]="chromeStoreUrl" (click)="onDownloadClick('chrome')">
+          <a daButton target="_blank" [href]="chromeStoreUrl" (click)="onDownloadClick('chrome')">
             安装Chrome扩展
             <fa-icon [icon]="chrome" />
           </a>
         } @else if (isFirefox) {
-          <a pButton target="_blank" [href]="firefoxStoreUrl" (click)="onDownloadClick('firefox')">
+          <a daButton target="_blank" [href]="firefoxStoreUrl" (click)="onDownloadClick('firefox')">
             安装Firefox扩展
             <fa-icon [icon]="firefox" />
           </a>

@@ -8,13 +8,13 @@ import {
   viewChild,
 } from '@angular/core'
 import { MessageService, PrimeTemplate } from 'primeng/api'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
 import { SplitButton } from 'primeng/splitbutton'
 import { Tooltip } from 'primeng/tooltip'
 import { Tree } from 'primeng/tree'
 import { PlatformService } from '../../../core/services/platform.service'
 import { TrackingService } from '../../../core/tracking.service'
+import { Button } from '../../../shared/ui/button'
+import { Card } from '../../../shared/ui/card'
 import { serializeError } from '../../../shared/utils/serializeError'
 import { DuplicateHandleException } from '../duplicate-handle.exception'
 import { LocalPlayerService } from '../services/local-player.service'
@@ -35,7 +35,7 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
   ],
   styleUrl: './local-folder-selector.component.css',
   template: `
-    <p-card>
+    <da-card>
       <div
         class="h-[500px] xl:w-[24rem] flex flex-col"
         (dragover)="onDragOver($event)"
@@ -46,10 +46,10 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
             <h3 class="font-bold whitespace-nowrap">文件列表</h3>
             @if ($hasNodes()) {
               <div>
-                <p-button (onClick)="expandAll()" rounded size="small" text severity="secondary"
-                          icon="pi pi-angle-down" />
-                <p-button (onClick)="collapseAll()" rounded size="small" text severity="secondary"
-                          icon="pi pi-angle-up" />
+                <button daButton (click)="expandAll()" rounded size="small" variant="text" severity="secondary"
+                          icon="pi pi-angle-down"></button>
+                <button daButton (click)="collapseAll()" rounded size="small" variant="text" severity="secondary"
+                          icon="pi pi-angle-up"></button>
               </div>
             }
           </div>
@@ -81,8 +81,8 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
               <div class="flex justify-between items-center">
               <span [pTooltip]="node.label" tooltipPosition="top" [showDelay]="1000">{{ node.label }}
               </span>
-                <p-button variant="text" size="small" severity="secondary" icon="pi pi-trash"
-                          (onClick)="onRemoveNode(node)" />
+                <button daButton variant="text" size="small" severity="secondary" icon="pi pi-trash"
+                          (click)="onRemoveNode(node)"></button>
               </div>
             </ng-template>
             <ng-template let-node pTemplate="directory">
@@ -97,7 +97,7 @@ import { supportsFilesystemApi } from '../util/supports-filesystem-api'
         <input #fileInput type="file" multiple accept="video/mp4,video/x-m4v,video/*,.mkv" class="hidden"
                (change)="onFileInput($event)" />
       </div>
-    </p-card>
+    </da-card>
   `,
 })
 export class LocalFolderSelectorComponent {

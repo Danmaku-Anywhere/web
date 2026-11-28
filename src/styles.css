@@ -3,6 +3,8 @@
 @import "primeicons/primeicons.css";
 @import "tailwindcss";
 @import "material-symbols" layer(material-symbols);
+@import "./theme.css";
+@import "./app/shared/ui/ui.css";
 @plugin "tailwindcss-primeui";
 
 @custom-variant dark (&:where(.da-dark, .da-dark *));

@@ -1,0 +1,675 @@
+@layer components {
+  .da-button {
+    --da-button-bg: var(--color-primary);
+    --da-button-bg-hover: var(--color-primary-emphasis);
+    --da-button-bg-active: var(--color-primary-emphasis-alt);
+    --da-button-fg: var(--color-primary-contrast);
+    --da-button-fg-hover: var(--color-primary-contrast-emphasis);
+    --da-button-fg-active: var(--color-primary-contrast-emphasis-alt);
+    --da-button-ring: var(--color-primary-ring);
+    --da-button-text: var(--color-primary-text);
+    --da-button-text-hover: var(--color-primary-text-hover);
+    --da-button-text-active: var(--color-primary-text-active);
+    --da-button-outline: var(--color-primary-outline);
+    --da-button-outline-hover: var(--color-primary-outline-hover);
+    --da-button-outline-active: var(--color-primary-outline-active);
+
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--da-button-bg);
+    border-radius: var(--radius-md);
+    outline-color: transparent;
+    background: var(--da-button-bg);
+    color: var(--da-button-fg);
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s,
+      outline-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .da-button-secondary {
+    --da-button-bg: var(--color-secondary);
+    --da-button-bg-hover: var(--color-secondary-emphasis);
+    --da-button-bg-active: var(--color-secondary-emphasis-alt);
+    --da-button-fg: var(--color-secondary-contrast);
+    --da-button-fg-hover: var(--color-secondary-contrast-emphasis);
+    --da-button-fg-active: var(--color-secondary-contrast-emphasis-alt);
+    --da-button-ring: var(--color-secondary-ring);
+    --da-button-text: var(--color-secondary-text);
+    --da-button-text-hover: var(--color-secondary-text-hover);
+    --da-button-text-active: var(--color-secondary-text-active);
+    --da-button-outline: var(--color-secondary-outline);
+    --da-button-outline-hover: var(--color-secondary-outline-hover);
+    --da-button-outline-active: var(--color-secondary-outline-active);
+  }
+
+  .da-button-success {
+    --da-button-bg: var(--color-success);
+    --da-button-bg-hover: var(--color-success-emphasis);
+    --da-button-bg-active: var(--color-success-emphasis-alt);
+    --da-button-fg: var(--color-success-contrast);
+    --da-button-fg-hover: var(--color-success-contrast-emphasis);
+    --da-button-fg-active: var(--color-success-contrast-emphasis-alt);
+    --da-button-ring: var(--color-success-ring);
+    --da-button-text: var(--color-success-text);
+    --da-button-text-hover: var(--color-success-text-hover);
+    --da-button-text-active: var(--color-success-text-active);
+    --da-button-outline: var(--color-success-outline);
+    --da-button-outline-hover: var(--color-success-outline-hover);
+    --da-button-outline-active: var(--color-success-outline-active);
+  }
+
+  .da-button-info {
+    --da-button-bg: var(--color-info);
+    --da-button-bg-hover: var(--color-info-emphasis);
+    --da-button-bg-active: var(--color-info-emphasis-alt);
+    --da-button-fg: var(--color-info-contrast);
+    --da-button-fg-hover: var(--color-info-contrast-emphasis);
+    --da-button-fg-active: var(--color-info-contrast-emphasis-alt);
+    --da-button-ring: var(--color-info-ring);
+    --da-button-text: var(--color-info-text);
+    --da-button-text-hover: var(--color-info-text-hover);
+    --da-button-text-active: var(--color-info-text-active);
+    --da-button-outline: var(--color-info-outline);
+    --da-button-outline-hover: var(--color-info-outline-hover);
+    --da-button-outline-active: var(--color-info-outline-active);
+  }
+
+  .da-button-warn {
+    --da-button-bg: var(--color-warn);
+    --da-button-bg-hover: var(--color-warn-emphasis);
+    --da-button-bg-active: var(--color-warn-emphasis-alt);
+    --da-button-fg: var(--color-warn-contrast);
+    --da-button-fg-hover: var(--color-warn-contrast-emphasis);
+    --da-button-fg-active: var(--color-warn-contrast-emphasis-alt);
+    --da-button-ring: var(--color-warn-ring);
+    --da-button-text: var(--color-warn-text);
+    --da-button-text-hover: var(--color-warn-text-hover);
+    --da-button-text-active: var(--color-warn-text-active);
+    --da-button-outline: var(--color-warn-outline);
+    --da-button-outline-hover: var(--color-warn-outline-hover);
+    --da-button-outline-active: var(--color-warn-outline-active);
+  }
+
+  .da-button-help {
+    --da-button-bg: var(--color-help);
+    --da-button-bg-hover: var(--color-help-emphasis);
+    --da-button-bg-active: var(--color-help-emphasis-alt);
+    --da-button-fg: var(--color-help-contrast);
+    --da-button-fg-hover: var(--color-help-contrast-emphasis);
+    --da-button-fg-active: var(--color-help-contrast-emphasis-alt);
+    --da-button-ring: var(--color-help-ring);
+    --da-button-text: var(--color-help-text);
+    --da-button-text-hover: var(--color-help-text-hover);
+    --da-button-text-active: var(--color-help-text-active);
+    --da-button-outline: var(--color-help-outline);
+    --da-button-outline-hover: var(--color-help-outline-hover);
+    --da-button-outline-active: var(--color-help-outline-active);
+  }
+
+  .da-button-danger {
+    --da-button-bg: var(--color-danger);
+    --da-button-bg-hover: var(--color-danger-emphasis);
+    --da-button-bg-active: var(--color-danger-emphasis-alt);
+    --da-button-fg: var(--color-danger-contrast);
+    --da-button-fg-hover: var(--color-danger-contrast-emphasis);
+    --da-button-fg-active: var(--color-danger-contrast-emphasis-alt);
+    --da-button-ring: var(--color-danger-ring);
+    --da-button-text: var(--color-danger-text);
+    --da-button-text-hover: var(--color-danger-text-hover);
+    --da-button-text-active: var(--color-danger-text-active);
+    --da-button-outline: var(--color-danger-outline);
+    --da-button-outline-hover: var(--color-danger-outline-hover);
+    --da-button-outline-active: var(--color-danger-outline-active);
+  }
+
+  .da-button:not(:disabled):hover {
+    border-color: var(--da-button-bg-hover);
+    background: var(--da-button-bg-hover);
+    color: var(--da-button-fg-hover);
+  }
+
+  .da-button:not(:disabled):active {
+    border-color: var(--da-button-bg-active);
+    background: var(--da-button-bg-active);
+    color: var(--da-button-fg-active);
+  }
+
+  .da-button:focus-visible {
+    outline: 1px solid var(--da-button-ring);
+    outline-offset: 2px;
+  }
+
+  .da-button:disabled,
+  .da-button-disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .da-button-disabled {
+    pointer-events: none;
+  }
+
+  .da-button-text {
+    border-color: transparent;
+    background: transparent;
+    color: var(--da-button-text);
+  }
+
+  .da-button-text:not(:disabled):hover {
+    border-color: transparent;
+    background: var(--da-button-text-hover);
+    color: var(--da-button-text);
+  }
+
+  .da-button-text:not(:disabled):active {
+    border-color: transparent;
+    background: var(--da-button-text-active);
+    color: var(--da-button-text);
+  }
+
+  .da-button-outlined {
+    border-color: var(--da-button-outline);
+    background: transparent;
+    color: var(--da-button-text);
+  }
+
+  .da-button-outlined:not(:disabled):hover {
+    border-color: var(--da-button-outline);
+    background: var(--da-button-outline-hover);
+    color: var(--da-button-text);
+  }
+
+  .da-button-outlined:not(:disabled):active {
+    border-color: var(--da-button-outline);
+    background: var(--da-button-outline-active);
+    color: var(--da-button-text);
+  }
+
+  .da-button-rounded {
+    border-radius: 2rem;
+  }
+
+  .da-button-sm {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .da-button-lg {
+    padding: 0.625rem 0.875rem;
+    font-size: 1.125rem;
+  }
+
+  .da-button-sm .da-button-icon {
+    font-size: 0.875rem;
+  }
+
+  .da-button-lg .da-button-icon {
+    font-size: 1.125rem;
+  }
+
+  .da-button-icon-only {
+    width: 2.5rem;
+    gap: 0;
+    padding-inline: 0;
+  }
+
+  .da-button-icon-only.da-button-rounded {
+    height: 2.5rem;
+    border-radius: 50%;
+  }
+
+  .da-button-sm.da-button-icon-only {
+    width: 2rem;
+  }
+
+  .da-button-sm.da-button-icon-only.da-button-rounded {
+    height: 2rem;
+  }
+
+  .da-button-lg.da-button-icon-only {
+    width: 3rem;
+  }
+
+  .da-button-lg.da-button-icon-only.da-button-rounded {
+    height: 3rem;
+  }
+
+  /* An empty pseudo element keeps an icon-only button at the height of a line of text. */
+  .da-button-icon-only::after {
+    content: " ";
+    width: 0;
+    visibility: hidden;
+  }
+
+  .da-button-label {
+    font-weight: 500;
+  }
+
+  .da-button-icon-only .da-button-label {
+    width: 0;
+    visibility: hidden;
+  }
+
+  .da-button .da-badge {
+    min-width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+  }
+
+  .da-badge {
+    --da-badge-bg: var(--color-primary);
+    --da-badge-fg: var(--color-primary-contrast);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--da-badge-bg);
+    color: var(--da-badge-fg);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .da-badge-secondary {
+    --da-badge-bg: var(--color-secondary);
+    --da-badge-fg: var(--color-secondary-contrast);
+  }
+
+  .da-badge-success {
+    --da-badge-bg: var(--color-success);
+    --da-badge-fg: var(--color-success-contrast);
+  }
+
+  .da-badge-info {
+    --da-badge-bg: var(--color-info);
+    --da-badge-fg: var(--color-info-contrast);
+  }
+
+  .da-badge-warn {
+    --da-badge-bg: var(--color-warn);
+    --da-badge-fg: var(--color-warn-contrast);
+  }
+
+  .da-badge-danger {
+    --da-badge-bg: var(--color-danger);
+    --da-badge-fg: var(--color-danger-contrast);
+  }
+
+  .da-badge-circle {
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .da-badge-dot {
+    width: 0.5rem;
+    min-width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .da-tag {
+    --da-tag-bg: var(--color-primary-tag);
+    --da-tag-fg: var(--color-primary-tag-foreground);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--da-tag-bg);
+    color: var(--da-tag-fg);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .da-tag-secondary {
+    --da-tag-bg: var(--color-secondary-tag);
+    --da-tag-fg: var(--color-secondary-tag-foreground);
+  }
+
+  .da-tag-success {
+    --da-tag-bg: var(--color-success-tag);
+    --da-tag-fg: var(--color-success-tag-foreground);
+  }
+
+  .da-tag-info {
+    --da-tag-bg: var(--color-info-tag);
+    --da-tag-fg: var(--color-info-tag-foreground);
+  }
+
+  .da-tag-warn {
+    --da-tag-bg: var(--color-warn-tag);
+    --da-tag-fg: var(--color-warn-tag-foreground);
+  }
+
+  .da-tag-danger {
+    --da-tag-bg: var(--color-danger-tag);
+    --da-tag-fg: var(--color-danger-tag-foreground);
+  }
+
+  .da-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    background: var(--color-content);
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    color: var(--color-foreground);
+  }
+
+  .da-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+  }
+
+  .da-skeleton {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--color-skeleton);
+  }
+
+  .da-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0),
+      var(--color-skeleton-shimmer),
+      rgba(255, 255, 255, 0)
+    );
+    animation: da-skeleton-wave 1.2s infinite;
+  }
+
+  .da-skeleton-circle {
+    border-radius: 50%;
+  }
+
+  .da-spinner {
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+  }
+
+  .da-spinner::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+
+  .da-spinner-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    transform-origin: center center;
+    animation: da-spinner-rotate 2s linear infinite;
+  }
+
+  .da-spinner-circle {
+    stroke: var(--color-spinner-1);
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation:
+      da-spinner-dash 1.5s ease-in-out infinite,
+      da-spinner-color 6s ease-in-out infinite;
+  }
+
+  .da-divider {
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0 1rem;
+  }
+
+  .da-divider::before {
+    content: "";
+    display: block;
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+    width: 100%;
+    border-block-start: 1px solid var(--color-content-border);
+  }
+
+  /* Empty, but it still paints the content background over the start of the line. */
+  .da-divider-content {
+    z-index: 1;
+    padding: 0 0.5rem;
+    background: var(--color-content);
+    color: var(--color-foreground);
+  }
+
+  .da-panel {
+    display: block;
+    border: 1px solid var(--color-content-border);
+    border-radius: var(--radius-md);
+    background: var(--color-content);
+    color: var(--color-foreground);
+  }
+
+  .da-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.125rem;
+    color: var(--color-foreground);
+  }
+
+  .da-panel-toggleable .da-panel-header {
+    padding: 0.375rem 1.125rem;
+  }
+
+  .da-panel-title {
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .da-panel-content-container {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.2s ease-out;
+  }
+
+  .da-panel-collapsed .da-panel-content-container {
+    grid-template-rows: 0fr;
+  }
+
+  .da-panel-content-wrapper {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .da-panel-content {
+    padding: 0 1.125rem 1.125rem;
+  }
+
+  .da-input {
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+    border: 1px solid var(--color-field-border);
+    border-radius: var(--radius-md);
+    outline-color: transparent;
+    background: var(--color-field);
+    box-shadow:
+      0 0 #0000,
+      0 0 #0000,
+      0 1px 2px 0 rgba(18, 18, 23, 0.05);
+    color: var(--color-field-foreground);
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-size: 1rem;
+    appearance: none;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s,
+      outline-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .da-input:enabled:hover {
+    border-color: var(--color-field-border-hover);
+  }
+
+  .da-input:enabled:focus {
+    border-color: var(--color-primary);
+    outline: 0 none transparent;
+    outline-offset: 0;
+    box-shadow: none;
+  }
+
+  .da-input:disabled {
+    background: var(--color-field-disabled);
+    color: var(--color-field-disabled-foreground);
+  }
+
+  .da-input::placeholder {
+    color: var(--color-field-placeholder);
+  }
+
+  .da-input[aria-invalid="true"] {
+    border-color: var(--color-field-border-invalid);
+  }
+
+  .da-scroll-top {
+    position: fixed;
+    inset-block-end: 20px;
+    inset-inline-end: 20px;
+    animation: da-fade-in 0.3s;
+  }
+
+  .da-input-group {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .da-input-group-addon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    padding: 0.5rem;
+    border-block: 1px solid var(--color-field-border);
+    background: var(--color-field);
+    color: var(--color-field-icon);
+  }
+
+  .da-input-group-addon:first-child,
+  .da-input-group-addon + .da-input-group-addon {
+    border-inline-start: 1px solid var(--color-field-border);
+  }
+
+  .da-input-group-addon:last-child {
+    border-inline-end: 1px solid var(--color-field-border);
+  }
+
+  .da-input-group-addon:first-child {
+    border-start-start-radius: var(--radius-md);
+    border-end-start-radius: var(--radius-md);
+  }
+
+  .da-input-group-addon:last-child {
+    border-start-end-radius: var(--radius-md);
+    border-end-end-radius: var(--radius-md);
+  }
+
+  .da-input-group-addon:has(.da-button) {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .da-input-group-addon .da-button {
+    border-radius: 0;
+  }
+
+  .da-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface-800) transparent;
+  }
+}
+
+@keyframes da-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes da-skeleton-wave {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes da-spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes da-spinner-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes da-spinner-color {
+  100%,
+  0% {
+    stroke: var(--color-spinner-1);
+  }
+  40% {
+    stroke: var(--color-spinner-2);
+  }
+  66% {
+    stroke: var(--color-spinner-3);
+  }
+  80%,
+  90% {
+    stroke: var(--color-spinner-4);
+  }
+}

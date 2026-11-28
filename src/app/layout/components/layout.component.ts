@@ -6,7 +6,6 @@ import {
 } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { ConfirmDialog } from 'primeng/confirmdialog'
-import { ScrollTop } from 'primeng/scrolltop'
 import { Toast } from 'primeng/toast'
 import { PlatformService } from '../../core/services/platform.service'
 import { ShortcutService } from '../../core/shortcuts/shortcut.service'
@@ -16,6 +15,7 @@ import { Settings } from '../../features/settings/settings.component'
 import { LayoutService } from '../layout.service'
 import { AppBar } from './app-bar.component'
 import { AppFooter } from './app-footer.component'
+import { ScrollTop } from './scroll-top.component'
 import { AppSidebar } from './sidebar/sidebar.component'
 import { UpdateBanner } from './update-banner.component'
 
@@ -56,7 +56,7 @@ import { UpdateBanner } from './update-banner.component'
         </div>
       </div>
     </div>
-    <p-scroll-top />
+    <da-scroll-top />
     <da-settings />
     <da-search-dialog />
   `,

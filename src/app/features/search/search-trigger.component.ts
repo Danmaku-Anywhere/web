@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
-import { ButtonDirective } from 'primeng/button'
 import { MaterialIcon } from '../../shared/components/material-icon'
+import { Button } from '../../shared/ui/button'
 import { SearchService } from './search.service'
 
 @Component({
   selector: 'da-search-trigger',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonDirective, MaterialIcon],
+  imports: [Button, MaterialIcon],
   template: `
     <div class="flex justify-center px-8">
       <button
-        pButton
-        type="button"
+        daButton
         severity="secondary"
-        text
+        variant="text"
         (click)="open()"
         class="group inline-flex justify-start gap-2 w-full max-w-[280px] h-8 bg-surface-800 hover:bg-surface-700"
       >

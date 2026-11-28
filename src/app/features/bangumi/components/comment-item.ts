@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { Divider } from 'primeng/divider'
 import { StarRatingComponent } from '../../../shared/components/star-rating.component'
+import { Divider } from '../../../shared/ui/divider'
 import type { BgmSubjectComment } from '../types/bangumi.types'
 import { UserAvatar } from './user-avatar'
 
@@ -33,7 +33,7 @@ import { UserAvatar } from './user-avatar'
       </div>
       <p class="whitespace-pre-line">{{ comment().comment }}</p>
     </div>
-    <p-divider />
+    <da-divider />
   `,
 })
 export class CommentItem {

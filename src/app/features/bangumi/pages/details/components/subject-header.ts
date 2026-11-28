@@ -6,11 +6,11 @@ import {
   signal,
 } from '@angular/core'
 import { RouterLink } from '@angular/router'
-import { Button } from 'primeng/button'
-import { Tag } from 'primeng/tag'
 import { MaterialIcon } from '../../../../../shared/components/material-icon'
 import { RatingDistributionComponent } from '../../../../../shared/components/rating-distribution.component'
 import { ImageFallback } from '../../../../../shared/images/image-fallback.directive'
+import { Button } from '../../../../../shared/ui/button'
+import { Tag } from '../../../../../shared/ui/tag'
 import type { BgmSubject } from '../../../types/bangumi.types'
 import { BangumiImageSourcePipe } from '../../../utils/bangumi-image-source.pipe'
 
@@ -136,20 +136,21 @@ import { BangumiImageSourcePipe } from '../../../utils/bangumi-image-source.pipe
               </div>
               <div class="flex flex-wrap gap-2">
                 @for (tag of getDisplayedTags(); track tag.name) {
-                  <p-tag
+                  <da-tag
                     severity="info"
                     class="text-xs"
                   >
                     <span class="mr-1">{{ tag.name }}</span>
                     <span class="text-gray-500">{{ tag.count }}</span>
-                  </p-tag>
+                  </da-tag>
                 }
               </div>
             </div>
           }
 
-          <div class="flex gap-3 pt-2">
-            <p-button
+          <div class="flex items-start gap-3 pt-2">
+            <button
+              daButton
               [routerLink]="['/kazumi/search']"
               [queryParams]="{ q: subjectData.nameCN || subjectData.name, id: subjectData.id, type: 'bangumi' }"
               label="立即观看"
@@ -157,13 +158,14 @@ import { BangumiImageSourcePipe } from '../../../utils/bangumi-image-source.pipe
               size="large"
             >
               <da-mat-icon size="lg" icon="play_arrow" class="mr-2" />
-            </p-button>
-            <p-button
+            </button>
+            <button
+              daButton
               label="返回"
               severity="secondary"
               size="large"
               routerLink="/trending"
-            />
+            ></button>
           </div>
         </div>
       </div>

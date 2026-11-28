@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, input } from '@angular/core'
-import { Divider } from 'primeng/divider'
-import { Tag } from 'primeng/tag'
+import { Divider } from '../../../shared/ui/divider'
+import { Tag } from '../../../shared/ui/tag'
 import type { BgmSubjectReview } from '../types/bangumi.types'
 import { UserAvatar } from './user-avatar'
 
@@ -27,7 +27,7 @@ import { UserAvatar } from './user-avatar'
         </div>
         <div class="flex items-center gap-2">
           @if (review().entry.replies) {
-            <p-tag [value]="'回复 ' + review().entry.replies" severity="info" />
+            <da-tag [value]="'回复 ' + review().entry.replies" severity="info" />
           }
         </div>
       </div>
@@ -36,7 +36,7 @@ import { UserAvatar } from './user-avatar'
         <p class="whitespace-pre-line line-clamp-4">{{ review().entry.summary }}</p>
       </div>
     </div>
-    <p-divider />
+    <da-divider />
   `,
 })
 export class ReviewItem {

@@ -4,7 +4,7 @@ import {
   input,
   output,
 } from '@angular/core'
-import { Button } from 'primeng/button'
+import { Button } from '../../../../shared/ui/button'
 
 @Component({
   selector: 'da-debug-panel',
@@ -14,14 +14,15 @@ import { Button } from 'primeng/button'
     <div class="flex flex-col h-full border rounded border-surface">
       <div class="flex items-center justify-between px-2 py-1 bg-surface-50 dark:bg-surface-800 border-b border-surface">
         <span class="font-medium text-sm">{{ title() }}</span>
-        <p-button
+        <button
+          daButton
           icon="pi pi-times"
-          [rounded]="true"
-          [text]="true"
+          rounded
+          variant="text"
           severity="danger"
           size="small"
-          (onClick)="remove.emit()"
-        />
+          (click)="remove.emit()"
+        ></button>
       </div>
       <ng-content select="[toolbar]" />
       <div class="flex-1 min-h-0">

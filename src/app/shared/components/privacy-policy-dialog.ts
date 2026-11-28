@@ -4,9 +4,9 @@ import {
   input,
   output,
 } from '@angular/core'
-import { Button } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
-import { Divider } from 'primeng/divider'
+import { Button } from '../ui/button'
+import { Divider } from '../ui/divider'
 
 @Component({
   selector: 'da-privacy-policy-dialog',
@@ -33,7 +33,7 @@ import { Divider } from 'primeng/divider'
           </p>
         </section>
 
-        <p-divider />
+        <da-divider />
 
         <section>
           <h3 class="text-lg font-semibold mb-2">数据使用</h3>
@@ -47,7 +47,7 @@ import { Divider } from 'primeng/divider'
           </ul>
         </section>
 
-        <p-divider />
+        <da-divider />
 
         <section>
           <h3 class="text-lg font-semibold mb-2">数据共享</h3>
@@ -57,7 +57,7 @@ import { Divider } from 'primeng/divider'
           </p>
         </section>
 
-        <p-divider />
+        <da-divider />
 
         <section>
           <h3 class="text-lg font-semibold mb-2">联系我们</h3>
@@ -69,11 +69,13 @@ import { Divider } from 'primeng/divider'
 
       <ng-template #footer>
         <div class="flex justify-end">
-          <p-button
+          <button
+            daButton
             severity="secondary"
-            (click)="visibleChange.emit(false)">
+            (click)="visibleChange.emit(false)"
+          >
             关闭
-          </p-button>
+          </button>
         </div>
       </ng-template>
     </p-dialog>

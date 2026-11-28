@@ -1,7 +1,7 @@
 import { Component, computed, input, output } from '@angular/core'
 import type { MenuItem } from 'primeng/api'
-import { Button } from 'primeng/button'
 import { MenuModule } from 'primeng/menu'
+import { Button } from '../../../shared/ui/button'
 
 export type ComparisonOperator = '>=' | '>' | '=' | '<' | '<='
 
@@ -26,9 +26,9 @@ const operatorMap: Record<ComparisonOperator, string> = {
   standalone: true,
   imports: [MenuModule, Button],
   template: `
-    <p-button (click)="menu.toggle($event)" severity="secondary" text size="small" class="flex h-full"
-              styleClass="px-2">{{ $displayOp() }}
-    </p-button>
+    <button daButton (click)="menu.toggle($event)" severity="secondary" variant="text" size="small"
+            class="flex h-full px-2">{{ $displayOp() }}
+    </button>
     <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body" />
   `,
 })

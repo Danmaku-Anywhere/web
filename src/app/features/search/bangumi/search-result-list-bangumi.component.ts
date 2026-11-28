@@ -10,9 +10,8 @@ import {
 import { FormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { injectInfiniteQuery } from '@tanstack/angular-query'
-import { InputTextModule } from 'primeng/inputtext'
-import { Skeleton } from 'primeng/skeleton'
 import { VirtualizedGrid } from '../../../shared/components/virtualized-grid'
+import { Skeleton } from '../../../shared/ui/skeleton'
 import { BangumiService } from '../../bangumi/services/bangumi.service'
 import { SearchService } from '../search.service'
 import { BangumiSearchResultListItem } from './search-result-list-item-bangumi.component'
@@ -23,7 +22,6 @@ import { BangumiSearchResultListItem } from './search-result-list-item-bangumi.c
   imports: [
     JsonPipe,
     FormsModule,
-    InputTextModule,
     Skeleton,
     BangumiSearchResultListItem,
     VirtualizedGrid,
@@ -48,7 +46,7 @@ import { BangumiSearchResultListItem } from './search-result-list-item-bangumi.c
       [scrollElement]="$scrollElement()"
     >
       <ng-template #skeleton>
-        <p-skeleton class="my-2" width="100%" height="76px" />
+        <da-skeleton class="my-2" width="100%" height="76px" />
       </ng-template>
 
       <ng-template #body let-subject="$implicit">

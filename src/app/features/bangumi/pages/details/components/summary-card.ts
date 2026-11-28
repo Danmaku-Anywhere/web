@@ -9,9 +9,9 @@ import {
   signal,
   viewChild,
 } from '@angular/core'
-import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
 import { MaterialIcon } from '../../../../../shared/components/material-icon'
+import { Button } from '../../../../../shared/ui/button'
+import { Card } from '../../../../../shared/ui/card'
 
 @Component({
   selector: 'da-summary-card',
@@ -20,24 +20,24 @@ import { MaterialIcon } from '../../../../../shared/components/material-icon'
   template: `
     @if (summary()) {
       <div class="mb-6">
-        <p-card>
+        <da-card>
           <div class="flex items-center justify-between mb-3 cursor-pointer" (click)="toggleSummaryExpanded()"
           >
             <h3 class="text-lg font-semibold">简介</h3>
             @if (needsExpansion()) {
-              <p-button
-                text
+              <button
+                daButton
+                variant="text"
                 rounded
+                iconOnly
                 severity="secondary"
                 size="small"
               >
-                <ng-template #icon>
-                  <da-mat-icon
-                    [icon]="summaryExpanded() ? 'expand_less' : 'expand_more'"
-                    size="lg"
-                  />
-                </ng-template>
-              </p-button>
+                <da-mat-icon
+                  [icon]="summaryExpanded() ? 'expand_less' : 'expand_more'"
+                  size="lg"
+                />
+              </button>
             }
           </div>
           <div
@@ -50,11 +50,11 @@ import { MaterialIcon } from '../../../../../shared/components/material-icon'
               <div
                 class="absolute bottom-0 left-0 right-0 h-8 cursor-pointer"
                 (click)="toggleSummaryExpanded()"
-                style="background: linear-gradient(to top, var(--p-card-background) 0%, var(--p-card-background) 0%, transparent 100%);">
+                style="background: linear-gradient(to top, var(--color-content) 0%, var(--color-content) 0%, transparent 100%);">
               </div>
             }
           </div>
-        </p-card>
+        </da-card>
       </div>
     }
   `,

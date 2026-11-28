@@ -7,9 +7,9 @@ import {
 } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { injectQuery } from '@tanstack/angular-query'
-import { Card } from 'primeng/card'
-import { Tag } from 'primeng/tag'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
+import { Card } from '../../../shared/ui/card'
+import { Tag } from '../../../shared/ui/tag'
 import { BangumiService } from '../services/bangumi.service'
 import { BangumiImageSourcePipe } from '../utils/bangumi-image-source.pipe'
 import { HorizontalCardSkeletonGrid } from './horizontal-card-skeleton-grid'
@@ -49,11 +49,10 @@ import { HorizontalCardSkeletonGrid } from './horizontal-card-skeleton-grid'
               </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
-                  <p-tag
+                  <da-tag
                     [value]="relation.relation.cn"
                     severity="info"
-                    styleClass="bg-purple-100 text-purple-800"
-                    size="small"
+                    class="bg-purple-100 text-purple-800"
                   />
                 </div>
                 <h4 class="font-semibold">
@@ -74,14 +73,14 @@ import { HorizontalCardSkeletonGrid } from './horizontal-card-skeleton-grid'
           }
         </div>
       } @else {
-        <p-card>
+        <da-card>
           <p class="text-gray-500">暂无相关作品信息</p>
-        </p-card>
+        </da-card>
       }
     } @else {
-      <p-card>
+      <da-card>
         <p class="text-red-500">加载相关作品信息失败</p>
-      </p-card>
+      </da-card>
     }
   `,
 })

@@ -7,8 +7,8 @@ import {
 } from '@angular/core'
 import type { KazumiPolicy } from '@danmaku-anywhere/extension-protocol'
 import { injectQuery } from '@tanstack/angular-query'
-import { Badge } from 'primeng/badge'
 import { TooltipModule } from 'primeng/tooltip'
+import { Badge } from '../../../shared/ui/badge'
 import { KazumiService } from '../services/kazumi.service'
 
 @Component({
@@ -18,14 +18,14 @@ import { KazumiService } from '../services/kazumi.service'
   template: `
     <div class="flex gap-1 items-center">
       <span>{{ policy().name }}</span>
-      <p-badge
+      <da-badge
         [ngClass]="{
         'bg-yellow-600': searchQuery.isFetching(),
         'bg-green-600': searchQuery.isSuccess(),
         'bg-red-600': searchQuery.isError(),
         'bg-gray-600': !searchQuery.isEnabled()
         }"
-      ></p-badge>
+      ></da-badge>
     </div>
   `,
 })

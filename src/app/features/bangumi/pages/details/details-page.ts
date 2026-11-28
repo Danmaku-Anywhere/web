@@ -9,8 +9,8 @@ import {
 } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { injectQuery } from '@tanstack/angular-query'
-import { ProgressSpinner } from 'primeng/progressspinner'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs'
+import { Spinner } from '../../../../shared/ui/spinner'
 import { CharactersTab } from '../../components/characters-tab'
 import { CommentsTab } from '../../components/comments-tab'
 import { EpisodesTab } from '../../components/episodes-tab'
@@ -28,7 +28,7 @@ import { SummaryCard } from './components/summary-card'
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    ProgressSpinner,
+    Spinner,
     Tabs,
     TabList,
     Tab,
@@ -49,7 +49,7 @@ import { SummaryCard } from './components/summary-card'
     <div class="max-w-7xl mx-auto p-4">
       @if (subjectDetailsQuery.isPending()) {
         <div class="flex justify-center items-center py-12">
-          <p-progress-spinner />
+          <da-spinner />
         </div>
       } @else if (subjectDetailsQuery.isError()) {
         <div class="text-center py-12">

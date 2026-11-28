@@ -5,11 +5,11 @@ import {
   computed,
   inject,
 } from '@angular/core'
-import { Button } from 'primeng/button'
 import { Drawer } from 'primeng/drawer'
 import { environment } from '../../../../environments/environment'
 import { SettingsService } from '../../../features/settings/settings.service'
 import { MaterialIcon } from '../../../shared/components/material-icon'
+import { Button } from '../../../shared/ui/button'
 import { LayoutService } from '../../layout.service'
 import { NavigationItemComponent } from './navigation-item.component'
 
@@ -46,16 +46,16 @@ interface NavigationSection {
         <ng-template #headless>
           <div class="flex flex-col h-full">
             <div class="self-end p-2">
-              <p-button
-                text
+              <button
+                daButton
+                variant="text"
                 rounded
+                iconOnly
                 severity="secondary"
-                (onClick)="layoutService.toggleSidebar()"
+                (click)="layoutService.toggleSidebar()"
               >
-                <ng-template #icon>
-                  <da-mat-icon icon="arrow_back_ios" size="xl" />
-                </ng-template>
-              </p-button>
+                <da-mat-icon icon="arrow_back_ios" size="xl" />
+              </button>
             </div>
             <div class="flex-1 overflow-y-auto">
               <ng-container [ngTemplateOutlet]="sidebarContent"></ng-container>
@@ -100,19 +100,18 @@ interface NavigationSection {
     </ng-template>
     <ng-template #settingsButton>
       <div class="border-t border-surface-800">
-        <p-button
+        <button
+          daButton
           label="设置"
-          text
+          variant="text"
           severity="secondary"
-          (onClick)="openSettings()"
-          styleClass="w-full"
+          (click)="openSettings()"
+          class="w-full"
           [badge]="settingsService.$showBadge() ? ' ' : undefined"
           badgeSeverity="info"
         >
-          <ng-template #icon>
-            <da-mat-icon icon="settings" size="lg" />
-          </ng-template>
-        </p-button>
+          <da-mat-icon icon="settings" size="lg" />
+        </button>
       </div>
     </ng-template>
   `,

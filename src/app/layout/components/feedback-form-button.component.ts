@@ -4,15 +4,15 @@ import {
   computed,
   inject,
 } from '@angular/core'
-import { ButtonDirective } from 'primeng/button'
 import { ExtensionService } from '../../core/extension/extension.service'
+import { Button } from '../../shared/ui/button'
 
 @Component({
   selector: 'da-feedback-form-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonDirective],
+  imports: [Button],
   template: `
-    <a pButton size="small" severity="info" target="_blank" [href]="$formUrl()">问题反馈</a>
+    <a daButton size="small" severity="info" target="_blank" [href]="$formUrl()">问题反馈</a>
   `,
 })
 export class FeedbackFormButton {

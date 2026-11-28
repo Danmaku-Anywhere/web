@@ -3,11 +3,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { FaIconComponent } from '@fortawesome/angular-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { ButtonDirective } from 'primeng/button'
-import { Tag } from 'primeng/tag'
 import { SearchTriggerComponent } from '../../features/search/search-trigger.component'
 import { MaterialIcon } from '../../shared/components/material-icon'
 import { GITHUB_REPO_URL, PAGE_TITLE } from '../../shared/constants'
+import { Button } from '../../shared/ui/button'
+import { Tag } from '../../shared/ui/tag'
 import { LayoutService } from '../layout.service'
 import { ExtensionUpdateBanner } from './extension-update-banner.component'
 import { FeedbackFormButton } from './feedback-form-button.component'
@@ -20,7 +20,7 @@ import { FeedbackFormButton } from './feedback-form-button.component'
     RouterLink,
     Tag,
     FaIconComponent,
-    ButtonDirective,
+    Button,
     MaterialIcon,
     ExtensionUpdateBanner,
     FeedbackFormButton,
@@ -35,12 +35,11 @@ import { FeedbackFormButton } from './feedback-form-button.component'
       <div class="h-full mx-auto px-4 py-2 flex items-center justify-between">
         <div class="flex items-center gap-4">
           <button
-            pButton
-            type="button"
+            daButton
             class="md:hidden"
             severity="secondary"
             rounded
-            text
+            variant="text"
             (click)="layoutService.toggleSidebar()"
           >
             <da-mat-icon icon="menu" size="lg" />
@@ -49,12 +48,12 @@ import { FeedbackFormButton } from './feedback-form-button.component'
             <h1 class="text-2xl font-bold"><a routerLink="/">
               {{ PAGE_TITLE }}
             </a></h1>
-            <p-tag value="预览" severity="info" />
+            <da-tag value="预览" severity="info" />
           </div>
         </div>
         <da-search-trigger />
         <div class="max-md:hidden flex items-center gap-2">
-          <a pButton rounded size="small" severity="secondary" text [href]="githubUrl" target="_blank">
+          <a daButton rounded size="small" severity="secondary" variant="text" [href]="githubUrl" target="_blank">
             <fa-icon [icon]="github" size="lg" />
           </a>
           <da-feedback-form-button />

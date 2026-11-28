@@ -10,12 +10,10 @@ import {
   viewChild,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { Button } from 'primeng/button'
-import { InputGroupModule } from 'primeng/inputgroup'
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon'
 import { InputMask } from 'primeng/inputmask'
 import { InputNumber } from 'primeng/inputnumber'
 import { type Menu, MenuModule } from 'primeng/menu'
+import { Button } from '../../../shared/ui/button'
 import {
   type ComparisonOperator,
   ComparisonSelector,
@@ -33,8 +31,6 @@ type SearchFilterType = 'rating' | 'rank' | 'date'
   standalone: true,
   imports: [
     ComparisonSelector,
-    InputGroupModule,
-    InputGroupAddonModule,
     Button,
     MenuModule,
     InputNumber,
@@ -43,25 +39,25 @@ type SearchFilterType = 'rating' | 'rank' | 'date'
     NgTemplateOutlet,
   ],
   template: `
-    <p-inputgroup class="h-6">
+    <div class="da-input-group h-6">
       @if (showClose()) {
-        <p-inputgroup-addon class="min-w-0">
-          <p-button text severity="secondary" size="small" icon="pi pi-times" styleClass="p-0 w-6"
-                    (click)="remove.emit()"></p-button>
-        </p-inputgroup-addon>
+        <div class="da-input-group-addon min-w-0">
+          <button daButton variant="text" severity="secondary" size="small" icon="pi pi-times" class="p-0 w-6"
+                    (click)="remove.emit()"></button>
+        </div>
       }
-      <p-inputgroup-addon class="min-w-0">
+      <div class="da-input-group-addon min-w-0">
         <p class="text-sm font-medium text-gray-400">{{ label() }}</p>
-      </p-inputgroup-addon>
+      </div>
       @if (showOperator()) {
-        <p-inputgroup-addon class="min-w-0">
+        <div class="da-input-group-addon min-w-0">
           <da-comparison-selector class="h-full" [op]="$comparison()" (select)="handleComparisonChange($event)" />
-        </p-inputgroup-addon>
+        </div>
       }
-      <p-inputgroup-addon class="min-w-0">
-        <p-button text severity="secondary" size="small" (click)="menu.toggle($event)">{{ $value() }}</p-button>
-      </p-inputgroup-addon>
-    </p-inputgroup>
+      <div class="da-input-group-addon min-w-0">
+        <button daButton variant="text" severity="secondary" size="small" (click)="menu.toggle($event)">{{ $value() }}</button>
+      </div>
+    </div>
     <p-menu #menu [popup]="true" (onHide)="commitValue()" appendTo="body">
       <ng-template #start>
         @if (type() === 'rating') {

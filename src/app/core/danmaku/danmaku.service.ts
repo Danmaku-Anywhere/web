@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { lastValueFrom } from 'rxjs'
 import { ExtensionMessagingService } from '../extension/extension-messaging.service'
 

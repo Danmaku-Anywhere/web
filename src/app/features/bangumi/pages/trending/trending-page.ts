@@ -5,7 +5,7 @@ import {
   computed,
   inject,
 } from '@angular/core'
-import { injectInfiniteQuery } from '@tanstack/angular-query-experimental'
+import { injectInfiniteQuery } from '@tanstack/angular-query'
 import { VirtualizedGrid } from '../../../../shared/components/virtualized-grid'
 import { ShowCard } from '../../components/show-card'
 import { ShowCardSkeleton } from '../../components/show-card-skeleton'

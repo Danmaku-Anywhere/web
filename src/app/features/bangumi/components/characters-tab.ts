@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { Card } from 'primeng/card'
 import { ProgressSpinner } from 'primeng/progressspinner'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'

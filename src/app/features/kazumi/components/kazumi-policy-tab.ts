@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core'
 import type { KazumiPolicy } from '@danmaku-anywhere/extension-protocol'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { Badge } from 'primeng/badge'
 import { TooltipModule } from 'primeng/tooltip'
 import { KazumiService } from '../services/kazumi.service'

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { BangumiService } from '../../services/bangumi.service'
 import type { BgmCalendar } from '../../types/bangumi.types'
 import { transformToShowCardData } from '../../utils/transform-to-show-card-data'

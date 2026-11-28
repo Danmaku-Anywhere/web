@@ -18,7 +18,7 @@ import {
   injectQuery,
   QueryClient,
   queryOptions,
-} from '@tanstack/angular-query-experimental'
+} from '@tanstack/angular-query'
 import Dexie, { type Table } from 'dexie'
 import {
   EMPTY,

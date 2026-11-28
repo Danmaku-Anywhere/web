@@ -1,7 +1,4 @@
-import {
-  MutationCache,
-  QueryClient,
-} from '@tanstack/angular-query-experimental'
+import { MutationCache, QueryClient } from '@tanstack/angular-query'
 
 export const queryClient = new QueryClient({
   defaultOptions: {

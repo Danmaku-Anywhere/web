@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core'
 import { RouterLink } from '@angular/router'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { Card } from 'primeng/card'
 import { ImageFallback } from '../../../shared/images/image-fallback.directive'
 import { BangumiService } from '../services/bangumi.service'

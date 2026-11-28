@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-  infiniteQueryOptions,
-  queryOptions,
-} from '@tanstack/angular-query-experimental'
+import { infiniteQueryOptions, queryOptions } from '@tanstack/angular-query'
 import { queryClient } from '../../../shared/query/queryClient'
 import { queryKeys } from '../../../shared/query/queryKeys'
 import type {

@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
-import { injectInfiniteQuery } from '@tanstack/angular-query-experimental'
+import { injectInfiniteQuery } from '@tanstack/angular-query'
 import { InputTextModule } from 'primeng/inputtext'
 import { Skeleton } from 'primeng/skeleton'
 import { VirtualizedGrid } from '../../../shared/components/virtualized-grid'

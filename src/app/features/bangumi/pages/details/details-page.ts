@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { injectQuery } from '@tanstack/angular-query-experimental'
+import { injectQuery } from '@tanstack/angular-query'
 import { ProgressSpinner } from 'primeng/progressspinner'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs'
 import { CharactersTab } from '../../components/characters-tab'
